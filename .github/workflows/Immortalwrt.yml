@@ -94,23 +94,14 @@ jobs:
       matrix:
         target: [Immortalwrt]
         
-    steps:
-    - name: 密匙检测
-      run: |
-        cd ${GITHUB_WORKSPACE}
-        if [[ -z "${{ secrets.REPO_TOKEN }}" ]]; then
-          echo "您没有设置仓库密匙，请按教程设置好密匙再来"
-          echo "REPO_TOKEN密匙制作教程：https://git.io/jm.md"
-          exit 1
-        fi
-        
+    steps:        
     - name: 准备结束
       uses: actions/checkout@v3
 
     - name: 读取设置
       run: |
         cd ${GITHUB_WORKSPACE}
-        cp -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
+        mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
         export SOURCE_CODE="$(source "build/${{ matrix.target }}/settings.ini" && echo ${SOURCE_CODE})"
         export INPUTS_INFORMATION_NOTICE="${{ github.event.inputs.INFORMATION_NOTICE }}"
