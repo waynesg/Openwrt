@@ -43,8 +43,8 @@ git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detec
 git clone -b master --depth 1 https://github.com/sirpdboy/netspeedtest.git package/waynesg/luci-app-netspeedtest
 git clone -b master --depth 1 https://github.com/destan19/OpenAppFilter.git package/waynesg/luci-app-oaf
 svn co https://github.com/waynesg/OpenWrt-Software/trunk/luci-app-onliner package/waynesg/luci-app-onliner
-git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartdns-new-version package/waynesg/openwrt-passwall && mvdir openwrt-passwall
-git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2 && mvdir openwrt-passwall2
+git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartdns-new-version package/waynesg/openwrt-passwall
+git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
 svn co https://github.com/zzsj0928/luci-app-pushbot/trunk package/waynesg/luci-app-pushbot
 svn co https://github.com/iamaluckyguy/luci-app-smartinfo/trunk package/waynesg/luci-app-smartinfo
 
