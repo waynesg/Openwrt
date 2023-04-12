@@ -94,7 +94,7 @@ env:
 
 jobs:
   build:
-    name: 启动"${{ matrix.target }}-${{ github.event.inputs.REPO_BRANCH }}"触发编译
+    name: Lean-18.06
     runs-on: ubuntu-20.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
     
@@ -108,23 +108,13 @@ jobs:
         # 请勿对 target: [Lede] 做任何修改
         
     steps:
-    - name: 密匙检测（密匙为空则退出）
-      run: |
-        cd ${GITHUB_WORKSPACE}
-        if [[ -z "${{ secrets.REPO_TOKEN }}" ]]; then
-          echo "您没有设置仓库密匙，请按教程设置好密匙再来"
-          echo "REPO_TOKEN密匙制作教程：https://git.io/jm.md"
-          exit 1
-        fi
-    
     - name: 准备结束
       uses: actions/checkout@v3  
 
-    - name: 读取脚本设置
+    - name: 读取设置
       run: |
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/shidahuilang/common build/common
-        mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
+        cp -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
         export SOURCE_CODE="$(source "build/${{ matrix.target }}/settings.ini" && echo ${SOURCE_CODE})"
         export INPUTS_INFORMATION_NOTICE="${{ github.event.inputs.INFORMATION_NOTICE }}"
@@ -141,7 +131,7 @@ jobs:
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
         echo "${{ github.event.schedule }}"
         
-    - name: 部署编译环境
+    - name: 编译环境
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
@@ -153,29 +143,21 @@ jobs:
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
     
-    - name: 下载"${{ matrix.target }}-${{ github.event.inputs.REPO_BRANCH }}"源码
+    - name: 下载源码
       working-directory: /${{ env.DIY_WORK }}
       run: |
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /${{ env.DIY_WORK }}/openwrt ${GITHUB_WORKSPACE}/openwrt
         source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/common.sh && Diy_checkout
-    
-    - name: 公 告
-      if: env.REPO_TOKEN
-      run: |
-        cd ${GITHUB_WORKSPACE}
-        cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
-        cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu2
  
-    - name: 增加插件源
+    - name: 增加插件
       if: env.REPO_TOKEN
       continue-on-error: true
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu3
  
-    - name: 加载diy-part.sh文件
+    - name: DIY_PART
       if: env.REPO_TOKEN
       continue-on-error: true
       run: |
@@ -183,28 +165,28 @@ jobs:
         source $BUILD_PATH/$DIY_PART_SH
         source ${BUILD_PATH}/common.sh && Diy_Publicarea
         
-    - name: 加载源、补丁和files文件夹
+    - name: 加载文件
       if: env.REPO_TOKEN
       continue-on-error: true
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu4
     
-    - name: SSH远程连接（制作.config配置文件）
+    - name: SSH连接
       if: github.event.inputs.SSH_ACTION == 'true'
       uses: makebl/debugger-action@main
       env:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
-    - name: 生成"${{ matrix.target }}"配置文件
+    - name: 生成配置
       if: env.REPO_TOKEN
       id: compile
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu5
         
-    - name: 上传.config配置文件在 github actions
+    - name: 上传配置
       if: steps.compile.outcome == 'success'
       continue-on-error: true
       uses: actions/upload-artifact@main
@@ -219,7 +201,7 @@ jobs:
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_xinxi
     
-    - name: 清理Actions空间
+    - name: 清理空间
       continue-on-error: true
       if: env.REPO_TOKEN
       uses: Mattraks/delete-workflow-runs@v2
@@ -229,7 +211,7 @@ jobs:
         retain_days: ${{ env.RETAIN_DAYS }}
         keep_minimum_runs: 1
     
-    - name: 删除releases
+    - name: 删除发布
       continue-on-error: true
       if: env.REPO_TOKEN
       uses: danshui-git/delete-older-releases@main
@@ -240,14 +222,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         
-    - name: 触发compile.yml启动"${{ matrix.target }}"编译
+    - name: 触发编译
       id: gitpush
       if: steps.compile.outcome == 'success' && env.REPO_TOKEN
       run: |
         cd ${GITHUB_WORKSPACE}
         source ${BUILD_PATH}/common.sh && build_openwrt
         
-    - name: 电报机器人或pushplus信息通知
+    - name: 编译通知
       continue-on-error: true
       if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG' || env.WX_TOKEN && env.INFORMATION_NOTICE == 'WX'
       run: |
