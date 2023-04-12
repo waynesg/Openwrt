@@ -1,6 +1,6 @@
 #!/bin/bash
 # https://github.com/shidahuilang/openwrt
-# common Module by dahuilang
+# common Module by waynesg
 # matrix.target=${FOLDER_NAME}
 
 function TIME() {
@@ -451,10 +451,8 @@ sudo chmod +x "${FILES_PATH}/etc/networkdetection"
 [[ ! -d "${FILES_PATH}/usr/bin" ]] && mkdir -p ${FILES_PATH}/usr/bin
 cp ${HOME_PATH}/build/common/custom/openwrt.sh "${FILES_PATH}/usr/bin/openwrt"
 cp ${HOME_PATH}/build/common/custom/tools.sh "${FILES_PATH}/usr/bin/tools"
-cp ${HOME_PATH}/build/common/custom/qinglong.sh "${FILES_PATH}/usr/bin/qinglong"
 sudo chmod +x "${FILES_PATH}/usr/bin/openwrt"
 sudo chmod +x "${FILES_PATH}/usr/bin/tools"
-sudo chmod +x "${FILES_PATH}/usr/bin/qinglong"
 
 rm -rf "${DELETE}"
 touch "${DELETE}"
@@ -501,9 +499,9 @@ sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
 echo -e "\nDISTRIB_RECOGNIZE='18'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
 
 # 给源码增加passwall为默认自选
-if [[ `grep -c "luci-app-passwall luci-app-openclash" ${HOME_PATH}/include/target.mk` -eq '0' ]]; then
-  sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=luci-app-passwall luci-app-openclash ?g' include/target.mk
-fi
+#if [[ `grep -c "luci-app-passwall luci-app-openclash" ${HOME_PATH}/include/target.mk` -eq '0' ]]; then
+#  sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=luci-app-passwall luci-app-openclash ?g' include/target.mk
+#fi
 }
 
 
