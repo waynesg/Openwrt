@@ -1,4 +1,4 @@
-name: Immortalwrt
+name: 21.02
 on:
   workflow_dispatch:
     inputs:
