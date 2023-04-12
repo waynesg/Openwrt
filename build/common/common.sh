@@ -397,7 +397,7 @@ fi
 if [[ -n "${CPU_PASS1}" ]] && [[ -n "${CPU_PASS2}" ]]; then
   sed -i "s?${CPU_PASS1}?${CPU_PASS2}?g" "${YML_PATH}"
 else
-  echo "获取变量失败,请勿胡乱修改compile.yml文件"
+  echo "获取变量失败,请注意是否修改了compile.yml文件"
   exit 1
 fi
 
@@ -405,13 +405,13 @@ if [[ -n "${PATHS1}" ]] && [[ -n "${TARGET1}" ]]; then
   sed -i "s?${PATHS1}?${PATHS2}?g" "${YML_PATH}"
   sed -i "s?${TARGET1}?${TARGET2}?g" "${YML_PATH}"
 else
-  echo "获取变量失败,请勿胡乱修改compile.yml文件"
+  echo "获取变量失败,请注意是否修改了compile.yml文件"
   exit 1
 fi
 if [[ -n ${cpu1} ]] && [[ -n ${cpu2} ]]; then
   sed -i "s?${cpu1}?${cpu2}?g" "${YML_PATH}"
 else
-  echo "获取变量失败,请勿胡乱修改定时启动编译时的数值设置"
+  echo "获取变量失败,请注意是否修改了定时启动编译时的数值设置"
   exit 1
 fi
 cp -Rf ${HOME_PATH}/build_logo/config.txt ${FOLDER_NAME}/build/${FOLDER_NAME}/${CONFIG_FILE}
@@ -425,7 +425,7 @@ fi
 
 cd ${FOLDER_NAME}
 git add .
-git commit -m "${kaisbianyixx}-${FOLDER_NAME}-${LUCI_EDITION}-${TARGET_PROFILE}固件"
+git commit -m "Compile-${FOLDER_NAME}-${LUCI_EDITION}-${TARGET_PROFILE}"
 git push --force "https://${REPO_TOKEN}@github.com/${GIT_REPOSITORY}" HEAD:main
 }
 
