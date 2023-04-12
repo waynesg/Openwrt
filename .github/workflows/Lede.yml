@@ -150,14 +150,14 @@ jobs:
         ln -sf /${{ env.DIY_WORK }}/openwrt ${GITHUB_WORKSPACE}/openwrt
         source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/common.sh && Diy_checkout
  
-    - name: 增加插件
+    - name: 添加设置
       if: env.REPO_TOKEN
       continue-on-error: true
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu3
  
-    - name: DIY_PART
+    - name: 添加插件
       if: env.REPO_TOKEN
       continue-on-error: true
       run: |
