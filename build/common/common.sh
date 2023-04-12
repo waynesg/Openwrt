@@ -460,11 +460,11 @@ sudo chmod +x "${DELETE}"
 
 
 # 给固件保留配置更新固件的保留项目
-sed -i '/AdGuardHome/d' "${KEEPD_PATH}"
-sed -i '/background/d' "${KEEPD_PATH}"
+#sed -i '/AdGuardHome/d' "${KEEPD_PATH}"
+#sed -i '/background/d' "${KEEPD_PATH}"
 cat >>"${KEEPD_PATH}" <<-EOF
-/etc/config/AdGuardHome.yaml
-/etc/clashqidong
+#/etc/config/AdGuardHome.yaml
+#/etc/clashqidong
 /www/luci-static/argon/background/
 EOF
 }
@@ -759,7 +759,7 @@ if [[ -n "${ttydjso}" ]]; then
   ttydjson="${HOME_PATH}/${ttydjso}"
 fi
 if [[ -f "${ttydjson}" ]]; then
-  curl -fsSL https://raw.githubusercontent.com/shidahuilang/common/main/IMMORTALWRT/ttyd/luci-app-ttyd.json -o "${ttydjson}"
+  curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/IMMORTALWRT/ttyd/luci-app-ttyd.json -o "${ttydjson}"
 fi
 
 [[ ! -d "${HOME_PATH}/doc" ]] && mkdir -p ${HOME_PATH}/doc
@@ -805,8 +805,6 @@ true)
 echo "正在执行：给feeds.conf.default增加插件源"
 # 这里增加了源,要对应的删除/etc/opkg/distfeeds.conf插件源
 sed -i '/dahuilang/d' "${HOME_PATH}/feeds.conf.default"
-sed -i '/helloworld/d' "${HOME_PATH}/feeds.conf.default"
-sed -i '/passwall/d' "${HOME_PATH}/feeds.conf.default"
 
 cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
 src-git dahuilang https://github.com/shidahuilang/openwrt-package.git;${PACKAGE_BRANCH}
