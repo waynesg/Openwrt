@@ -216,7 +216,7 @@ CONFIG_PACKAGE_luci-app-msd_lite=y
 CONFIG_PACKAGE_luci-app-netdata=y
 CONFIG_PACKAGE_luci-app-netspeedtest=y
 CONFIG_PACKAGE_luci-app-nlbwmon=y
-CONFIG_PACKAGE_luci-app-openvpn=y
+# CONFIG_PACKAGE_luci-app-openvpn is not set
 CONFIG_PACKAGE_luci-app-openvpn-server=y
 CONFIG_PACKAGE_luci-app-parentcontrol=y
 # CONFIG_PACKAGE_luci-app-rclone_INCLUDE_rclone-ng is not set
@@ -228,9 +228,9 @@ CONFIG_PACKAGE_luci-app-tn-netports=y
 # CONFIG_PACKAGE_luci-app-unblockmusic_INCLUDE_UnblockNeteaseMusic_Go is not set
 CONFIG_PACKAGE_luci-app-unblockneteasemusic=y
 CONFIG_PACKAGE_luci-app-usb-printer=y
-CONFIG_PACKAGE_luci-app-vsftpd=y
+# CONFIG_PACKAGE_luci-app-vsftpd is not set
 CONFIG_PACKAGE_luci-app-vssr=y
-CONFIG_PACKAGE_luci-app-webadmin=y
+# CONFIG_PACKAGE_luci-app-webadmin is not set
 CONFIG_PACKAGE_luci-app-zerotier=y
 CONFIG_PACKAGE_luci-i18n-acme-en=y
 CONFIG_PACKAGE_luci-i18n-acme-zh-cn=y
