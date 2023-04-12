@@ -9,6 +9,9 @@ on:
         type: choice
         options:
           - 'openwrt-21.02'
+          - 'openwrt-18.06-k5.4'
+          - 'openwrt-18.06'
+          - 'master'
       CONFIG_FILE:
         description: '请选择配置文件'
         required: true
@@ -20,13 +23,22 @@ on:
           - 'r2s'
           - 'r4s'
           - 'r5s'
+      CPU_SELECTION:
+        description: 'CPU优选,增加编译速度'
+        required: true
+        default: '弃用E5系列'
+        type: choice
+        options:
+          - '弃用E5系列'
+          - '选择8370C'
+          - '选择8272CL'
+          - '选择8171M'
       INFORMATION_NOTICE:
         description: 'Telegram或pushplus信息通知'
         required: true
         default: 'pushplus'
         type: choice
         options:
-          - 'Telegram'
           - 'Telegram'
           - 'pushplus'
       SSH_ACTION:
@@ -39,11 +51,11 @@ on:
         required: false
         default: 'true'
         type: boolean
-#      UPLOAD_RELEASE:
-#        description: '上传固件到 Github Releases'
-#        required: false
-#        default: 'false'
-#        type: boolean
+      UPLOAD_RELEASE:
+        description: '上传固件到 Github Releases'
+        required: false
+        default: 'false'
+        type: boolean
       CACHEWRTBUILD_SWITCH:
         description: '缓存加速编译'
         required: false
@@ -54,11 +66,12 @@ on:
         required: false
         default: 'true'
         type: boolean
-#      COLLECTED_PACKAGES:
-#        description: '是否加入作者收集的插件包'
-#        required: false
-#        default: 'true'
-#        type: boolean
+      COLLECTED_PACKAGES:
+        description: '是否加入作者收集的插件包'
+        required: false
+        default: 'false'
+        type: boolean
+
 
 
 # 定时触发开启开始编译(把下面两个#去掉开启,时间设置请看定时开启编译说明)
