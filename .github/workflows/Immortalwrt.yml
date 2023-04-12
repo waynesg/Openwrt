@@ -1,15 +1,9 @@
-#
-#
-# REPO_TOKEN密匙制作教程：https://git.io/jm.md
-#
-#
-
-name: Immortalwrt-天灵
+name: Immortalwrt
 on:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
-        description: '天灵源码-请选择分支'
+        description: 'Immortalwrt'
         required: true
         default: 'openwrt-21.02'
         type: choice
@@ -113,7 +107,7 @@ jobs:
         # 请勿对 target: [Immortalwrt] 做任何修改
         
     steps:
-    - name: 密匙检测（密匙为空则退出）
+    - name: 密匙检测
       run: |
         cd ${GITHUB_WORKSPACE}
         if [[ -z "${{ secrets.REPO_TOKEN }}" ]]; then
@@ -128,8 +122,7 @@ jobs:
     - name: 读取脚本设置
       run: |
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/shidahuilang/common build/common
-        mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
+        cp -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
         export SOURCE_CODE="$(source "build/${{ matrix.target }}/settings.ini" && echo ${SOURCE_CODE})"
         export INPUTS_INFORMATION_NOTICE="${{ github.event.inputs.INFORMATION_NOTICE }}"
