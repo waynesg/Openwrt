@@ -100,8 +100,8 @@ jobs:
 
     - name: 读取设置
       run: |
-        cd ${GITHUB_WORKSPACE}
-        mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
+        #cd ${GITHUB_WORKSPACE}
+        cp -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
         export SOURCE_CODE="$(source "build/${{ matrix.target }}/settings.ini" && echo ${SOURCE_CODE})"
         export INPUTS_INFORMATION_NOTICE="${{ github.event.inputs.INFORMATION_NOTICE }}"
