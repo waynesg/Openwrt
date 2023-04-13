@@ -90,7 +90,7 @@ rm -rf ./feeds/luci/applications/luci-app-argon-config
 
 echo 
 TIME y "添加软件包"
-rm -rf package/waynesg && git clone https://github.com/waynesg/OpenWrt-Software package/waynesg
+rm -rf package/waynesg && git clone -b main --depth=1 https://github.com/waynesg/OpenWrt-Software package/waynesg
 
 echo
 TIME b "修改 系统文件..."
@@ -115,7 +115,7 @@ sed -i "s/2022.02.01/$(TZ=UTC-8 date "+%Y.%m.%d")/g" package/lean/autocore/files
 
 echo 
 TIME y "自定义固件版本名字"
-sed -i "s/OpenWrt /AutoBuild Firmware Compiled By @waynesg build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" $ZZZ
+sed -i "s/OpenWrt /AutoBuild Firmware Compiled By @waynesg build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" package/lean/default-settings/files/zzz-default-settings
 
 echo
 TIME y "更换golang版本"
