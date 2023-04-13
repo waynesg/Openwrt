@@ -32,6 +32,16 @@ on:
           - 'xiaoyu_xy-c5'
           - 'ax3600'
           - 'p2w_r619ac-128m'
+      CPU_SELECTION:
+        description: 'CPU优选,增加编译速度'
+        required: true
+        default: '弃用E5系列'
+        type: choice
+        options:
+          - '弃用E5系列'
+          - '选择8370C'
+          - '选择8272CL'
+          - '选择8171M'
       INFORMATION_NOTICE:
         description: '信息通知'
         required: true
@@ -52,10 +62,10 @@ on:
         required: false
         default: 'true'
         type: boolean
-#      UPLOAD_RELEASE:
-#        description: '上传固件到 Github Releases'
-#        required: false
-#        default: 'false'
+      UPLOAD_RELEASE:
+        description: '上传固件到 Github Releases'
+        required: false
+        default: 'false'
 #        type: boolean
       CACHEWRTBUILD_SWITCH:
         description: '缓存加速编译'
@@ -67,10 +77,10 @@ on:
         required: false
         default: 'true'
         type: boolean
-#      COLLECTED_PACKAGES:
-#        description: '是否加入作者收集的插件包'
-#        required: false
-#        default: 'true'
+      COLLECTED_PACKAGES:
+        description: '是否加入作者收集的插件包'
+        required: false
+        default: 'true'
 #        type: boolean
 
 
@@ -90,9 +100,6 @@ env:
   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
   WX_TOKEN: ${{ secrets.WX_TOKEN }}
   CURL: ${{ secrets.CURL }}
-  UPLOAD_RELEASE: false
-  COLLECTED_PACKAGES: false
-  CPU_SELECTION: 弃用E5系列
   TZ: Asia/Shanghai
 
 jobs:
