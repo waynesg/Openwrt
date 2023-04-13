@@ -341,14 +341,6 @@ export Cpu_Cores="$(cat /proc/cpuinfo | grep 'cpu cores' |awk 'END {print}' | cu
 export RAM_total="$(free -h |awk 'NR==2' |awk '{print $(2)}' |sed 's/.$//')"
 export RAM_available="$(free -h |awk 'NR==2' |awk '{print $(7)}' |sed 's/.$//')"
 TIME r ""
-TIME y "第一次用我仓库的，请不要拉取任何插件，先SSH进入固件配置那里看过我脚本实在是没有你要的插件才再拉取"
-TIME y "拉取插件应该单独拉取某一个你需要的插件，别一下子就拉取别人一个插件包，这样容易增加编译失败概率"
-if [[ "${UPDATE_FIRMWARE_ONLINE}" == "true" ]]; then
-  TIME r "SSH连接固件输入命令'openwrt'可进行修改后台IP、清空密码、还原出厂设置和在线更新固件操作"
-  TIME r "SSH连接固件输入命令'tools'可固件工具箱"
-  TIME r "SSH连接固件输入命令'qinglong'可一键安装青龙和Maiark"
-fi
-TIME r ""
 TIME r ""
 TIME g "CPU性能：8370C > 8272CL > 8171M > E5系列"
 TIME g "您现在编译所用的服务器CPU型号为[ ${Model_Name} ]"
