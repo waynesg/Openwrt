@@ -90,6 +90,9 @@ env:
   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
   WX_TOKEN: ${{ secrets.WX_TOKEN }}
   CURL: ${{ secrets.CURL }}
+  UPLOAD_RELEASE: false
+  COLLECTED_PACKAGES: false
+  CPU_SELECTION: 弃用E5系列
   TZ: Asia/Shanghai
 
 jobs:
