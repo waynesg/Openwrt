@@ -63,7 +63,7 @@ on:
       COLLECTED_PACKAGES:
         description: '是否加入作者收集的插件包'
         required: false
-        default: 'false'
+        default: 'true'
         type: boolean
 
 
@@ -148,14 +148,14 @@ jobs:
         cd openwrt
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu2
  
-    - name: 添加设置
+    - name: 添加插件
       if: env.REPO_TOKEN
       continue-on-error: true
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu3
  
-    - name: 添加插件
+    - name: 加载设置
       if: env.REPO_TOKEN
       continue-on-error: true
       run: |
