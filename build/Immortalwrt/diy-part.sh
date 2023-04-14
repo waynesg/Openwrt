@@ -26,26 +26,30 @@ TIME y "添加软件包"
 #rm -rf package/waynesg && git clone -b js https://github.com/waynesg/OpenWrt-Software package/waynesg
 
 rm -rf ./feeds/luci/applications/luci-app-passwall
+rm -rf ./feeds/packages/net/alist
+rm -rf ./feeds/packages/net/cdnspeedtest
+rm -rf ./feeds/packages/net/mosdns
+rm -rf ./feeds/packages/net/open-app-filter
 # git clone -b master --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/waynesg/luci-theme-argon
-git clone -b master --depth 1 https://github.com/sbwml/luci-app-alist.git package/waynesg/luci-app-alist
-git clone -b master --depth 1 https://github.com/sirpdboy/luci-app-autotimeset.git package/waynesg/luci-app-autotimeset
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass package/waynesg/luci-app-bypass
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-cloudflarespeedtest package/waynesg/luci-app-cloudflarespeedtest
-svn co https://github.com/immortalwrt-collections/openwrt-cdnspeedtest/trunk/cdnspeedtest package/waynesg/luci-app-cloudflarespeedtest/cdnspeedtest
-svn co https://github.com/sirpdboy/luci-app-parentcontrol/trunk package/waynesg/luci-app-parentcontrol
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-speedlimit package/waynesg/luci-app-control-speedlimit
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-timewol package/waynesg/luci-app-control-timewol
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-webrestriction package/waynesg/luci-app-control-webrestriction
-git clone -b v5 --depth 1 https://github.com/sbwml/luci-app-mosdns.git package/waynesg/luci-app-mosdns
-git clone -b main --depth 1 https://github.com/waynesg/luci-app-tn-netports.git package/waynesg/luci-app-tn-netports
-git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector.git package/waynesg/luci-app-internet-detector
-git clone -b master --depth 1 https://github.com/sirpdboy/netspeedtest.git package/waynesg/luci-app-netspeedtest
-git clone -b master --depth 1 https://github.com/destan19/OpenAppFilter.git package/waynesg/luci-app-oaf
-svn co https://github.com/waynesg/OpenWrt-Software/trunk/luci-app-onliner package/waynesg/luci-app-onliner
-git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartdns-new-version package/waynesg/openwrt-passwall
-git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
-svn co https://github.com/zzsj0928/luci-app-pushbot/trunk package/waynesg/luci-app-pushbot
-svn co https://github.com/iamaluckyguy/luci-app-smartinfo/trunk package/waynesg/luci-app-smartinfo
+#git clone -b master --depth 1 https://github.com/sbwml/luci-app-alist.git package/waynesg/luci-app-alist
+#git clone -b master --depth 1 https://github.com/sirpdboy/luci-app-autotimeset.git package/waynesg/luci-app-autotimeset
+#svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass package/waynesg/luci-app-bypass
+#svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-cloudflarespeedtest package/waynesg/luci-app-cloudflarespeedtest
+#svn co https://github.com/immortalwrt-collections/openwrt-cdnspeedtest/trunk/cdnspeedtest package/waynesg/luci-app-cloudflarespeedtest/cdnspeedtest
+#svn co https://github.com/sirpdboy/luci-app-parentcontrol/trunk package/waynesg/luci-app-parentcontrol
+#svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-speedlimit package/waynesg/luci-app-control-speedlimit
+#svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-timewol package/waynesg/luci-app-control-timewol
+#svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-webrestriction package/waynesg/luci-app-control-webrestriction
+#git clone -b v5 --depth 1 https://github.com/sbwml/luci-app-mosdns.git package/waynesg/luci-app-mosdns
+#git clone -b main --depth 1 https://github.com/waynesg/luci-app-tn-netports.git package/waynesg/luci-app-tn-netports
+#git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector.git package/waynesg/luci-app-internet-detector
+#git clone -b master --depth 1 https://github.com/sirpdboy/netspeedtest.git package/waynesg/luci-app-netspeedtest
+#git clone -b master --depth 1 https://github.com/destan19/OpenAppFilter.git package/waynesg/luci-app-oaf
+#svn co https://github.com/waynesg/OpenWrt-Software/trunk/luci-app-onliner package/waynesg/luci-app-onliner
+#git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartdns-new-version package/waynesg/openwrt-passwall
+#git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
+#svn co https://github.com/zzsj0928/luci-app-pushbot/trunk package/waynesg/luci-app-pushbot
+#svn co https://github.com/iamaluckyguy/luci-app-smartinfo/trunk package/waynesg/luci-app-smartinfo
 
 
 # 后台IP设置
