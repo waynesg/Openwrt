@@ -801,19 +801,19 @@ function Diy_chajianyuan() {
 cd ${HOME_PATH}
 case "${COLLECTED_PACKAGES}" in
 true)
-  echo "正在执行：给feeds.conf.default增加插件源"
-  # 这里增加了源,要对应的删除/etc/opkg/distfeeds.conf插件源
-  sed -i '/waynesg/d' "${HOME_PATH}/feeds.conf.default"
+echo "正在执行：给feeds.conf.default增加插件源"
+# 这里增加了源,要对应的删除/etc/opkg/distfeeds.conf插件源
+sed -i '/waynesg/d' "${HOME_PATH}/feeds.conf.default"
 
-  if [ "${REPO_BRANCH}" == "master" ]; then
-    cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
-      src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;main
-    EOF
-  else
-    cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
-      src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;js
-    EOF
-  fi
+if [ "${REPO_BRANCH}" == "master" ]; then
+  cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
+    src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;main
+  EOF
+else
+  cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
+    src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;js
+  EOF
+fi
 
 #if [[ "$(. ${FILES_PATH}/etc/openwrt_release && echo "$DISTRIB_RECOGNIZE")" != "21" ]]; then
 #cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
