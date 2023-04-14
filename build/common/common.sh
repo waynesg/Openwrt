@@ -801,22 +801,28 @@ function Diy_chajianyuan() {
 cd ${HOME_PATH}
 case "${COLLECTED_PACKAGES}" in
 true)
-echo "正在执行：给feeds.conf.default增加插件源"
-# 这里增加了源,要对应的删除/etc/opkg/distfeeds.conf插件源
-sed -i '/dahuilang/d' "${HOME_PATH}/feeds.conf.default"
+  echo "正在执行：给feeds.conf.default增加插件源"
+  # 这里增加了源,要对应的删除/etc/opkg/distfeeds.conf插件源
+  sed -i '/waynesg/d' "${HOME_PATH}/feeds.conf.default"
 
-cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
-src-git dahuilang https://github.com/shidahuilang/openwrt-package.git;${PACKAGE_BRANCH}
-EOF
+  if [ "${REPO_BRANCH}" == "master" ]; then
+    cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
+      src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;main
+    EOF
+  else
+    cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
+      src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;js
+    EOF
+  fi
 
-if [[ "$(. ${FILES_PATH}/etc/openwrt_release && echo "$DISTRIB_RECOGNIZE")" != "21" ]]; then
-cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
-src-git helloworld https://github.com/fw876/helloworld
-src-git passwall https://github.com/xiaorouji/openwrt-passwall;packages
-src-git passwall1 https://github.com/xiaorouji/openwrt-passwall;luci
-src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2;main
-EOF
-fi
+#if [[ "$(. ${FILES_PATH}/etc/openwrt_release && echo "$DISTRIB_RECOGNIZE")" != "21" ]]; then
+#cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
+#src-git helloworld https://github.com/fw876/helloworld
+#src-git passwall https://github.com/xiaorouji/openwrt-passwall;packages
+#src-git passwall1 https://github.com/xiaorouji/openwrt-passwall;luci
+#src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2;main
+#EOF
+#fi
 sed -i '/^#/d' "${HOME_PATH}/feeds.conf.default"
 sed -i '/^$/d' "${HOME_PATH}/feeds.conf.default"
 ;;
