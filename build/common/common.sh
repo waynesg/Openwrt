@@ -449,9 +449,9 @@ sudo chmod +x "${FILES_PATH}/etc/networkdetection"
 
 [[ ! -d "${FILES_PATH}/usr/bin" ]] && mkdir -p ${FILES_PATH}/usr/bin
 cp ${HOME_PATH}/build/common/custom/openwrt.sh "${FILES_PATH}/usr/bin/openwrt"
-cp ${HOME_PATH}/build/common/custom/tools.sh "${FILES_PATH}/usr/bin/tools"
+#cp ${HOME_PATH}/build/common/custom/tools.sh "${FILES_PATH}/usr/bin/tools"
 sudo chmod +x "${FILES_PATH}/usr/bin/openwrt"
-sudo chmod +x "${FILES_PATH}/usr/bin/tools"
+#sudo chmod +x "${FILES_PATH}/usr/bin/tools"
 
 rm -rf "${DELETE}"
 touch "${DELETE}"
