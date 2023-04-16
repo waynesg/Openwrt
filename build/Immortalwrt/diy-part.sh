@@ -32,8 +32,8 @@ rm -rf ./feeds/packages/net/mosdns
 rm -rf ./feeds/packages/net/open-app-filter
 rm -rf package/network/utils/shortcut-fe
 rm -rf package/network/utils/fast-classifier
-rm -rf ./feeds/packages/lang/luabitop
-mv -f ./feeds/waynesg/openwrt-diy/luabitop ./feeds/packages/lang/
+rm -rf ./feeds/packages/lang/luabitop/Makefile
+wget https://raw.githubusercontent.com/waynesg/OpenWrt-Software/js/openwrt-diy/luabitop/Makefile ./feeds/packages/lang/luabitop/
 # git clone -b master --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/waynesg/luci-theme-argon
 #git clone -b master --depth 1 https://github.com/sbwml/luci-app-alist.git package/waynesg/luci-app-alist
 #git clone -b master --depth 1 https://github.com/sirpdboy/luci-app-autotimeset.git package/waynesg/luci-app-autotimeset
