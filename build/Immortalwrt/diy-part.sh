@@ -33,18 +33,6 @@ rm -rf ./feeds/packages/net/open-app-filter
 rm -rf package/network/utils/shortcut-fe
 rm -rf package/network/utils/fast-classifier
 rm -rf ./feeds/packages/lang/luabitop/Makefile
-# 切换到目标文件夹
-cd ./feeds/packages/lang/luabitop/
-# 删除原有的 Makefile 文件
-rm -rf Makefile
-# 下载新的 Makefile 文件
-wget https://raw.githubusercontent.com/waynesg/OpenWrt-Software/js/openwrt-diy/luabitop/Makefile
-# 检查文件是否下载成功，并输出结果
-if [ -s Makefile ]; then
-    echo "Makefile updated successfully."
-else
-    echo "Failed to download Makefile."
-fi
 # git clone -b master --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/waynesg/luci-theme-argon
 #git clone -b master --depth 1 https://github.com/sbwml/luci-app-alist.git package/waynesg/luci-app-alist
 #git clone -b master --depth 1 https://github.com/sirpdboy/luci-app-autotimeset.git package/waynesg/luci-app-autotimeset
