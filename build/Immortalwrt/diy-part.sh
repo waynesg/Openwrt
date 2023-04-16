@@ -33,7 +33,7 @@ rm -rf ./feeds/packages/net/open-app-filter
 rm -rf package/network/utils/shortcut-fe
 rm -rf package/network/utils/fast-classifier
 rm -rf ./feeds/packages/lang/luabitop
-mv ./feed/waynesg/openwrt-diy/luabitop ./feeds/packages/lang/
+mv ./feeds/waynesg/openwrt-diy/luabitop ./feeds/packages/lang/
 # git clone -b master --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/waynesg/luci-theme-argon
 #git clone -b master --depth 1 https://github.com/sbwml/luci-app-alist.git package/waynesg/luci-app-alist
 #git clone -b master --depth 1 https://github.com/sirpdboy/luci-app-autotimeset.git package/waynesg/luci-app-autotimeset
