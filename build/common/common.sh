@@ -812,7 +812,7 @@ EOF
 else
 cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
 src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;js
-#src-git ipk https://github.com/waynesg/Actions-Applications;packages/x86_64-22.03 
+src-git ipk https://github.com/waynesg/Actions-Applications;packages/x86_64-22.03 
 EOF
 fi
 
