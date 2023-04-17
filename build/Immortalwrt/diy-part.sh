@@ -25,7 +25,7 @@ echo
 TIME y "添加软件包"
 #rm -rf package/waynesg && git clone -b js https://github.com/waynesg/OpenWrt-Software package/waynesg
 
-rm -rf ./feeds/luci/applications/(luci-app-passwall,luci-app-ssr-plus,luci-app-unblockneteasemusic
+rm -rf ./feeds/luci/applications/(luci-app-passwall,luci-app-ssr-plus,luci-app-unblockneteasemusic)
 rm -rf ./feeds/packages/net/{alist,adguardhome,brook,cdnspeedtest,mosdns,open-app-filter,redsocks2,trojan*,v2ray-*,xray*}
 rm -rf package/network/utils/(shortcut-fe,fast-classifier)
 rm -rf ./feeds/packages/lang/luabitop
