@@ -804,6 +804,7 @@ true)
 echo "正在执行：给feeds.conf.default增加插件源"
 # 这里增加了源,要对应的删除/etc/opkg/distfeeds.conf插件源
 sed -i '/waynesg/d' "${HOME_PATH}/feeds.conf.default"
+sed -i '/ipks/d' "${HOME_PATH}/feeds.conf.default"
 
 if [ "${REPO_BRANCH}" == "master" ]; then
 cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
@@ -812,6 +813,7 @@ EOF
 else
 cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
 src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;js
+src-git waynesg https://github.com/waynesg/Actions-Applications;packages/x86_64-22.03 
 EOF
 fi
 
