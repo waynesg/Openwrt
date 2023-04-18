@@ -809,10 +809,30 @@ if [ "${REPO_BRANCH}" == "master" ]; then
 cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
 src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;main
 EOF
+elif [[ "${REPO_BRANCH}" = "openwrt-21.02" ]]; then
+git clone -b master --depth 1 https://github.com/sbwml/luci-app-alist.git package/waynesg/luci-app-alist
+svn co https://github.com/sirpdboy/luci-app-autotimeset/trunk package/waynesg/luci-app-autotimeset
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass package/waynesg/luci-app-bypass
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-cloudflarespeedtest package/waynesg/luci-app-cloudflarespeedtest
+svn co https://github.com/immortalwrt-collections/openwrt-cdnspeedtest/trunk/cdnspeedtest package/waynesg/luci-app-cloudflarespeedtest/cdnspeedtest
+svn co https://github.com/sirpdboy/luci-app-parentcontrol/trunk package/waynesg/luci-app-parentcontrol
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-speedlimit package/waynesg/luci-app-control-speedlimit
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-timewol package/waynesg/luci-app-control-timewol
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-webrestriction package/waynesg/luci-app-control-webrestriction
+svn co https://github.com/sbwml/luci-app-mosdns/trunk package/waynesg/luci-app-mosdns
+#svn co https://github.com/waynesg/luci-app-tn-netports/trunk package/waynesg/luci-app-tn-netports
+svn co https://github.com/sirpdboy/netspeedtest/trunk package/waynesg/luci-app-netspeedtest
+svn co https://github.com/destan19/OpenAppFilter/trunk package/waynesg/luci-app-oaf
+svn co https://github.com/Hyy2001X/AutoBuild-Packages/trunk/luci-app-onliner package/waynesg/luci-app-onliner
+git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartdns-new-version package/waynesg/openwrt-passwall
+git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
+git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b packages package/waynesg/packages
+git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr package/waynesg/luci-app-vssr
+git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector package/waynesg/luci-app-internet-detector
+svn co https://github.com/zzsj0928/luci-app-pushbot/trunk package/waynesg/luci-app-pushbot
 else
 cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
 src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;js
-src-git ipk https://github.com/waynesg/Actions-Applications;packages/x86_64-22.03 
 EOF
 fi
 
