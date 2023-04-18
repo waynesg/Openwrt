@@ -831,9 +831,9 @@ svn co https://github.com/zzsj0928/luci-app-pushbot/trunk package/waynesg/luci-a
 svn co https://github.com/QiuSimons/OpenWrt-Add/trunk/luci-app-airconnect package/waynesg/luci-app-airconnect
 svn co https://github.com/QiuSimons/OpenWrt-Add/trunk/airconnect package/waynesg/luci-app-airconnect/airconnect
 svn co https://github.com/kiddin9/luci-app-wizard/trunk package/waynesg/luci-app-wizard
-svn co https://github.com/sirpdboy/sirpdboy-package/trunk/luci-app-advanced
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-wrtbwmon ./luci-app-wrtbwmon
-svn co https://github.com/kiddin9/openwrt-packages/trunk/wrtbwmon ./luci-app-wrtbwmon/wrtbwmon
+svn co https://github.com/sirpdboy/sirpdboy-package/trunk/luci-app-advanced package/waynesg/luci-app-advanced
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-wrtbwmon package/waynesg/luci-app-wrtbwmon
+svn co https://github.com/kiddin9/openwrt-packages/trunk/wrtbwmon package/waynesg/luci-app-wrtbwmon/wrtbwmon
 else
 cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
 src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;js
