@@ -830,6 +830,9 @@ git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b packages pa
 git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr package/waynesg/luci-app-vssr
 git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector package/waynesg/luci-app-internet-detector
 svn co https://github.com/zzsj0928/luci-app-pushbot/trunk package/waynesg/luci-app-pushbot
+svn co https://github.com/QiuSimons/OpenWrt-Add/trunk/luci-app-airconnect package/waynesg/luci-app-airconnect
+svn co https://github.com/QiuSimons/OpenWrt-Add/trunk/airconnect package/waynesg/luci-app-airconnect/airconnect
+svn co https://github.com/kiddin9/luci-app-wizard/trunk package/waynesg/luci-app-wizard
 else
 cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
 src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;js
