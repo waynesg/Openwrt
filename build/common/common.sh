@@ -826,8 +826,6 @@ svn co https://github.com/destan19/OpenAppFilter/trunk package/waynesg/luci-app-
 svn co https://github.com/Hyy2001X/AutoBuild-Packages/trunk/luci-app-onliner package/waynesg/luci-app-onliner
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartdns-new-version package/waynesg/openwrt-passwall
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
-git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b packages package/waynesg/packages
-git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr package/waynesg/luci-app-vssr
 git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector package/waynesg/luci-app-internet-detector
 svn co https://github.com/zzsj0928/luci-app-pushbot/trunk package/waynesg/luci-app-pushbot
 svn co https://github.com/QiuSimons/OpenWrt-Add/trunk/luci-app-airconnect package/waynesg/luci-app-airconnect
