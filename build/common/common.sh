@@ -832,8 +832,6 @@ svn co https://github.com/sirpdboy/sirpdboy-package/trunk/luci-app-advanced pack
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-wrtbwmon package/waynesg/luci-app-wrtbwmon
 svn co https://github.com/kiddin9/openwrt-packages/trunk/wrtbwmon package/waynesg/luci-app-wrtbwmon/wrtbwmon
 svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-socat package/waynesg/luci-app-socat
-svn co https://github.com/ximiTech/luci-app-msd_lite/trunk package/waynesg/luci-app-msd_lite
-svn co https://github.com/ximiTech/msd_lite/trunk package/waynesg/luci-app-dependence/msd_lite
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartdns-new-version package/waynesg/openwrt-passwall
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
 git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector package/waynesg/luci-app-internet-detector
