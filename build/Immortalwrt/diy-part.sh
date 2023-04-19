@@ -75,6 +75,7 @@ export Cancel_running="0"                    # 取消路由器每天跑分任务
 #TTYD
 #sed -i "s?/bin/login?/usr/libexec/login.sh?g" ./feeds/packages/utils/ttyd/files/ttyd.config
 
+:<<EOF
 # 修改插件名字
 sed -i 's/"系统"/"系统设置"/g' `egrep "系统" -rl ./`
 sed -i 's/"挂载点"/"挂载路径"/g' `egrep "挂载点" -rl ./`
@@ -105,6 +106,7 @@ sed -i 's/"ShadowSocksR Plus+"/"SSRPlus+"/g' `egrep "ShadowSocksR Plus+" -rl ./`
 sed -i 's/"Hello World"/"VssrVPN"/g' `egrep "Hello World" -rl ./`
 sed -i 's/"ACME 证书"/"证书服务"/g' `egrep "ACME 证书" -rl ./`
 sed -i 's/"AirConnect"/"隔空投送"/g' `egrep "AirConnect" -rl ./`
+EOF
 
 #修改固件名字
 # sed -i "s/OpenWrt /AutoBuild Firmware Compiled By @waynesg build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" package/emortal/default-settings/files/99-default-settings
