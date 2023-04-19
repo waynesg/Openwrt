@@ -1246,6 +1246,7 @@ fi
 
 function Diy_Language() {
 cd ${HOME_PATH}
+sed -i 's/+luci-i18n-base-zh-cn//g' ${HOME_PATH}/package/emortal/default-settings/Makefile
 if [[ ! "${ERCI}" == "1" ]]; then
   if [[ "$(. ${FILES_PATH}/etc/openwrt_release && echo "$DISTRIB_RECOGNIZE")" != "18" ]]; then
     echo "正在执行：把插件语言转换成zh_Hans"
