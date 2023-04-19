@@ -306,15 +306,15 @@ fi
 
 function Diy_update() {
 bash <(curl -fsSL https://raw.githubusercontent.com/waynesg/OpenWrt-Software/main/openwrt-diy/ubuntu.sh)
-echo "================================================="
-echo "文件系统        类型   容量  已用  可用 使用% 挂载点"
-df -hT $PWD
 #sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
 #sudo -E apt-get -qq update
 #sudo -E apt -y purge azure-cli* docker* ghc* zulu* llvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* moby* snap*
 #sudo -E apt -y full-upgrade
 #sudo -E apt-get -qq install libfuse-dev rename
 #sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
+echo "================================================="
+echo "文件系统        类型   容量  已用  可用 使用% 挂载点"
+df -hT $PWD
 if [[ $? -ne 0 ]];then
   TIME r "依赖安装失败，请检测网络后再次尝试!"
   exit 1
