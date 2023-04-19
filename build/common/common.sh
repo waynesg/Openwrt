@@ -836,7 +836,7 @@ git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartd
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
 git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector package/waynesg/luci-app-internet-detector
 elif [[ "${REPO_BRANCH}" = "openwrt-22.03" ]]; then
-./${BUILD_PATH}/packages.sh
+/bin/bash ${BUILD_PATH}/packages.sh
 else
 cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
 src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;js
