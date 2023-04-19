@@ -820,7 +820,7 @@ svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-speedl
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-timewol package/waynesg/luci-app-control-timewol
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-webrestriction package/waynesg/luci-app-control-webrestriction
 svn co https://github.com/sbwml/luci-app-mosdns/trunk package/waynesg/luci-app-mosdns
-#svn co https://github.com/waynesg/luci-app-tn-netports/trunk package/waynesg/luci-app-tn-netports
+svn co https://github.com/waynesg/luci-app-tn-netports/trunk package/waynesg/luci-app-tn-netports
 svn co https://github.com/sirpdboy/netspeedtest/trunk package/waynesg/luci-app-netspeedtest
 svn co https://github.com/destan19/OpenAppFilter/trunk package/waynesg/luci-app-oaf
 svn co https://github.com/Hyy2001X/AutoBuild-Packages/trunk/luci-app-onliner package/waynesg/luci-app-onliner
