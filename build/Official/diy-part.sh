@@ -3,6 +3,30 @@
 # DIY扩展二合一了，在此处可以增加插件
 # 自行拉取插件之前请SSH连接进入固件配置里面确认过没有你要的插件再单独拉取你需要的插件
 # 不要一下就拉取别人一个插件包N多插件的，多了没用，增加编译错误，自己需要的才好
+TIME() {
+[[ -z "$1" ]] && {
+	echo -ne " "
+} || {
+     case $1 in
+	r) export Color="\e[31;1m";;
+	g) export Color="\e[32;1m";;
+	b) export Color="\e[34;1m";;
+	y) export Color="\e[33;1m";;
+	z) export Color="\e[35;1m";;
+	l) export Color="\e[36;1m";;
+      esac
+	[[ $# -lt 2 ]] && echo -e "\e[36m\e[0m ${1}" || {
+		echo -e "\e[36m\e[0m ${Color}${2}\e[0m"
+	 }
+      }
+}
+
+echo 
+TIME y "添加软件包"
+git clone -b master --depth 1 --single-branch https://github.com/coolsnowwolf/lede lede
+git clone -b master --single-branch https://github.com/immortalwrt/immortalwrt immortalwrt
+git clone -b master --depth 1 --single-branch https://github.com/immortalwrt/packages immortalwrt-packages
+git clone -b master --depth 1 --single-branch https://github.com/immortalwrt/luci immortalwrt-luci
 
 
 # 后台IP设置
