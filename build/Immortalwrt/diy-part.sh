@@ -26,6 +26,7 @@ TIME y "添加软件包"
 
 rm -rf ./feeds/luci/applications/luci-app-passwall
 rm -rf ./feeds/packages/net/{alist,adguardhome,cdnspeedtest,mosdns,open-app-filter}
+rm -rf package/base-files/files/etc/banner
 # rm -rf ./feeds/packages/lang/luabitop
 
 # 后台IP设置
