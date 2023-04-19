@@ -72,7 +72,7 @@ export Disable_53_redirection="0"            # 删除DNS强制重定向53端口�
 export Cancel_running="0"                    # 取消路由器每天跑分任务(个别源码本身不带次功能)(1为启用命令,填0为不作修改)
 
 #TTYD
-sed -i "s?/bin/login?/usr/libexec/login.sh?g" feeds/packages/utils/ttyd/files/ttyd.config
+#sed -i "s?/bin/login?/usr/libexec/login.sh?g" ./feeds/packages/utils/ttyd/files/ttyd.config
 
 # 修改插件名字
 sed -i 's/"系统"/"系统设置"/g' `egrep "系统" -rl ./`
