@@ -836,6 +836,10 @@ git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartd
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
 git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector package/waynesg/luci-app-internet-detector
 elif [[ "${REPO_BRANCH}" = "openwrt-22.03" ]]; then
+git clone -b master --depth 1 --single-branch https://github.com/coolsnowwolf/lede lede
+git clone -b master --single-branch https://github.com/immortalwrt/immortalwrt immortalwrt
+git clone -b master --depth 1 --single-branch https://github.com/immortalwrt/packages immortalwrt-packages
+git clone -b master --depth 1 --single-branch https://github.com/immortalwrt/luci immortalwrt-luci
 /bin/bash ${BUILD_PATH}/packages.sh
 else
 cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
@@ -843,14 +847,6 @@ src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;js
 EOF
 fi
 
-#if [[ "$(. ${FILES_PATH}/etc/openwrt_release && echo "$DISTRIB_RECOGNIZE")" != "21" ]]; then
-#cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
-#src-git helloworld https://github.com/fw876/helloworld
-#src-git passwall https://github.com/xiaorouji/openwrt-passwall;packages
-#src-git passwall1 https://github.com/xiaorouji/openwrt-passwall;luci
-#src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2;main
-#EOF
-#fi
 sed -i '/^#/d' "${HOME_PATH}/feeds.conf.default"
 sed -i '/^$/d' "${HOME_PATH}/feeds.conf.default"
 ;;
