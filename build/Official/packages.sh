@@ -103,8 +103,8 @@ cp -rf ${GITHUB_WORKSPACE}/openwrt_ma/package/network/services/dnsmasq package/n
 cp -rf ${GITHUB_WORKSPACE}/openwrt_luci_ma/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js feeds/luci/modules/luci-mod-network/htdocs/luci-static/resources/view/network/
 
 ### 获取额外的 LuCI 应用、主题和依赖 ################################################################
-rm -rf package/feeds/luci/luci-app-apinger
-rm -rf feeds/packages/net/{xray-core,socat,v2ray*,shadowsocks-libev}
+rm -rf feeds/luci/luci-app-apinger
+rm -rf feeds/packages/net/{xray-core,socat,v2ray*,kcptun,trojan-gp}
 
 # mount cgroupv2
 pushd feeds/packages
@@ -187,15 +187,13 @@ sed -i 's,1608,1800,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-def
 sed -i 's,2016,2208,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
 sed -i 's,1512,1608,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cpulimit package/waynesg/luci-app-cpulimit
-cp -rf ${GITHUB_WORKSPACE}/immortalwrt_pkg/utils/cpulimit feeds/packages/utils/cpulimit
+
 
 # DDNS
 cp -rf ${GITHUB_WORKSPACE}/immortalwrt_pkg/net/ddns-scripts_{aliyun,dnspod} package/waynesg/
 
 # DiskMan
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-diskman package/waynesg/luci-app-diskman
-mkdir -p package/waynesg/parted && \
-wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/waynesg/parted/Makefile
 
 # IPSec
 cp -rf ${GITHUB_WORKSPACE}/lede_luci/applications/luci-app-ipsec-server package/waynesg/luci-app-ipsec-server
