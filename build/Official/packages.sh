@@ -1,7 +1,33 @@
 #!/bin/bash
+#Kernel
+latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][0-9]/p' | sed -n 1p | sed 's/.tar.gz//g')"
+git clone --single-branch -b ${latest_release} https://github.com/openwrt/openwrt ${GITHUB_WORKSPACE}/openwrt_release
+rm -f ./openwrt/include/version.mk
+rm -f ./openwrt/include/kernel.mk
+rm -f ./openwrt/include/kernel-5.10
+rm -f ./openwrt/include/kernel-version.mk
+rm -f ./openwrt/include/toolchain-build.mk
+rm -f ./openwrt/include/kernel-defaults.mk
+rm -f ./openwrt/package/base-files/image-config.in
+rm -rf ./openwrt/target/linux/*
+rm -rf ./openwrt/package/kernel/linux/*
+cp -f ../openwrt_release/include/version.mk ./openwrt/include/version.mk
+cp -f ../openwrt_release/include/kernel.mk ./openwrt/include/kernel.mk
+cp -f ..openwrt_release/include/kernel-5.10 ./openwrt/include/kernel-5.10
+cp -f ../openwrt_release/include/kernel-version.mk ./openwrt/include/kernel-version.mk
+cp -f ../openwrt_release/include/toolchain-build.mk ./openwrt/include/toolchain-build.mk
+cp -f ../openwrt_release/include/kernel-defaults.mk ./openwrt/include/kernel-defaults.mk
+cp -f ../openwrt_release/package/base-files/image-config.in ./openwrt/package/base-files/image-config.in
+cp -f ../openwrt_release/version ./openwrt/version
+cp -f ../openwrt_release/version.date ./openwrt/version.date
+cp -rf ../openwrt_release/target/linux/* ./openwrt/target/linux/
+cp -rf ../openwrt_release/package/kernel/linux/* ./openwrt/package/kernel/linux/
+rm -rf ./scripts/download.pl
+rm -rf ./include/download.mk
 
+#Repo
 git clone -b js --depth 1 --single-branch https://github.com/waynesg/OpenWrt-Software ${GITHUB_WORKSPACE}/me
-git clone -b master --depth 1 https://github.com/immortalwrt/immortalwrt.git ${GITHUB_WORKSPACE}immortalwrt
+git clone -b master --depth 1 https://github.com/immortalwrt/immortalwrt.git ${GITHUB_WORKSPACE}/immortalwrt
 git clone -b openwrt-21.02 --depth 1 https://github.com/immortalwrt/immortalwrt.git ${GITHUB_WORKSPACE}/immortalwrt_21
 git clone -b master --depth 1 https://github.com/immortalwrt/packages.git ${GITHUB_WORKSPACE}/immortalwrt_pkg
 git clone -b master --depth 1 https://github.com/immortalwrt/luci.git ${GITHUB_WORKSPACE}/immortalwrt_luci
@@ -16,9 +42,36 @@ git clone -b main --depth 1 https://github.com/Lienol/openwrt-package ${GITHUB_W
 
 # 使用 O2 级别的优化
 sed -i 's/Os/O2/g' include/target.mk
-# 更新 Feeds
-./scripts/feeds update -a
-./scripts/feeds install -a
+
+#download.pl
+cp -rf ../immortalwrt/scripts/download.pl ./scripts/download.pl
+cp -rf ../immortalwrt/include/download.mk ./include/download.mk
+sed -i '/unshift/d' scripts/download.pl
+sed -i '/mirror02/d' scripts/download.pl
+echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
+
+### 必要的 Patches ###
+# introduce "MG-LRU" Linux kernel patches
+cp -rf ${BUILD_PATH}/PATCH/backport/MG-LRU/* ./target/linux/generic/pending-5.10/
+# TCP optimizations
+cp -rf ${BUILD_PATH}/PATCH/backport/TCP/* ./target/linux/generic/backport-5.10/
+wget -P target/linux/generic/pending-5.10/ https://github.com/openwrt/openwrt/raw/v22.03.3/target/linux/generic/pending-5.10/613-netfilter_optional_tcp_window_check.patch
+# Patch arm64 型号名称
+cp -rf ../immortalwrt/target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch ./target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
+# BBRv2
+cp -rf ${BUILD_PATH}/PATCH/BBRv2/kernel/* ./target/linux/generic/hack-5.10/
+cp -rf ${BUILD_PATH}/PATCH/BBRv2/openwrt/package ./
+wget -qO - https://github.com/openwrt/openwrt/commit/7db9763.patch | patch -p1
+# LRNG
+cp -rf ${BUILD_PATH}/PATCH/LRNG/* ./target/linux/generic/hack-5.10/
+# SSL
+rm -rf ./package/libs/mbedtls
+cp -rf ../immortalwrt/package/libs/mbedtls ./package/libs/mbedtls
+rm -rf ./package/libs/openssl
+cp -rf ../immortalwrt_21/package/libs/openssl ./package/libs/openssl
+# fstool
+wget -qO - https://github.com/coolsnowwolf/lede/commit/8a4db76.patch | patch -p1
+
 
 # create directory
 [[ ! -d package/waynesg ]] && mkdir -p package/waynesg
