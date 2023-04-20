@@ -757,6 +757,7 @@ git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartd
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
 git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector package/waynesg/luci-app-internet-detector
 elif [[ "${REPO_BRANCH}" = "openwrt-22.03" ]]; then
+git clone -b js --depth 1 --single-branch https://github.com/waynesg/OpenWrt-Software me
 git clone -b master --depth 1 --single-branch https://github.com/coolsnowwolf/lede lede
 git clone -b master --single-branch https://github.com/immortalwrt/immortalwrt immortalwrt
 git clone -b master --depth 1 --single-branch https://github.com/immortalwrt/packages immortalwrt-packages
