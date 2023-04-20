@@ -97,37 +97,6 @@ git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone packag
 cp -rf ${GITHUB_WORKSPACE}/Lienol/package/network/utils/fullconenat package/waynesg/fullconenat
 
 ### 获取额外的基础软件包 ######################################################################
-# 更换为 ImmortalWrt Uboot 以及 Target
-rm -rf ${GITHUB_WORKSPACE}/target/linux/rockchip
-cp -rf ${GITHUB_WORKSPACE}/lede/target/linux/rockchip target/linux/rockchip
-rm -rf ${GITHUB_WORKSPACE}/target/linux/rockchip/Makefile
-cp -rf ${GITHUB_WORKSPACE}/openwrt_release/target/linux/rockchip/Makefile target/linux/rockchip/Makefile
-rm -rf ${GITHUB_WORKSPACE}/target/linux/rockchip/armv8/config-5.10
-cp -rf ${GITHUB_WORKSPACE}/openwrt_release/target/linux/rockchip/armv8/config-5.10 target/linux/rockchip/armv8/config-5.10
-rm -rf ${GITHUB_WORKSPACE}/target/linux/rockchip/patches-5.10/002-net-usb-r8152-add-LED-configuration-from-OF.patch
-rm -rf ${GITHUB_WORKSPACE}/target/linux/rockchip/patches-5.10/003-dt-bindings-net-add-RTL8152-binding-documentation.patch
-cp -rf ${BUILD_PATH}//PATCH/rockchip-5.10/* target/linux/rockchip/patches-5.10/
-rm -rf ${GITHUB_WORKSPACE}/package/firmware/linux-firmware/intel.mk
-cp -rf ${GITHUB_WORKSPACE}/lede/package/firmware/linux-firmware/intel.mk package/firmware/linux-firmware/intel.mk
-rm -rf ${GITHUB_WORKSPACE}/package/firmware/linux-firmware/Makefile
-cp -rf ${GITHUB_WORKSPACE}/lede/package/firmware/linux-firmware/Makefile package/firmware/linux-firmware/Makefile
-mkdir -p target/linux/rockchip/files-5.10
-cp -rf ${GITHUB_WORKSPACE}/PATCH/files-5.10 target/linux/rockchip/
-sed -i 's,+LINUX_6_1:kmod-drm-display-helper,,g' target/linux/rockchip/modules.mk
-sed -i '/drm_dp_aux_bus\.ko/d' target/linux/rockchip/modules.mk
-rm -rf ${GITHUB_WORKSPACE}/package/boot/uboot-rockchip
-cp -rf ${GITHUB_WORKSPACE}/lede/package/boot/uboot-rockchip package/boot/uboot-rockchip
-cp -rf ${GITHUB_WORKSPACE}/lede/package/boot/arm-trusted-firmware-rockchip-vendor package/boot/arm-trusted-firmware-rockchip-vendor
-rm -rf ${GITHUB_WORKSPACE}/package/kernel/linux/modules/video.mk
-cp -rf ${GITHUB_WORKSPACE}/immortalwrt/package/kernel/linux/modules/video.mk package/kernel/linux/modules/video.mk
-sed -i '/nouveau\.ko/d' package/kernel/linux/modules/video.mk
-# Disable Mitigations
-sed -i 's,rootwait,rootwait mitigations=off,g' target/linux/rockchip/image/mmc.bootscript
-sed -i 's,rootwait,rootwait mitigations=off,g' target/linux/rockchip/image/nanopi-r2s.bootscript
-sed -i 's,rootwait,rootwait mitigations=off,g' target/linux/rockchip/image/nanopi-r4s.bootscript
-sed -i 's,noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-efi.cfg
-sed -i 's,noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-iso.cfg
-sed -i 's,noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-pc.cfg
 # Dnsmasq
 rm -rf ${GITHUB_WORKSPACE}/package/network/services/dnsmasq
 cp -rf ${GITHUB_WORKSPACE}/openwrt_ma/package/network/services/dnsmasq package/network/services/dnsmasq
@@ -162,7 +131,7 @@ sed -i 's|"getTempInfo"|"getTempInfo", "getCPUBench", "getCPUUsage"|g' package/w
 
 # R8168驱动
 git clone -b master --depth 1 https://github.com/BROBIRD/openwrt-r8168.git package/waynesg/r8168
-patch -p1 <../PATCH/r8168/r8168-fix_LAN_led-for_r4s-from_TL.patch
+patch -p1 <${BUILD_PATH}/PATCH/r8168/r8168-fix_LAN_led-for_r4s-from_TL.patch
 # R8152驱动
 cp -rf ${GITHUB_WORKSPACE}/immortalwrt/package/kernel/r8152 package/waynesg/r8152
 # r8125驱动
@@ -238,20 +207,20 @@ cp -rf ${GITHUB_WORKSPACE}/me/luci-app-mosdns package/waynesg/luci-app-mosdns
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-oaf package/waynesg/luci-app-oaf
 
 # Access Control
-cp -rf ${GITHUB_WORKSPACE}/immortalwrt-luci/applications/luci-app-accesscontrol package/waynesg/luci-app-accesscontrol
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-accesscontrol package/waynesg/luci-app-accesscontrol
 
 # 流量监管
 cp -rf ${GITHUB_WORKSPACE}/lede_luci/applications/luci-app-netdata package/waynesg/luci-app-netdata
 
 # arpbind
-cp -rf ${GITHUB_WORKSPACE}/immortalwrt-luci/applications/luci-app-arpbind package/waynesg/
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-arpbind package/waynesg/
 
 
 # USB Printer
-cp -rf ${GITHUB_WORKSPACE}/immortalwrt-luci/applications/luci-app-usb-printer package/waynesg/
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-usb-printer package/waynesg/
 
 # Zerotier
-cp -rf ${GITHUB_WORKSPACE}/immortalwrt-luci/applications/luci-app-zerotier package/waynesg/
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-zerotier package/waynesg/
 
 # 网易云音乐解锁
 git clone -b js --depth 1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/waynesg/UnblockNeteaseMusic
