@@ -580,7 +580,7 @@ case "${REPO_BRANCH}" in
 openwrt-21.02)
   sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
   echo -e "\nDISTRIB_RECOGNIZE='20'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-  #curl -fsSL https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/emortal/default-settings/Makefile > ${HOME_PATH}/package/emortal/default-settings/Makefile
+  curl -fsSL https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/emortal/default-settings/Makefile > ${HOME_PATH}/package/emortal/default-settings/Makefile
   if [[ `grep -c 'openwrt_banner' "${HOME_PATH}/package/emortal/default-settings/files/99-default-settings"` -eq '0' ]]; then
     echo "mv /etc/openwrt_banner /etc/banner" >> ${HOME_PATH}/package/emortal/default-settings/files/99-default-settings
   fi
@@ -1164,15 +1164,15 @@ fi
 function Diy_Language() {
 cd ${HOME_PATH}
 #sed -i 's/+luci-i18n-base-zh-cn//g' ${HOME_PATH}/package/emortal/default-settings/Makefile
-#if [[ ! "${ERCI}" == "1" ]]; then
-#  if [[ "$(. ${FILES_PATH}/etc/openwrt_release && echo "$DISTRIB_RECOGNIZE")" != "18" ]]; then
-#    echo "正在执行：把插件语言转换成zh_Hans"
-#    cp -Rf ${HOME_PATH}/build/common/language/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
-#    sudo chmod +x ${HOME_PATH}/zh_Hans.sh
-#    /bin/bash ${HOME_PATH}/zh_Hans.sh
-#    rm -rf ${HOME_PATH}/zh_Hans.sh
-#  fi
-#fi
+if [[ ! "${ERCI}" == "1" ]]; then
+  if [[ "$(. ${FILES_PATH}/etc/openwrt_release && echo "$DISTRIB_RECOGNIZE")" != "18" ]]; then
+    echo "正在执行：把插件语言转换成zh_Hans"
+    cp -Rf ${HOME_PATH}/build/common/language/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
+    sudo chmod +x ${HOME_PATH}/zh_Hans.sh
+    /bin/bash ${HOME_PATH}/zh_Hans.sh
+    rm -rf ${HOME_PATH}/zh_Hans.sh
+  fi
+fi
 }
 
 
