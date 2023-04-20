@@ -254,10 +254,10 @@ cp -rf ${GITHUB_WORKSPACE}/me/luci-app-control-timewol package/waynesg/luci-app-
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-control-webrestriction package/waynesg/luci-app-control-webrestriction
 
 #tn-netports
-cp -rf ${GITHUB_WORKSPACE}/me/luci-app-tn-netports/trunk package/waynesg/luci-app-tn-netports
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-tn-netports package/waynesg/luci-app-tn-netports
 
 #luci-app-netspeedtest
-cp -rf ${GITHUB_WORKSPACE}/me/netspeedtest package/waynesg/luci-app-netspeedtest
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-netspeedtest package/waynesg/luci-app-netspeedtest
 
 #onliner
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-onliner package/waynesg/luci-app-onliner
@@ -266,7 +266,7 @@ cp -rf ${GITHUB_WORKSPACE}/me/luci-app-onliner package/waynesg/luci-app-onliner
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-pushbot package/waynesg/luci-app-pushbot
 
 #wizard
-cp -rf ${GITHUB_WORKSPACE}/me/luci-app-wizard/trunk package/waynesg/luci-app-wizard
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-wizard package/waynesg/luci-app-wizard
 
 #advanced
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-advanced package/waynesg/luci-app-advanced
@@ -276,7 +276,7 @@ cp -rf ${GITHUB_WORKSPACE}/me/luci-app-wrtbwmon package/waynesg/luci-app-wrtbwmo
 
 #socat
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-socat package/waynesg
-cp -rf ${GITHUB_WORKSPACE}/immortalwrt-packages/net/socat package/waynesg/
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_pkg/net/socat package/waynesg/
 
 #passwall
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-passwall package/waynesg/luci-app-passwall
