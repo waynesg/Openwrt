@@ -235,6 +235,7 @@ svn co https://github.com/sirpdboy/luci-app-autotimeset/trunk package/waynesg/lu
 
 #Bypass
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-bypass package/waynesg/luci-app-bypass
+rm -rf pacakge/waynesg/luci-app-bypass/luci-lib-ipkg
 
 #Cloudflarespeedtest
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cloudflarespeedtest package/waynesg/luci-app-cloudflarespeedtest
