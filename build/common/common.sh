@@ -620,47 +620,6 @@ if [[ `grep -c "luci-app-ssr-plus luci-app-openclash" ${HOME_PATH}/include/targe
 fi
 }
 
-
-function Diy_XWRT() {
-cd ${HOME_PATH}
-if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
-  # 删除重复插件（X-WRT）
-  for X in "${HOME_PATH}/feeds" "${HOME_PATH}/package"; do
-    find ${X} -type d -name 'luci-theme-argon' -o -name 'luci-app-argon-config' | xargs -i rm -rf {}
-    find ${X} -type d -name 'adguardhome' -o -name 'luci-app-adguardhome' | xargs -i rm -rf {}
-    find ${X} -type d -name 'mosdns' -o -name 'luci-app-mosdns' | xargs -i rm -rf {}
-    find ${X} -type d -name 'luci-app-smartdns' -o -name 'smartdns' | xargs -i rm -rf {}
-  done
-fi
-find . -type d -name 'default-settings' | xargs -i rm -rf {}
-
-# 给固件LUCI做个标记
-sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
-echo -e "\nDISTRIB_RECOGNIZE='21'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-  
-svn export https://github.com/shidahuilang/common/trunk/OFFICIAL/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
-sed -i 's?libustream-wolfssl?libustream-openssl?g' "${HOME_PATH}/include/target.mk"
-if [[ `grep -c 'default-settings' "${HOME_PATH}/include/target.mk"` -eq '0' ]] && [[ `grep -c 'dnsmasq-full' "include/target.mk"` -eq '0' ]]; then
-  sed -i 's?dnsmasq?default-settings dnsmasq-full luci luci-compat luci-lib-ipkg luci-app-openclash ?g' "include/target.mk"
-elif [[ `grep -c 'default-settings' "${HOME_PATH}/include/target.mk"` -eq '0' ]]; then
-  dnsmq="$(grep -Eo 'dnsmasq.*' "include/target.mk" |sed 's/^[ ]*//g' |awk '{print $(1)}')"
-  sed -i "s?${dnsmq}?default-settings dnsmasq-full luci luci-compat luci-lib-ipkg luci-app-openclash?g" "include/target.mk"
-fi
-
-if [[ `grep -c 'attendedsysupgrade' "${HOME_PATH}/feeds/luci/collections/luci/Makefile"` -eq '1' ]]; then
-  sed -i '/attendedsysupgrade/d' "${HOME_PATH}/feeds/luci/collections/luci/Makefile"
-fi
-
-if [[ ! -d "package/utils/ucode" ]]; then
-  mkdir -p package/utils/ucode && curl -fsSL https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/utils/ucode/Makefile > package/utils/ucode/Makefile
-fi
-
-if [[ `grep -c "net.netfilter.nf_conntrack_helper" ${HOME_PATH}/package/kernel/linux/files/sysctl-nf-conntrack.conf` -eq '0' ]]; then
-  echo "net.netfilter.nf_conntrack_helper = 1" >> ${HOME_PATH}/package/kernel/linux/files/sysctl-nf-conntrack.conf
-fi
-}
-
-
 function Diy_OFFICIAL() {
 cd ${HOME_PATH}
 if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
@@ -706,44 +665,6 @@ if [[ `grep -c "net.netfilter.nf_conntrack_helper" ${HOME_PATH}/package/kernel/l
   echo "net.netfilter.nf_conntrack_helper = 1" >> ${HOME_PATH}/package/kernel/linux/files/sysctl-nf-conntrack.conf
 fi
 }
-
-
-function Diy_AMLOGIC() {
-cd ${HOME_PATH}
-if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
-  # 删除重复插件（LEDE - N1等）
-  for X in "${HOME_PATH}/feeds" "${HOME_PATH}/package"; do
-    find ${X} -type d -name 'luci-theme-argon' -o -name 'luci-app-argon-config' -o -name 'mentohust' | xargs -i rm -rf {}
-    find ${X} -type d -name 'luci-app-wrtbwmon' -o -name 'wrtbwmon' -o -name 'luci-app-eqos' | xargs -i rm -rf {}
-    find ${X} -type d -name 'adguardhome' -o -name 'luci-app-adguardhome' -o -name 'luci-app-wol' | xargs -i rm -rf {}
-    find ${X} -type d -name 'mosdns' -o -name 'luci-app-mosdns' | xargs -i rm -rf {}
-    find ${X} -type d -name 'luci-app-smartdns' -o -name 'smartdns' | xargs -i rm -rf {}
-  done
-fi
-  
-# 给固件LUCI做个标记
-sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
-echo -e "\nDISTRIB_RECOGNIZE='18'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-
-# 修复NTFS格式优盘不自动挂载
-packages=" \
-block-mount fdisk usbutils badblocks ntfs-3g kmod-scsi-core kmod-usb-core \
-kmod-usb-ohci kmod-usb-uhci kmod-usb-storage kmod-usb-storage-extras kmod-usb2 kmod-usb3 \
-kmod-fs-ext4 kmod-fs-vfat kmod-fuse luci-app-amlogic unzip curl \
-brcmfmac-firmware-43430-sdio brcmfmac-firmware-43455-sdio kmod-brcmfmac wpad \
-lscpu htop iperf3 curl lm-sensors python3 losetup resize2fs tune2fs pv blkid lsblk parted \
-kmod-usb-net kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152
-"
-sed -i '/FEATURES+=/ { s/cpiogz //; s/ext4 //; s/ramdisk //; s/squashfs //; }' ${HOME_PATH}/target/linux/armvirt/Makefile
-for x in $packages; do
-  sed -i "/DEFAULT_PACKAGES/ s/$/ $x/" ${HOME_PATH}/target/linux/armvirt/Makefile
-done
-
-# 修改cpufreq和autocore一些代码适配amlogic
-sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=\@\(arm\|\|aarch64\)/g' ${HOME_PATH}/feeds/luci/applications/luci-app-cpufreq/Makefile
-sed -i 's/TARGET_rockchip/TARGET_rockchip\|\|TARGET_armvirt/g' ${HOME_PATH}/package/lean/autocore/Makefile
-}
-
 
 function Diy_distrib() {
 cd ${HOME_PATH}
@@ -1246,7 +1167,7 @@ fi
 
 function Diy_Language() {
 cd ${HOME_PATH}
-sed -i 's/+luci-i18n-base-zh-cn//g' ${HOME_PATH}/package/emortal/default-settings/Makefile
+#sed -i 's/+luci-i18n-base-zh-cn//g' ${HOME_PATH}/package/emortal/default-settings/Makefile
 if [[ ! "${ERCI}" == "1" ]]; then
   if [[ "$(. ${FILES_PATH}/etc/openwrt_release && echo "$DISTRIB_RECOGNIZE")" != "18" ]]; then
     echo "正在执行：把插件语言转换成zh_Hans"
