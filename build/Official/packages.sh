@@ -1,5 +1,25 @@
 #!/bin/bash
 
+git clone -b js --depth 1 --single-branch https://github.com/waynesg/OpenWrt-Software ${GITHUB_WORKSPACE}/me
+git clone -b master --depth 1 https://github.com/immortalwrt/immortalwrt.git ${GITHUB_WORKSPACE}immortalwrt
+git clone -b openwrt-21.02 --depth 1 https://github.com/immortalwrt/immortalwrt.git ${GITHUB_WORKSPACE}/immortalwrt_21
+git clone -b master --depth 1 https://github.com/immortalwrt/packages.git ${GITHUB_WORKSPACE}/immortalwrt_pkg
+git clone -b master --depth 1 https://github.com/immortalwrt/luci.git ${GITHUB_WORKSPACE}/immortalwrt_luci
+git clone -b master --depth 1 https://github.com/coolsnowwolf/lede.git ${GITHUB_WORKSPACE}/lede
+git clone -b master --depth 1 https://github.com/coolsnowwolf/luci.git ${GITHUB_WORKSPACE}/lede_luci
+git clone -b master --depth 1 https://github.com/coolsnowwolf/packages.git ${GITHUB_WORKSPACE}/lede_pkg
+git clone -b master --depth 1 https://github.com/openwrt/openwrt.git ${GITHUB_WORKSPACE}/openwrt_ma
+git clone -b master --depth 1 https://github.com/openwrt/packages.git ${GITHUB_WORKSPACE}/openwrt_pkg_ma
+git clone -b master --depth 1 https://github.com/openwrt/luci.git ${GITHUB_WORKSPACE}/openwrt_luci_ma
+git clone -b master --depth 1 https://github.com/Lienol/openwrt.git ${GITHUB_WORKSPACE}/Lienol
+git clone -b main --depth 1 https://github.com/Lienol/openwrt-package ${GITHUB_WORKSPACE}/Lienol_pkg
+
+# 使用 O2 级别的优化
+sed -i 's/Os/O2/g' include/target.mk
+# 更新 Feeds
+./scripts/feeds update -a
+./scripts/feeds install -a
+
 # create directory
 [[ ! -d package/waynesg ]] && mkdir -p package/waynesg
 
