@@ -181,20 +181,6 @@ IMMORTALWRT)
     export DIY_WORK="${FOLDER_NAME}K54"
   fi
 ;;
-XWRT)
-  export REPO_URL="https://github.com/x-wrt/x-wrt"
-  export SOURCE="Xwrt"
-  export SOURCE_OWNER="ptpt52"
-  export PACKAGE_BRANCH="official-master"
-  export LUCI_EDITION="${REPO_BRANCH}"
-  if [[ "${REPO_BRANCH}" == "21.10" ]]; then
-    export DIY_WORK="${FOLDER_NAME}2110"
-  elif [[ "${REPO_BRANCH}" == "22.03" ]]; then
-    export DIY_WORK="${FOLDER_NAME}2203"
-  else
-    export DIY_WORK="${FOLDER_NAME}${REPO_BRANCH}"
-  fi
-;;
 OFFICIAL)
   export REPO_URL="https://github.com/openwrt/openwrt"
   export SOURCE="Official"
@@ -208,22 +194,14 @@ OFFICIAL)
     export LUCI_EDITION="19.07"
     export DIY_WORK="${FOLDER_NAME}1907"
   elif [[ "${REPO_BRANCH}" == "openwrt-21.02" ]]; then
-    export PACKAGE_BRANCH="official-19.07"
+    export PACKAGE_BRANCH="official-21.02"
     export LUCI_EDITION="21.02"
     export DIY_WORK="${FOLDER_NAME}2102"
   elif [[ "${REPO_BRANCH}" == "openwrt-22.03" ]]; then
-    export PACKAGE_BRANCH="official-master"
+    export PACKAGE_BRANCH="official-22.03"
     export LUCI_EDITION="22.03"
     export DIY_WORK="${FOLDER_NAME}2203"
   fi
-;;
-AMLOGIC)
-  export REPO_URL="https://github.com/coolsnowwolf/lede"
-  export SOURCE="Amlogic"
-  export LUCI_EDITION="18.06"
-  export SOURCE_OWNER="Lede's"
-  export PACKAGE_BRANCH="master"
-  export DIY_WORK="${FOLDER_NAME}AMLOGIC"
 ;;
 *)
   TIME r "不支持${SOURCE_CODE}此源码，当前只支持COOLSNOWWOLF、LIENOL、IMMORTALWRT、XWRT、OFFICIAL和AMLOGIC"
@@ -580,7 +558,7 @@ case "${REPO_BRANCH}" in
 openwrt-21.02)
   sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
   echo -e "\nDISTRIB_RECOGNIZE='20'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-  #curl -fsSL https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/emortal/default-settings/Makefile > ${HOME_PATH}/package/emortal/default-settings/Makefile
+  curl -fsSL https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/emortal/default-settings/Makefile > ${HOME_PATH}/package/emortal/default-settings/Makefile
   if [[ `grep -c 'openwrt_banner' "${HOME_PATH}/package/emortal/default-settings/files/99-default-settings"` -eq '0' ]]; then
     echo "mv /etc/openwrt_banner /etc/banner" >> ${HOME_PATH}/package/emortal/default-settings/files/99-default-settings
   fi
@@ -1468,7 +1446,7 @@ fi
 case "${CPU_OPTIMIZATION}" in
 E5|弃用E5系列|弃用E5)
   if [[ `echo "${cpu_model}" |grep -Eoc "E5"` -eq '1' ]]; then
-    export chonglaixx="E5-Recompile"
+    export chonglaixx="Kick-E5-Recompile"
     export Continue_selecting="1"
   else
     echo " 恭喜,不是E5系列的CPU"
@@ -1717,35 +1695,6 @@ if [[ "${UPDATE_FIRMWARE_ONLINE}" == "true" ]]; then
   source ${BUILD_PATH}/upgrade.sh && Diy_Part2
 fi
 }
-
-
-function Package_amlogic() {
-echo "正在执行：打包N1和景晨系列固件"
-# 下载上游仓库
-cd ${GITHUB_WORKSPACE}
-[[ -d "${GITHUB_WORKSPACE}/amlogic" ]] && sudo rm -rf ${GITHUB_WORKSPACE}/amlogic
-git clone --depth 1 https://github.com/ophub/amlogic-s9xxx-openwrt.git ${GITHUB_WORKSPACE}/amlogic
-[ ! -d ${GITHUB_WORKSPACE}/amlogic/openwrt-armvirt ] && mkdir -p ${GITHUB_WORKSPACE}/amlogic/openwrt-armvirt
-if [[ `ls -1 "${FIRMWARE_PATH}" |grep -c ".*default-rootfs.tar.gz"` == '1' ]]; then
-  cp -Rf ${FIRMWARE_PATH}/*default-rootfs.tar.gz ${GITHUB_WORKSPACE}/amlogic/openwrt-armvirt/openwrt-armvirt-64-default-rootfs.tar.gz && sync
-else
-  armvirtargz="$(ls -1 "${FIRMWARE_PATH}" |grep ".*tar.gz" |awk 'END {print}')"
-  cp -Rf ${FIRMWARE_PATH}/${armvirtargz} ${GITHUB_WORKSPACE}/amlogic/openwrt-armvirt/openwrt-armvirt-64-default-rootfs.tar.gz && sync
-fi
-
-echo "开始打包"
-cd ${GITHUB_WORKSPACE}/amlogic
-sudo chmod +x make
-sudo ./make -b ${amlogic_model} -k ${amlogic_kernel} -a ${auto_kernel} -s ${rootfs_size}
-if [[ 0 -eq $? ]]; then
-  sudo mv -f ${GITHUB_WORKSPACE}/amlogic/out/* ${FIRMWARE_PATH}/ && sync
-  sudo rm -rf ${GITHUB_WORKSPACE}/amlogic
-  TIME g "固件打包完成,已将固件存入${FIRMWARE_PATH}文件夹内"
-else
-  TIME r "固件打包失败"
-fi
-}
-
 
 function Diy_upgrade3() {
 if [ "${UPDATE_FIRMWARE_ONLINE}" == "true" ]; then
