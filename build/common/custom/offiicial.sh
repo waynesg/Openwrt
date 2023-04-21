@@ -1,7 +1,30 @@
 #!/bin/bash
-
+#Kernel
+latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][0-9]/p' | sed -n 1p | sed 's/.tar.gz//g')"
+git clone --single-branch -b ${latest_release} https://github.com/openwrt/openwrt ${GITHUB_WORKSPACE}/openwrt_release
+rm -f ${GITHUB_WORKSPACE}/openwrt/include/version.mk
+rm -f ${GITHUB_WORKSPACE}/openwrt/include/kernel.mk
+rm -f ${GITHUB_WORKSPACE}/openwrt/include/kernel-5.10
+rm -f ${GITHUB_WORKSPACE}/openwrt/include/kernel-version.mk
+rm -f ${GITHUB_WORKSPACE}/openwrt/include/toolchain-build.mk
+rm -f ${GITHUB_WORKSPACE}/openwrt/include/kernel-defaults.mk
+rm -f ${GITHUB_WORKSPACE}/openwrt/package/base-files/image-config.in
+rm -rf ${GITHUB_WORKSPACE}/openwrt/target/linux/*
+rm -rf ${GITHUB_WORKSPACE}/openwrt/package/kernel/linux/*
+cp -f ${GITHUB_WORKSPACE}/openwrt_release/include/version.mk ${GITHUB_WORKSPACE}/openwrt/include/version.mk
+cp -f ${GITHUB_WORKSPACE}/openwrt_release/include/kernel.mk ${GITHUB_WORKSPACE}/openwrt/include/kernel.mk
+cp -f ${GITHUB_WORKSPACE}/openwrt_release/include/kernel-5.10 ${GITHUB_WORKSPACE}/openwrt/include/kernel-5.10
+cp -f ${GITHUB_WORKSPACE}/openwrt_release/include/kernel-version.mk ${GITHUB_WORKSPACE}/openwrt/include/kernel-version.mk
+cp -f ${GITHUB_WORKSPACE}/openwrt_release/include/toolchain-build.mk ${GITHUB_WORKSPACE}/openwrt/include/toolchain-build.mk
+cp -f ${GITHUB_WORKSPACE}/openwrt_release/include/kernel-defaults.mk ${GITHUB_WORKSPACE}/openwrt/include/kernel-defaults.mk
+cp -f ${GITHUB_WORKSPACE}/openwrt_release/package/base-files/image-config.in ${GITHUB_WORKSPACE}/openwrt/package/base-files/image-config.in
+cp -f ${GITHUB_WORKSPACE}/openwrt_release/version ${GITHUB_WORKSPACE}/openwrt/version
+cp -f ${GITHUB_WORKSPACE}/openwrt_release/version.date ${GITHUB_WORKSPACE}/openwrt/version.date
+cp -rf ${GITHUB_WORKSPACE}/openwrt_release/target/linux/* ${GITHUB_WORKSPACE}/openwrt/target/linux/
+cp -rf ${GITHUB_WORKSPACE}/openwrt_release/package/kernel/linux/* ${GITHUB_WORKSPACE}/openwrt/package/kernel/linux/
+#Repo
 git clone -b js --depth 1 --single-branch https://github.com/waynesg/OpenWrt-Software ${GITHUB_WORKSPACE}/me
-git clone -b master --depth 1 https://github.com/immortalwrt/immortalwrt.git ${GITHUB_WORKSPACE}immortalwrt
+git clone -b master --depth 1 https://github.com/immortalwrt/immortalwrt.git ${GITHUB_WORKSPACE}/immortalwrt
 git clone -b openwrt-21.02 --depth 1 https://github.com/immortalwrt/immortalwrt.git ${GITHUB_WORKSPACE}/immortalwrt_21
 git clone -b master --depth 1 https://github.com/immortalwrt/packages.git ${GITHUB_WORKSPACE}/immortalwrt_pkg
 git clone -b master --depth 1 https://github.com/immortalwrt/luci.git ${GITHUB_WORKSPACE}/immortalwrt_luci
@@ -13,183 +36,207 @@ git clone -b master --depth 1 https://github.com/openwrt/packages.git ${GITHUB_W
 git clone -b master --depth 1 https://github.com/openwrt/luci.git ${GITHUB_WORKSPACE}/openwrt_luci_ma
 git clone -b master --depth 1 https://github.com/Lienol/openwrt.git ${GITHUB_WORKSPACE}/Lienol
 git clone -b main --depth 1 https://github.com/Lienol/openwrt-package ${GITHUB_WORKSPACE}/Lienol_pkg
-
-# 使用 O2 级别的优化
-sed -i 's/Os/O2/g' include/target.mk
-# 更新 Feeds
-./scripts/feeds update -a
-./scripts/feeds install -a
-
 # create directory
 [[ ! -d package/waynesg ]] && mkdir -p package/waynesg
-
+# 使用 O2 级别的优化
+sed -i 's/Os/O2/g' include/target.mk
+#download.pl
+rm -rf scripts/download.pl
+rm -rf include/download.mk
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt/scripts/download.pl scripts/download.pl
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt/include/download.mk include/download.mk
+sed -i '/unshift/d' scripts/download.pl
+sed -i '/mirror02/d' scripts/download.pl
+echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
+### 必要的 Patches ######################################################################
+# introduce "MG-LRU" Linux kernel patches
+cp -rf ${BUILD_PATH}/PATCH/backport/MG-LRU/* target/linux/generic/pending-5.10/
+# TCP optimizations
+cp -rf ${BUILD_PATH}/PATCH/backport/TCP/* target/linux/generic/backport-5.10/
+wget -P target/linux/generic/pending-5.10/ https://github.com/openwrt/openwrt/raw/v22.03.3/target/linux/generic/pending-5.10/613-netfilter_optional_tcp_window_check.patch
+# Patch arm64 型号名称
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt/target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
+# BBRv2
+cp -rf ${BUILD_PATH}/PATCH/BBRv2/kernel/* target/linux/generic/hack-5.10/
+cp -rf ${BUILD_PATH}/PATCH/BBRv2/openwrt/package ./
+wget -qO - https://github.com/openwrt/openwrt/commit/7db9763.patch | patch -p1
+# LRNG
+cp -rf ${BUILD_PATH}/PATCH/LRNG/* target/linux/generic/hack-5.10/
+# SSL
+rm -rf ${GITHUB_WORKSPACE}/package/libs/mbedtls
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt/package/libs/mbedtls package/libs/mbedtls
+rm -rf ${GITHUB_WORKSPACE}/package/libs/openssl
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_21/package/libs/openssl package/libs/openssl
+# fstool
+wget -qO - https://github.com/coolsnowwolf/lede/commit/8a4db76.patch | patch -p1
+### Fullcone-NAT 部分 #####################################################################
+# Patch Kernel 以解决 FullCone 冲突
+cp -rf ${GITHUB_WORKSPACE}/lede/target/linux/generic/hack-5.10/952-net-conntrack-events-support-multiple-registrant.patch target/linux/generic/hack-5.10/952-net-conntrack-events-support-multiple-registrant.patch
+cp -rf ${GITHUB_WORKSPACE}/lede/target/linux/generic/hack-5.10/982-add-bcm-fullconenat-support.patch target/linux/generic/hack-5.10/982-add-bcm-fullconenat-support.patch
+# Patch FireWall 以增添 FullCone 功能
+# FW3
+mkdir -p package/network/config/firewall/patches
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_21/package/network/config/firewall/patches/100-fullconenat.patch package/network/config/firewall/patches/100-fullconenat.patch
+cp -rf ${GITHUB_WORKSPACE}/lede/package/network/config/firewall/patches/101-bcm-fullconenat.patch package/network/config/firewall/patches/101-bcm-fullconenat.patch
+# iptables
+cp -rf ${GITHUB_WORKSPACE}/lede/package/network/utils/iptables/patches/900-bcm-fullconenat.patch package/network/utils/iptables/patches/900-bcm-fullconenat.patch
+# network
+wget -qO - https://github.com/openwrt/openwrt/commit/bbf39d07.patch | patch -p1
+# Patch LuCI 以增添 FullCone 开关
+pushd feeds/luci
+wget -qO- https://github.com/openwrt/luci/commit/471182b2.patch | patch -p1
+popd
+# FullCone PKG
+git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone package/waynesg/nft-fullcone
+cp -rf ${GITHUB_WORKSPACE}/Lienol/package/network/utils/fullconenat package/waynesg/fullconenat
+### 获取额外的基础软件包 ######################################################################
+# Dnsmasq
+rm -rf ${GITHUB_WORKSPACE}/package/network/services/dnsmasq
+cp -rf ${GITHUB_WORKSPACE}/openwrt_ma/package/network/services/dnsmasq package/network/services/dnsmasq
+cp -rf ${GITHUB_WORKSPACE}/openwrt_luci_ma/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js feeds/luci/modules/luci-mod-network/htdocs/luci-static/resources/view/network/
+### 获取额外的 LuCI 应用、主题和依赖 ################################################################
+rm -rf feeds/luci/luci-app-apinger
+rm -rf feeds/packages/net/{xray-core,socat,v2ray*,kcptun,trojan-gp}
+# mount cgroupv2
+pushd feeds/packages
+wget -qO - https://github.com/openwrt/packages/commit/7a64a5f4.patch | patch -p1
+popd
+# i915
+wget -qO - https://github.com/openwrt/openwrt/commit/c21a3570.patch | patch -p1
+cp -rf ${GITHUB_WORKSPACE}/lede/target/linux/x86/64/config-5.10 target/linux/x86/64/config-5.10
+# Haproxy
+rm -rf ${GITHUB_WORKSPACE}/feeds/packages/net/haproxy
+cp -rf ${GITHUB_WORKSPACE}/openwrt_pkg_ma/net/haproxy feeds/packages/net/haproxy
+pushd feeds/packages
+wget -qO - https://github.com/openwrt/packages/commit/a09cbcd.patch | patch -p1
+popd
 # AutoCore
-cp -rf ./immortalwrt/package/emortal/autocore package/waynesg/
-cp -rf ./immortalwrt/package/utils/mhz package/utils/
-cp -rf ./immortalwrt-luci/modules/luci-base/root/usr/libexec/rpcd/luci feeds/luci/modules/luci-base/root/usr/libexec/rpcd/
+cp -rf ${GITHUB_WORKSPACE}/me/openwrt-diy/autocore package/waynesg/autocore
+sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/waynesg/autocore/files/generic/luci-mod-status-autocore.json
+sed -i '/"$threads"/d' package/waynesg/autocore/files/x86/autocore
+rm -rf ${GITHUB_WORKSPACE}/feeds/packages/utils/coremark
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_pkg/utils/coremark feeds/packages/utils/coremark
 # grant getCPUUsage access
 sed -i 's|"getTempInfo"|"getTempInfo", "getCPUBench", "getCPUUsage"|g' package/waynesg/autocore/files/generic/luci-mod-status-autocore.json
-
-# automount
-cp -rf ./lede/package/lean/automount package/waynesg/
-cp -rf ./lede/package/lean/ntfs3-mount package/waynesg/
-# backport ntfs3 patches
-cp -rf ./lede/target/linux/generic/files-5.10 target/linux/generic/
-
-# FullCone nat for nftables
-# patch kernel
-cp -f ./immortalwrt/target/linux/generic/hack-5.10/952-net-conntrack-events-support-multiple-registrant.patch target/linux/generic/hack-5.10/
-# fullconenat-nft
-cp -rf ./immortalwrt/package/network/utils/fullconenat-nft package/network/utils/
-# patch libnftnl
-cp -rf ./immortalwrt/package/libs/libnftnl/patches package/libs/libnftnl/
-sed -i '/PKG_INSTALL:=1/i\PKG_FIXUP:=autoreconf' package/libs/libnftnl/Makefile
-# patch nftables
-#cp -f ./immortalwrt/package/network/utils/nftables/patches/002-nftables-add-fullcone-expression-support.patch package/network/utils/nftables/patches/
-rm -rf package/network/utils/nftables/
-cp -rf ./immortalwrt/package/network/utils/nftables package/network/utils/
-# patch firewall4
-cp -rf ./immortalwrt/package/network/config/firewall4/patches package/network/config/firewall4/
-sed -i 's|+kmod-nft-nat +kmod-nft-nat6|+kmod-nft-nat +kmod-nft-nat6 +kmod-nft-fullcone|g' package/network/config/firewall4/Makefile
-# patch luci
-patch -d feeds/luci -p1 -i ../../../patches/fullconenat-luci.patch
-
-# dnsmasq: add filter aaa option
-cp -rf ./patches/910-add-filter-aaaa-option-support.patch package/network/services/dnsmasq/patches/
-patch -p1 -i ./patches/dnsmasq-add-filter-aaaa-option.patch
-patch -d feeds/luci -p1 -i ../../../patches/filter-aaaa-luci.patch
-
-# dnsmasq: use nft ruleset for dns_redirect
-patch -p1 -i ./patches/dnsmasq-use-nft-ruleset-for-dns_redirect.patch
-
-# mbedtls
-rm -rf package/libs/mbedtls
-cp -rf ./immortalwrt/package/libs/mbedtls package/libs/
-
+# R8168驱动
+git clone -b master --depth 1 https://github.com/BROBIRD/openwrt-r8168.git package/waynesg/r8168
+patch -p1 <${BUILD_PATH}/PATCH/r8168/r8168-fix_LAN_led-for_r4s-from_TL.patch
+# R8152驱动
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt/package/kernel/r8152 package/waynesg/r8152
+# r8125驱动
+git clone https://github.com/sbwml/package_kernel_r8125 package/waynesg/r8125
+# igc-backport
+cp -rf ${BUILD_PATH}/PATCH/igc-files-5.10 target/linux/x86/files-5.10
+# UPX 可执行软件压缩
+sed -i '/patchelf pkgconf/i\tools-y += ucl upx' tools/Makefile
+sed -i '\/autoconf\/compile :=/i\$(curdir)/upx/compile := $(curdir)/ucl/compile' tools/Makefile
+cp -rf ${GITHUB_WORKSPACE}/Lienol/tools/ucl tools/ucl
+cp -rf ${GITHUB_WORKSPACE}/Lienol/tools/upx tools/upx
+# MAC 地址与 IP 绑定
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-arpbind feeds/luci/applications/luci-app-arpbind
+# 定时重启
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-autoreboot feeds/luci/applications/luci-app-autoreboot
+# Boost 通用即插即用
+rm -rf ${GITHUB_WORKSPACE}/feeds/packages/net/miniupnpd
+cp -rf ${GITHUB_WORKSPACE}/openwrt_pkg_ma/net/miniupnpd feeds/packages/net/miniupnpd
+pushd feeds/packages
+wget -qO- https://github.com/openwrt/packages/commit/785bbcb.patch | patch -p1
+wget -qO- https://github.com/openwrt/packages/commit/d811cb4.patch | patch -p1
+wget -qO- https://github.com/openwrt/packages/commit/9a2da85.patch | patch -p1
+wget -qO- https://github.com/openwrt/packages/commit/71dc090.patch | patch -p1
+popd
+wget -P feeds/packages/net/miniupnpd/patches/ https://github.com/ptpt52/openwrt-packages/raw/master/net/miniupnpd/patches/201-change-default-chain-rule-to-accept.patch
+wget -P feeds/packages/net/miniupnpd/patches/ https://github.com/ptpt52/openwrt-packages/raw/master/net/miniupnpd/patches/500-0004-miniupnpd-format-xml-to-make-some-app-happy.patch
+wget -P feeds/packages/net/miniupnpd/patches/ https://github.com/ptpt52/openwrt-packages/raw/master/net/miniupnpd/patches/500-0005-miniupnpd-stun-ignore-external-port-changed.patch
+wget -P feeds/packages/net/miniupnpd/patches/ https://github.com/ptpt52/openwrt-packages/raw/master/net/miniupnpd/patches/500-0006-miniupnpd-fix-stun-POSTROUTING-filter-for-openwrt.patch
+rm -rf ${GITHUB_WORKSPACE}/feeds/luci/applications/luci-app-upnp
+cp -rf ${GITHUB_WORKSPACE}/openwrt_luci_ma/applications/luci-app-upnp feeds/luci/applications/luci-app-upnp
+pushd feeds/luci
+wget -qO- https://github.com/openwrt/luci/commit/0b5fb915.patch | patch -p1
+popd
 ##-------------------------------------------------------------------------------------------------------
+# Argon 主题
+cp -rf ${GITHUB_WORKSPACE}/me/luci-theme-argon package/waynesg/luci-theme-argon
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-argon-config package/waynesg/luci-app-argon-config
+# Airconnect
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-airconnect package/waynesg/luci-app-airconnect
 # cpufreq
-cp -rf ./immortalwrt-luci/applications/luci-app-cpufreq package/waynesg/
-
+# CPU 控制相关
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cpufreq feeds/luci/applications/luci-app-cpufreq
+ln -sf ${GITHUB_WORKSPACE}/../../feeds/luci/applications/luci-app-cpufreq package/feeds/luci/luci-app-cpufreq
+sed -i 's,1608,1800,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
+sed -i 's,2016,2208,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
+sed -i 's,1512,1608,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cpulimit package/waynesg/luci-app-cpulimit
 # DDNS
-cp -rf ./immortalwrt-packages/net/ddns-scripts_{aliyun,dnspod} package/waynesg/
-
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_pkg/net/ddns-scripts_{aliyun,dnspod} package/waynesg/
+# DiskMan
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-diskman package/waynesg/luci-app-diskman
+# IPSec
+cp -rf ${GITHUB_WORKSPACE}/lede_luci/applications/luci-app-ipsec-server package/waynesg/luci-app-ipsec-server
+# Mosdns
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-mosdns package/waynesg/luci-app-mosdns
+# 上网 APP 过滤
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-oaf package/waynesg/luci-app-oaf
 # Access Control
-cp -rf ./immortalwrt-luci/applications/luci-app-accesscontrol package/waynesg/
-
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-accesscontrol package/waynesg/luci-app-accesscontrol
+# 流量监管
+cp -rf ${GITHUB_WORKSPACE}/lede_luci/applications/luci-app-netdata package/waynesg/luci-app-netdata
 # arpbind
-cp -rf ./immortalwrt-luci/applications/luci-app-arpbind package/waynesg/
-
-# Filetransfer
-cp -rf ./immortalwrt-luci/applications/luci-app-filetransfer package/waynesg/
-cp -rf ./immortalwrt-luci/libs/luci-lib-fs package/waynesg/
-
-# OLED
-svn export -q https://github.com/NateLol/luci-app-oled/trunk package/waynesg/luci-app-oled
-
-# OpenClash
-svn export -q https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/waynesg/luci-app-openclash
-
-# Realtek R8125, RTL8152/8153, RTL8192EU
-cp -rf ./immortalwrt/package/kernel/{r8125,r8152,rtl8192eu} package/waynesg/
-
-# Release Ram
-cp -rf ./immortalwrt-luci/applications/luci-app-ramfree package/waynesg/
-
-# Scheduled Reboot
-cp -rf ./immortalwrt-luci/applications/luci-app-autoreboot package/waynesg/
-
-# SeverChan
-svn export -q https://github.com/tty228/luci-app-serverchan/trunk package/waynesg/luci-app-serverchan
-
-# ShadowsocksR Plus+
-svn export -q https://github.com/fw876/helloworld/trunk package/helloworld
-svn export -q https://github.com/coolsnowwolf/packages/trunk/net/shadowsocks-libev package/helloworld/shadowsocks-libev
-rm -rf ./feeds/packages/net/{xray-core,shadowsocks-libev}
-
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-arpbind package/waynesg/
 # USB Printer
-cp -rf ./immortalwrt-luci/applications/luci-app-usb-printer package/waynesg/
-
-# vlmcsd
-cp -rf ./immortalwrt-luci/applications/luci-app-vlmcsd package/waynesg/
-cp -rf ./immortalwrt-packages/net/vlmcsd package/waynesg/
-
-# xlnetacc
-cp -rf ./immortalwrt-luci/applications/luci-app-xlnetacc package/waynesg/
-
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-usb-printer package/waynesg/
 # Zerotier
-cp -rf ./immortalwrt-luci/applications/luci-app-zerotier package/waynesg/
-
-# default settings and translation
-#cp -rf ./default-settings package/waynesg/
-
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-zerotier package/waynesg/
+# 网易云音乐解锁
+git clone -b js --depth 1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/waynesg/UnblockNeteaseMusic
 # fix include luci.mk
 find package/waynesg/ -type f -name Makefile -exec sed -i 's,././luci.mk,$(TOPDIR)/feeds/luci/luci.mk,g' {} +
-
 #Alist
-git clone -b master --depth 1 https://github.com/sbwml/luci-app-alist.git package/waynesg/luci-app-alist
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-alist package/waynesg/luci-app-alist
 #autotimeset
 svn co https://github.com/sirpdboy/luci-app-autotimeset/trunk package/waynesg/luci-app-autotimeset
 
 #Bypass
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass package/waynesg/luci-app-bypass
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-bypass package/waynesg/luci-app-bypass
+rm -rf pacakge/waynesg/luci-app-bypass/luci-lib-ipkg
 
 #Cloudflarespeedtest
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-cloudflarespeedtest package/waynesg/luci-app-cloudflarespeedtest
-svn co https://github.com/immortalwrt-collections/openwrt-cdnspeedtest/trunk/cdnspeedtest package/waynesg/luci-app-cloudflarespeedtest/cdnspeedtest
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cloudflarespeedtest package/waynesg/luci-app-cloudflarespeedtest
 #Parentcontrol
-svn co https://github.com/sirpdboy/luci-app-parentcontrol/trunk package/waynesg/luci-app-parentcontrol
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-parentcontrol package/waynesg/luci-app-parentcontrol
 #speedlimit
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-speedlimit package/waynesg/luci-app-control-speedlimit
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-control-speedlimit package/waynesg/luci-app-control-speedlimit
 #timewol
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-timewol package/waynesg/luci-app-control-timewol
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-control-timewol package/waynesg/luci-app-control-timewol
 #webrestriction
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-webrestriction package/waynesg/luci-app-control-webrestriction
-
-#mosdns
-svn co https://github.com/sbwml/luci-app-mosdns/trunk package/waynesg/luci-app-mosdns
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-control-webrestriction package/waynesg/luci-app-control-webrestriction
 #tn-netports
-svn co https://github.com/waynesg/luci-app-tn-netports/trunk package/waynesg/luci-app-tn-netports
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-tn-netports package/waynesg/luci-app-tn-netports
 #luci-app-netspeedtest
-svn co https://github.com/sirpdboy/netspeedtest/trunk package/waynesg/luci-app-netspeedtest
-
-#luci-app-oaf
-svn co https://github.com/destan19/OpenAppFilter/trunk package/waynesg/luci-app-oaf
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-netspeedtest package/waynesg/luci-app-netspeedtest
 #onliner
-svn co https://github.com/Hyy2001X/AutoBuild-Packages/trunk/luci-app-onliner package/waynesg/luci-app-onliner
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-onliner package/waynesg/luci-app-onliner
 #Pushbot
-svn co https://github.com/zzsj0928/luci-app-pushbot/trunk package/waynesg/luci-app-pushbot
-
-#airconnect
-svn co https://github.com/QiuSimons/OpenWrt-Add/trunk/luci-app-airconnect package/waynesg/luci-app-airconnect
-svn co https://github.com/QiuSimons/OpenWrt-Add/trunk/airconnect package/waynesg/luci-app-airconnect/airconnect
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-pushbot package/waynesg/luci-app-pushbot
 #wizard
-svn co https://github.com/kiddin9/luci-app-wizard/trunk package/waynesg/luci-app-wizard
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-wizard package/waynesg/luci-app-wizard
 #advanced
-svn co https://github.com/sirpdboy/sirpdboy-package/trunk/luci-app-advanced package/waynesg/luci-app-advanced
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-advanced package/waynesg/luci-app-advanced
 #wrtbwmon
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-wrtbwmon package/waynesg/luci-app-wrtbwmon
-svn co https://github.com/kiddin9/openwrt-packages/trunk/wrtbwmon package/waynesg/luci-app-wrtbwmon/wrtbwmon
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-wrtbwmon package/waynesg/luci-app-wrtbwmon
 #socat
-svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-socat package/waynesg/luci-app-socat
-cp -rf ./immortalwrt-packages/net/socat package/waynesg/
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-socat package/waynesg
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_pkg/net/socat package/waynesg/
 #passwall
-git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartdns-new-version package/waynesg/openwrt-passwall
-git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
-git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b packages /package/waynesg/packages
-
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-passwall package/waynesg/luci-app-passwall
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-passwall2 package/waynesg/luci-app-passwall2
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-dependence package/waynesg/luci-app-dependence
+#ssr-plus
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-ssr-plus package/waynesg/luci-app-ssr-plus
+#smartdns
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-smartdns package/waynesg/luci-app-smartdns
 #internet-detector
-git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector package/waynesg/luci-app-internet-detector
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-internet-detector package/waynesg/luci-app-internet-detector
+#zerotier
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-zerotier package/waynesg/luci-app-zerotier
