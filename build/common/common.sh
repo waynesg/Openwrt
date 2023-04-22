@@ -1126,9 +1126,9 @@ if [[ ! "${ERCI}" == "1" ]]; then
     rm -rf ${HOME_PATH}/zh_Hans.sh
   fi
 fi
-#if [ "${REPO_BRANCH}" == "openwrt-21.02" ]; then
-#sed -i 's/+luci-i18n-base-zh_Hans/+luci-i18n-base-zh-cn/g' ${HOME_PATH}/package/emortal/default-settings/Makefile
-#fi
+if [ "${REPO_BRANCH}" == "openwrt-21.02" ]; then
+sed -i 's/+luci-i18n-base-zh_Hans/+luci-i18n-base-zh-cn/g' ${HOME_PATH}/package/emortal/default-settings/Makefile
+fi
 }
 
 
