@@ -1146,7 +1146,6 @@ cat >> "${HOME_PATH}/.config" <<-EOF
 CONFIG_PACKAGE_luci=y
 CONFIG_PACKAGE_default-settings-chn=y
 EOF
-sed -i '/openwrt_banner/d' "${ZZZ_PATH}"
 else
 cat >> "${HOME_PATH}/.config" <<-EOF
 CONFIG_PACKAGE_luci=y
