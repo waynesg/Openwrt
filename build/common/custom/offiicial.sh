@@ -167,18 +167,18 @@ cp -rf ${GITHUB_WORKSPACE}/me/luci-app-airconnect package/waynesg/luci-app-airco
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-alist package/waynesg/luci-app-alist
 
 #autotimeset
-cp -rf ${GITHUB_WORKSPACE}/me/luci-app-autotimeset/trunk package/waynesg/luci-app-autotimeset
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-autotimeset package/waynesg/luci-app-autotimeset
 
 #Bypass
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-bypass package/waynesg/luci-app-bypass
 
 # cpufreq
 # CPU 控制相关
-cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cpufreq package/waynesg/luci-app-cpufreq
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cpufreq feeds/luci/applications/luci-app-cpufreq
 sed -i 's,1608,1800,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
 sed -i 's,2016,2208,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
 sed -i 's,1512,1608,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
-cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cpulimit package/waynesg/luci-app-cpulimit
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cpulimit feeds/luci/applications/luci-app-cpulimit
 
 #Cloudflarespeedtest
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cloudflarespeedtest package/waynesg/luci-app-cloudflarespeedtest
