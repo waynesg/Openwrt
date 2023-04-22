@@ -257,7 +257,7 @@ cp -rf ${GITHUB_WORKSPACE}/me/luci-app-tn-netports package/waynesg/luci-app-tn-n
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-turboacc package/waynesg/luci-app-turboacc
 
 # UnblockNeteaseMusic
-git clone -b js --depth 1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/waynesg/UnblockNeteaseMusic
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-unblockneteasemusic package/waynesg/luci-app-unblockneteasemusic
 
 # USB Printer
 cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-usb-printer package/waynesg/luci-app-usb-printer
@@ -295,3 +295,5 @@ cp -rf ${GITHUB_WORKSPACE}/me/luci-app-zerotier package/waynesg/luci-app-zerotie
 
 # fix include luci.mk
 find package/waynesg/ -type f -name Makefile -exec sed -i 's,././luci.mk,$(TOPDIR)/feeds/luci/luci.mk,g' {} +
+find package/waynesg/ -type f -name Makefile -exec sed -i 's,../../luci.mk,$(TOPDIR)/feeds/luci/luci.mk,g' {} +
+
