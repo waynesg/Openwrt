@@ -24,10 +24,9 @@ TIME() {
 echo 
 TIME y "添加软件包"
 
-rm -rf ./feeds/luci/applications/{luci-app-passwall,luci-app-socat}
+rm -rf ./feeds/luci/applications/{luci-app-passwall,luci-app-socat,luci-app-appfilter}
 rm -rf ./feeds/packages/net/{alist,adguardhome,cdnspeedtest,mosdns,open-app-filter}
 rm -rf package/base-files/files/etc/banner
-# rm -rf ./feeds/packages/lang/luabitop
 
 # 后台IP设置
 export Ipv4_ipaddr="192.168.1.1"            # 修改openwrt后台地址(填0为关闭)
