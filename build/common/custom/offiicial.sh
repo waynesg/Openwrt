@@ -211,7 +211,7 @@ cp -rf ${GITHUB_WORKSPACE}/luci-app-fileassistant package/waynesg/luci-app-filea
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-internet-detector package/waynesg/luci-app-internet-detector
 
 # IPSec
-cp -rf ${GITHUB_WORKSPACE}/lede_luci/applications/luci-app-ipsec-server package/waynesg/luci-app-ipsec-server
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-ipsec-vpnd package/waynesg/luci-app-ipsec-vpnd
 
 # Mosdns
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-mosdns package/waynesg/luci-app-mosdns
