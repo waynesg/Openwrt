@@ -558,7 +558,7 @@ case "${REPO_BRANCH}" in
 openwrt-21.02)
   sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
   echo -e "\nDISTRIB_RECOGNIZE='20'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-  #curl -fsSL https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/emortal/default-settings/Makefile > ${HOME_PATH}/package/emortal/default-settings/Makefile
+  curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/IMMORTALWRT/default-settings/Makefile > ${HOME_PATH}/package/emortal/default-settings/Makefile
   if [[ `grep -c 'openwrt_banner' "${HOME_PATH}/package/emortal/default-settings/files/99-default-settings"` -eq '0' ]]; then
     echo "mv /etc/openwrt_banner /etc/banner" >> ${HOME_PATH}/package/emortal/default-settings/files/99-default-settings
   fi
@@ -1117,18 +1117,18 @@ fi
 
 function Diy_Language() {
 cd ${HOME_PATH}
-#if [[ ! "${ERCI}" == "1" ]]; then
-#  if [[ "$(. ${FILES_PATH}/etc/openwrt_release && echo "$DISTRIB_RECOGNIZE")" != "18" ]]; then
-#    echo "正在执行：把插件语言转换成zh_Hans"
-#    cp -Rf ${HOME_PATH}/build/common/language/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
-#    sudo chmod +x ${HOME_PATH}/zh_Hans.sh
-#    /bin/bash ${HOME_PATH}/zh_Hans.sh
-#    rm -rf ${HOME_PATH}/zh_Hans.sh
-#  fi
-#fi
-#if [ "${REPO_BRANCH}" == "openwrt-21.02" ]; then
-#sed -i 's/+luci-i18n-base-zh_Hans/+luci-i18n-base-zh-cn/g' ${HOME_PATH}/package/emortal/default-settings/Makefile
-#fi
+if [[ ! "${ERCI}" == "1" ]]; then
+  if [[ "$(. ${FILES_PATH}/etc/openwrt_release && echo "$DISTRIB_RECOGNIZE")" != "18" ]]; then
+    echo "正在执行：把插件语言转换成zh_Hans"
+    cp -Rf ${HOME_PATH}/build/common/language/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
+    sudo chmod +x ${HOME_PATH}/zh_Hans.sh
+    /bin/bash ${HOME_PATH}/zh_Hans.sh
+    rm -rf ${HOME_PATH}/zh_Hans.sh
+  fi
+fi
+if [ "${REPO_BRANCH}" == "openwrt-21.02" ]; then
+sed -i 's/+luci-i18n-base-zh_Hans/+luci-i18n-base-zh-cn/g' ${HOME_PATH}/package/emortal/default-settings/Makefile
+fi
 }
 
 
@@ -1140,10 +1140,19 @@ cd ${HOME_PATH}
 ./scripts/feeds install -a > /dev/null 2>&1
 ./scripts/feeds install -a
 [[ -f ${BUILD_PATH}/$CONFIG_FILE ]] && mv ${BUILD_PATH}/$CONFIG_FILE .config
+
+if [[ "${SOURCE_CODE}" == "IMMORTALWRT" ]]; then
+cat >> "${HOME_PATH}/.config" <<-EOF
+CONFIG_PACKAGE_luci=y
+CONFIG_PACKAGE_default-settings-chn=y
+EOF
+sed -i '/openwrt_banner/d' "${ZZZ_PATH}"
+else
 cat >> "${HOME_PATH}/.config" <<-EOF
 CONFIG_PACKAGE_luci=y
 CONFIG_PACKAGE_default-settings=y
 EOF
+fi
 
 if [[ "${Mandatory_theme}" == "0" ]]; then
   echo "不进行默认主题修改"
