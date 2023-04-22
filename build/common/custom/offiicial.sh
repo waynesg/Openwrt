@@ -144,9 +144,6 @@ rm -rf feeds/luci/applications/{luci-app-apinger,luci-app-smartdns}
 rm -rf feeds/luci/libs/luci-lib-ipkg
 rm -rf feeds/packages/net/{xray-core,socat,v2ray*,kcptun,trojan-go}
 
-# fix include luci.mk
-find package/waynesg/ -type f -name Makefile -exec sed -i 's,././luci.mk,$(TOPDIR)/feeds/luci/luci.mk,g' {} +
-
 # Access Control
 cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-accesscontrol package/waynesg/luci-app-accesscontrol
 
@@ -205,7 +202,7 @@ cp -rf ${GITHUB_WORKSPACE}/immortalwrt_pkg/net/ddns-scripts_{aliyun,dnspod} pack
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-diskman package/waynesg/luci-app-diskman
 
 #fileassistant
-cp -rf ${GITHUB_WORKSPACE}/luci-app-fileassistant package/waynesg/luci-app-fileassistant
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-fileassistant package/waynesg/luci-app-fileassistant
 
 #internet-detector
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-internet-detector package/waynesg/luci-app-internet-detector
@@ -220,7 +217,7 @@ cp -rf ${GITHUB_WORKSPACE}/me/luci-app-mosdns package/waynesg/luci-app-mosdns
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-msd_lite package/waynesg/luci-app-msd_lite
 
 # netdata
-cp -rf ${GITHUB_WORKSPACE}/lede_luci/applications/luci-app-netdata package/waynesg/luci-app-netdata
+cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-netdata package/waynesg/luci-app-netdata
 
 #luci-app-netspeedtest
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-netspeedtest package/waynesg/luci-app-netspeedtest
@@ -255,6 +252,9 @@ cp -rf ${GITHUB_WORKSPACE}/immortalwrt_pkg/net/socat package/waynesg/socat
 
 #tn-netports
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-tn-netports package/waynesg/luci-app-tn-netports
+
+#turboacc
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-turboacc package/waynesg/luci-app-turboacc
 
 # UnblockNeteaseMusic
 git clone -b js --depth 1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/waynesg/UnblockNeteaseMusic
@@ -292,3 +292,6 @@ cp -rf ${GITHUB_WORKSPACE}/me/luci-app-wrtbwmon package/waynesg/luci-app-wrtbwmo
 
 #zerotier
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-zerotier package/waynesg/luci-app-zerotier
+
+# fix include luci.mk
+find package/waynesg/ -type f -name Makefile -exec sed -i 's,././luci.mk,$(TOPDIR)/feeds/luci/luci.mk,g' {} +
