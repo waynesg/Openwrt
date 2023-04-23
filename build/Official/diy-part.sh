@@ -58,29 +58,7 @@ sed -i 's/"启动项"/"启动管理"/g' `egrep "启动项" -rl ./`
 sed -i 's/"软件包"/"软件管理"/g' `egrep "软件包" -rl ./`
 sed -i 's/"网络存储"/"存储"/g' `egrep "网络存储" -rl ./`
 sed -i 's/"备份与升级"/"备份升级"/g' `grep "备份与升级" -rl ./`
-sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' `egrep "Turbo ACC 网络加速" -rl ./`
-sed -i 's/"实时流量监测"/"流量"/g' `egrep "实时流量监测" -rl ./`
-sed -i 's/"TTYD 终端"/"命令终端"/g' `egrep "TTYD 终端" -rl ./`
-sed -i 's/"USB 打印服务器"/"打印服务"/g' `egrep "USB 打印服务器" -rl ./`
-sed -i 's/"Web 管理"/"Web管理"/g' `egrep "Web 管理" -rl ./`
-sed -i 's/"管理权"/"权限管理"/g' `egrep "管理权" -rl ./`
-#sed -i 's/"带宽监控"/"监控"/g' `egrep "带宽监控" -rl ./`
-sed -i 's/"Alist 文件列表"/"Alist网盘"/g' `grep "Alist 文件列表" -rl ./`
-sed -i 's/"Argon 主题设置"/"主题设置"/g' `grep "Argon 主题设置" -rl ./`
-sed -i 's/"Rclone"/"网盘挂载"/g' `grep "Rclone" -rl ./`
-sed -i 's/"Socat"/"端口转发"/g' `grep "Socat" -rl ./`
-sed -i 's/"UPnP"/"UPnP设置"/g' `grep "UPnP" -rl ./`
-#sed -i 's/"上网时间控制"/"上网控制"/g' `grep "上网时间控制" -rl ./`
-sed -i 's/"动态 DNS"/"动态DNS"/g' `grep "动态 DNS" -rl ./`
-sed -i 's/"解除网易云音乐播放限制"/"网易音乐"/g' `grep "解除网易云音乐播放限制" -rl ./`
-sed -i 's/"接口"/"网络接口"/g' `egrep "接口" -rl ./`
-sed -i 's/"主机名映射"/"主机名称"/g' `grep "主机名映射" -rl ./`
-sed -i 's/"IP\/MAC 绑定"/"地址绑定"/g' `grep "IP\/MAC 绑定" -rl ./`
-sed -i 's/"PassWall 2"/"PassWall+"/g' `egrep "PassWall 2" -rl ./`
-sed -i 's/"ShadowSocksR Plus+"/"SSRPlus+"/g' `egrep "ShadowSocksR Plus+" -rl ./`
-sed -i 's/"Hello World"/"VssrVPN"/g' `egrep "Hello World" -rl ./`
-sed -i 's/"ACME 证书"/"证书服务"/g' `egrep "ACME 证书" -rl ./`
-sed -i 's/"AirConnect"/"隔空投送"/g' `egrep "AirConnect" -rl ./`
+sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' package/waynesg/luci-app-turboacc/luci-app-turboacc/po/zh-cn/turboacc.po
 
 
 # 整理固件包时候,删除您不想要的固件或者文件,让它不需要上传到Actions空间(根据编译机型变化,自行调整删除名称)
