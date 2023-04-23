@@ -134,18 +134,18 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
-        echo $?
-        #echo -e "$(nproc) thread compile"
-        #make -j$(nproc) || make -j1 V=s
-        #echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
+        #IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
+        #echo $?
+        echo -e "$(nproc) thread compile"
+        make -j$(nproc) || make -j1 V=s
+        echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
         
-    - name: 收集错误
-      if: steps.compile.outcome == 'failure'
-      run: |
-        cat openwrt/.config
-        echo '================================================================'
-        cd openwrt && make -j1 V=s
+    #- name: 收集错误
+    #  if: steps.compile.outcome == 'failure'
+    #  run: |
+    #    cat openwrt/.config
+    #    echo '================================================================'
+    #    cd openwrt && make -j1 V=s
 
     - name: 整理固件
       continue-on-error: true
