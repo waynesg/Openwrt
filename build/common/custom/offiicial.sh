@@ -142,7 +142,7 @@ cp -rf ${GITHUB_WORKSPACE}/Lienol/tools/upx tools/upx
 #########################################################################################################
 rm -rf feeds/luci/applications/{luci-app-apinger,luci-app-smartdns}
 rm -rf feeds/luci/libs/luci-lib-ipkg
-rm -rf feeds/packages/net/{xray-core,socat,v2ray*,kcptun,trojan-go}
+rm -rf feeds/packages/net/{socat,v2ray*,kcptun,trojan-go}
 
 # Access Control
 cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-accesscontrol package/waynesg/luci-app-accesscontrol
@@ -235,6 +235,7 @@ cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-openvpn-server
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-passwall package/waynesg/luci-app-passwall
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-passwall2 package/waynesg/luci-app-passwall2
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-dependence package/waynesg/luci-app-dependence
+rm -rf package/waynesg/luci-app-dependence/xray-core
 
 #Pushbot
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-pushbot package/waynesg/luci-app-pushbot
