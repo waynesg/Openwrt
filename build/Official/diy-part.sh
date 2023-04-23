@@ -91,6 +91,7 @@ feeds.buildinfo
 openwrt-x86-64-generic-kernel.bin
 openwrt-x86-64-generic.manifest
 openwrt-x86-64-generic-squashfs-rootfs.img.gz
+-uefi-
 sha256sums
 version.buildinfo
 EOF
