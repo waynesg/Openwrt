@@ -141,7 +141,7 @@ cp -rf ${GITHUB_WORKSPACE}/Lienol/tools/upx tools/upx
 #########################################################################################################
 #########################################################################################################
 rm -rf feeds/luci/applications/{luci-app-apinger,luci-app-smartdns}
-rm -rf feeds/luci/libs/luci-lib-ipkg
+#rm -rf feeds/luci/libs/luci-lib-ipkg
 rm -rf feeds/packages/net/{socat,v2ray*,kcptun,trojan-go}
 
 # Access Control
@@ -171,6 +171,7 @@ cp -rf ${GITHUB_WORKSPACE}/me/luci-app-autotimeset package/waynesg/luci-app-auto
 
 #Bypass
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-bypass package/waynesg/luci-app-bypass
+rm -rf package/waynesg/luci-app-bypass/luci-lib-ipkg
 
 # cpufreq
 # CPU 控制相关
