@@ -558,6 +558,8 @@ case "${REPO_BRANCH}" in
 openwrt-21.02)
   sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
   echo -e "\nDISTRIB_RECOGNIZE='20'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
+  rm -rf ${HOME_PATH}/package/emortal/default-settings
+  cp -rf cp ${HOME_PATH}/build/common/IMMORTALWRT/default-settings ${HOME_PATH}/package/emortal/
   #curl -fsSL https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/emortal/default-settings/Makefile > ${HOME_PATH}/package/emortal/default-settings/Makefile
   if [[ `grep -c 'openwrt_banner' "${HOME_PATH}/package/emortal/default-settings/files/99-default-settings"` -eq '0' ]]; then
     echo "mv /etc/openwrt_banner /etc/banner" >> ${HOME_PATH}/package/emortal/default-settings/files/99-default-settings
