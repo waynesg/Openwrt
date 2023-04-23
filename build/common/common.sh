@@ -1911,7 +1911,7 @@ Diy_upgrade2
 function Diy_menu4() {
 Diy_files
 Diy_part_sh
-Diy_Language
+#Diy_Language
 Diy_feeds
 Diy_IPv6helper
 }
