@@ -558,7 +558,7 @@ case "${REPO_BRANCH}" in
 openwrt-21.02)
   sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
   echo -e "\nDISTRIB_RECOGNIZE='20'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-  curl -fsSL https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/emortal/default-settings/Makefile > ${HOME_PATH}/package/emortal/default-settings/Makefile
+  #curl -fsSL https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/emortal/default-settings/Makefile > ${HOME_PATH}/package/emortal/default-settings/Makefile
   if [[ `grep -c 'openwrt_banner' "${HOME_PATH}/package/emortal/default-settings/files/99-default-settings"` -eq '0' ]]; then
     echo "mv /etc/openwrt_banner /etc/banner" >> ${HOME_PATH}/package/emortal/default-settings/files/99-default-settings
   fi
@@ -1126,10 +1126,9 @@ if [[ ! "${ERCI}" == "1" ]]; then
     rm -rf ${HOME_PATH}/zh_Hans.sh
   fi
 fi
-if [ "${REPO_BRANCH}" == "openwrt-21.02" ]; then
-mv ${HOME_PATH}/feeds/luci/modules/luci-base/po/zh_Hans ${HOME_PATH}/feeds/luci/modules/luci-base/po/zh-cn
-sed -i 's/+luci-i18n-base-zh_Hans/+luci-i18n-base-zh-cn/g' ${HOME_PATH}/package/emortal/default-settings/Makefile
-fi
+#if [ "${REPO_BRANCH}" == "openwrt-21.02" ]; then
+#sed -i 's/+luci-i18n-base-zh_Hans/+luci-i18n-base-zh-cn/g' ${HOME_PATH}/package/emortal/default-settings/Makefile
+#fi
 }
 
 
@@ -1911,7 +1910,7 @@ Diy_upgrade2
 function Diy_menu4() {
 Diy_files
 Diy_part_sh
-#Diy_Language
+Diy_Language
 Diy_feeds
 Diy_IPv6helper
 }
