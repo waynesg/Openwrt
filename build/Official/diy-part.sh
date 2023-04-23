@@ -58,7 +58,7 @@ sed -i 's/"启动项"/"启动管理"/g' `egrep "启动项" -rl ./`
 sed -i 's/"软件包"/"软件管理"/g' `egrep "软件包" -rl ./`
 sed -i 's/"网络存储"/"存储"/g' `egrep "网络存储" -rl ./`
 sed -i 's/"备份与升级"/"备份升级"/g' `grep "备份与升级" -rl ./`
-sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' package/waynesg/luci-app-turboacc/luci-app-turboacc/po/zh-cn/turboacc.po
+sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' package/waynesg/luci-app-turboacc/po/zh-cn/turboacc.po
 
 
 # 整理固件包时候,删除您不想要的固件或者文件,让它不需要上传到Actions空间(根据编译机型变化,自行调整删除名称)
