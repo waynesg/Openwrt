@@ -174,10 +174,10 @@ cp -rf ${GITHUB_WORKSPACE}/me/luci-app-bypass package/waynesg/luci-app-bypass
 
 # cpufreq
 # CPU 控制相关
-cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cpufreq feeds/luci/applications/luci-app-cpufreq
-sed -i 's,1608,1800,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
-sed -i 's,2016,2208,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
-sed -i 's,1512,1608,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cpufreq package/waynesg/luci-app-cpufreq
+sed -i 's,1608,1800,g' package/waynesg/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
+sed -i 's,2016,2208,g' package/waynesg/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
+sed -i 's,1512,1608,g' package/waynesg/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-cpulimit feeds/luci/applications/luci-app-cpulimit
 
 #Cloudflarespeedtest
