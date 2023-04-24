@@ -93,7 +93,7 @@ jobs:
     - name: 添加插件
       run: |
         cd openwrt
-        source $BUILD_PATH/$DIY_PART_SH
+        source ${BUILD_PATH}/common.sh && Diy_zdypartsh
         source ${BUILD_PATH}/common.sh && Diy_Publicarea
         
     - name: 加载文件
@@ -127,8 +127,6 @@ jobs:
         cd openwrt
         make defconfig
         make download -j8
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
     
     - name: 编译固件
       id: compile
