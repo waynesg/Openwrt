@@ -49,17 +49,39 @@ export Disable_53_redirection="0"            # 删除DNS强制重定向53端口�
 export Cancel_running="1"                    # 取消路由器每天跑分任务(个别源码本身不带次功能)(1为启用命令,填0为不作修改)
 
 
-
 # 修改插件名字
-# 修改插件名字
-sed -i 's/"系统"/"系统设置"/g' `egrep "系统" -rl ./`
+sed -i 's/"概览"/"首页概览"/g' `egrep "概览" -rl ./`
+sed -i 's/"路由"/"路由表"/g' `egrep "路由" -rl ./`
+sed -i 's/"管理权"/"访问密码"/g' `egrep "管理权" -rl ./`
+sed -i 's/"终端"/"命令终端"/g' `egrep "终端" -rl ./`
 sed -i 's/"挂载点"/"挂载路径"/g' `egrep "挂载点" -rl ./`
 sed -i 's/"启动项"/"启动管理"/g' `egrep "启动项" -rl ./`
 sed -i 's/"软件包"/"软件管理"/g' `egrep "软件包" -rl ./`
 sed -i 's/"网络存储"/"存储"/g' `egrep "网络存储" -rl ./`
-sed -i 's/"备份与升级"/"备份升级"/g' `grep "备份与升级" -rl ./`
-sed -i 's/"Turbo ACC Center"/"网络加速"/g' package/waynesg/luci-app-turboacc/po/zh-cn/turboacc.po
+sed -i 's/"备份与升级"/"备份升级"/g' `egrep "备份与升级" -rl ./`
+sed -i 's/"Argon 主题设置"/"主题设置"/g' `egrep "Argon 主题设置" -rl ./`
+sed -i 's/"重启"/"系统重启"/g' `egrep "重启" -rl ./`
 
+sed -i 's/"PassWall 2"/"PassWall+"/g' `egrep "PassWall 2" -rl ./`
+sed -i 's/"上网时间控制"/"上网时间"/g' `egrep "上网时间控制" -rl ./`
+sed -i 's/"解除网易云音乐播放限制"/"网易音乐"/g' `egrep "解除网易云音乐播放限制" -rl ./`
+sed -i 's/"MultiSD_Lite"/"组播路由"/g' `egrep "MultiSD_Lite" -rl ./`
+sed -i 's/"Internet Detector"/"网络探测"/g' `egrep "Internet Detector" -rl ./`
+sed -i 's/"AirConnect"/"隔空传送"/g' `egrep "AirConnect" -rl ./`
+sed -i 's/"UPnP"/"UPnP服务"/g' `egrep "UPnP" -rl ./`
+sed -i 's/"Hello World"/"VssrVPN"/g' `egrep "Hello World" -rl ./`
+
+sed -i 's/"Alist 文件列表"/"Alist列表"/g' `egrep "Alist 文件列表" -rl ./`
+sed -i 's/"USB 打印服务器"/"打印服务"/g' `egrep "USB 打印服务器" -rl ./`
+
+sed -i 's/"接口"/"网络接口"/g' `egrep "接口" -rl ./`
+sed -i 's/"路由"/"路由规则"/g' `egrep "路由" -rl ./`
+sed -i 's/"IP\/MAC绑定"/"地址绑定"/g' `egrep "IP\/MAC绑定" -rl ./`
+sed -i 's/"Socat"/"端口转发"/g' `egrep "Socat" -rl ./`
+sed -i 's/"Turbo ACC Center"/"网络加速"/g' `egrep "Turbo ACC Center" -rl ./`
+
+sed -i 's/"ZeroTier"/"ZeroTier虚拟网络"/g' `egrep "ZeroTier" -rl ./`
+sed -i 's/"OpenVPN"/"OpenVPN 客户端"/g' `egrep "OpenVPN" -rl ./`
 
 # 整理固件包时候,删除您不想要的固件或者文件,让它不需要上传到Actions空间(根据编译机型变化,自行调整删除名称)
 cat >"$CLEAR_PATH" <<-EOF
