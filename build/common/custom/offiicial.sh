@@ -264,6 +264,8 @@ cp -rf ${GITHUB_WORKSPACE}/me/luci-app-unblockneteasemusic package/waynesg/luci-
 # USB Printer
 cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-usb-printer package/waynesg/luci-app-usb-printer
 
+
+
 # upnp--Boost 通用即插即用
 rm -rf ${GITHUB_WORKSPACE}/feeds/packages/net/miniupnpd
 cp -rf ${GITHUB_WORKSPACE}/openwrt_pkg_ma/net/miniupnpd feeds/packages/net/miniupnpd
@@ -282,6 +284,9 @@ cp -rf ${GITHUB_WORKSPACE}/openwrt_luci_ma/applications/luci-app-upnp feeds/luci
 pushd feeds/luci
 wget -qO- https://github.com/openwrt/luci/commit/0b5fb915.patch | patch -p1
 popd
+
+#vsftpd
+cp -rf ${GITHUB_WORKSPACE}/me/luci-app-vsftpd package/waynesg/luci-app-vsftpd
 
 #vssr
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-vssr package/waynesg/luci-app-vssr
