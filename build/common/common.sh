@@ -563,7 +563,7 @@ fi
 #    echo "mv /etc/openwrt_banner /etc/banner" >> ${HOME_PATH}/package/emortal/default-settings/files/99-default-settings
 #  fi
 
-;;
+#;;
 master)
   sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
   echo -e "\nDISTRIB_RECOGNIZE='20'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
