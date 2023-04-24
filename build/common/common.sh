@@ -751,6 +751,14 @@ sudo chmod -R 775 ${HOME_PATH}/files
 rm -rf ${HOME_PATH}/files/{LICENSE,.*README}
 }
 
+function Diy_zdypartsh() {
+cat >"${HOME_PATH}/diy_pa_sh" <<-EOF
+$(cat "$BUILD_PATH/$DIY_PART_SH" |grep '\egrep' |grep '\-rl')
+EOF
+sudo chmod -R 775 ${HOME_PATH}/diy_pa_sh
+sed -i '/egrep ".*" -rl .\//d' $BUILD_PATH/$DIY_PART_SH
+source $BUILD_PATH/$DIY_PART_SH
+}
 
 function Diy_Publicarea() {
 cd ${HOME_PATH}
@@ -1124,11 +1132,13 @@ if [[ ! "${ERCI}" == "1" ]]; then
     sudo chmod +x ${HOME_PATH}/zh_Hans.sh
     /bin/bash ${HOME_PATH}/zh_Hans.sh
     rm -rf ${HOME_PATH}/zh_Hans.sh
+  else
+    cp -Rf ${HOME_PATH}/build/common/language/zh_cn.sh ${HOME_PATH}/zh_cn.sh
+    chmod +x zh-cn.sh
+    /bin/bash zh-cn.sh
+    rm -rf zh-cn.sh
   fi
 fi
-#if [ "${REPO_BRANCH}" == "openwrt-21.02" ]; then
-#sed -i 's/+luci-i18n-base-zh_Hans/+luci-i18n-base-zh-cn/g' ${HOME_PATH}/package/emortal/default-settings/Makefile
-#fi
 }
 
 
@@ -1140,18 +1150,11 @@ cd ${HOME_PATH}
 ./scripts/feeds install -a > /dev/null 2>&1
 ./scripts/feeds install -a
 [[ -f ${BUILD_PATH}/$CONFIG_FILE ]] && mv ${BUILD_PATH}/$CONFIG_FILE .config
-
-if [[ "${SOURCE_CODE}" == "IMMORTALWRT" ]]; then
-cat >> "${HOME_PATH}/.config" <<-EOF
-CONFIG_PACKAGE_luci=y
-CONFIG_PACKAGE_default-settings-chn=y
-EOF
-else
 cat >> "${HOME_PATH}/.config" <<-EOF
 CONFIG_PACKAGE_luci=y
 CONFIG_PACKAGE_default-settings=y
 EOF
-fi
+
 
 if [[ "${Mandatory_theme}" == "0" ]]; then
   echo "不进行默认主题修改"
@@ -1910,7 +1913,7 @@ Diy_upgrade2
 function Diy_menu4() {
 Diy_files
 Diy_part_sh
-#Diy_Language
+Diy_Language
 Diy_feeds
 Diy_IPv6helper
 }
