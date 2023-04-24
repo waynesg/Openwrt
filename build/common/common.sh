@@ -554,7 +554,7 @@ else
   find . -type d -name 'luci-app-argon-config' -o -name 'luci-theme-argonv3' | xargs -i rm -rf {}
 fi
 # 给固件LUCI做个标记
-#case "${REPO_BRANCH}" in
+case "${REPO_BRANCH}" in
 #openwrt-21.02)
 #  sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
 #  echo -e "\nDISTRIB_RECOGNIZE='20'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
