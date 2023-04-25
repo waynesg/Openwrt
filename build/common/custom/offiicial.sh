@@ -236,7 +236,6 @@ cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-openvpn-server
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-passwall package/waynesg/luci-app-passwall
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-passwall2 package/waynesg/luci-app-passwall2
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-dependence package/waynesg/luci-app-dependence
-rm -rf package/waynesg/luci-app-dependence/xray-core
 
 #Pushbot
 cp -rf ${GITHUB_WORKSPACE}/me/luci-app-pushbot package/waynesg/luci-app-pushbot
