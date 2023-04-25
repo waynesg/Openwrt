@@ -620,13 +620,6 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
     find ${X} -type d -name 'luci-app-adguardhome' -o -name 'adguardhome' -o -name 'luci-theme-opentomato' | xargs -i rm -rf {}
   done
 fi
-# 给固件LUCI做个标记
-case "${REPO_BRANCH}" in
-openwrt-21.02)
-  sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
-  echo -e "\nDISTRIB_RECOGNIZE='20'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-;;
-esac
 }
 
 function Diy_OFFICIAL() {
@@ -641,10 +634,6 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
   done
 fi
 find . -type d -name 'default-settings' | xargs -i rm -rf {}
-
-# 给固件LUCI做个标记
-sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
-echo -e "\nDISTRIB_RECOGNIZE='21'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
 
 case "${REPO_BRANCH}" in
 openwrt-21.02)
