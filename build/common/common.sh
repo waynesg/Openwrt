@@ -406,12 +406,93 @@ git commit -m "Compile-${FOLDER_NAME}-${LUCI_EDITION}-${TARGET_PROFILE}"
 git push --force "https://${REPO_TOKEN}@github.com/${GIT_REPOSITORY}" HEAD:main
 }
 
-function Diy_wenjian() {
+function Diy_wenjian1() {
 cd ${HOME_PATH}
 # 拉取源码之后增加应用文件
+if [[ -d "${HOME_PATH}/extra" ]]; then
+  apptions="$(find "${HOME_PATH}/extra" -type d -name "applications"  |grep 'luci')"
+else
+  apptions="$(find "${HOME_PATH}/feeds" -type d -name "applications"  |grep 'luci')"
+fi
+if [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -gt '15' ]]; then
+  applica="1"
+  echo "applica=1" >> ${GITHUB_ENV}
+else
+  applica="2"
+  echo "applica=2" >> ${GITHUB_ENV}
+fi
 
+settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
+if [[ ! -d "${settingss}" ]] && [[ "${applica}" == "1" ]]; then
+  svn export https://github.com/waynesg/openwrt/trunk/build/common/OFFICIAL/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+  [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-base" ]] && sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
+elif [[ ! -d "${settingss}" ]] && [[ "${applica}" == "2" ]]; then
+  svn export https://github.com/waynesg/openwrt/trunk/build/common/COOLSNOWWOLF/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+fi
+
+rm -rf ${HOME_PATH}/feeds/packages/lang/golang
+svn co https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang ${HOME_PATH}/feeds/packages/lang/golang > /dev/null 2>&1
+
+if [[ `grep -c 'attendedsysupgrade' "${HOME_PATH}/feeds/luci/collections/luci/Makefile"` -eq '1' ]]; then
+   sed -i '/attendedsysupgrade/d' "${HOME_PATH}/feeds/luci/collections/luci/Makefile"
+elif [[ -d "${HOME_PATH}/feeds/luci/collections/luci-light" ]] && [[ `grep -c 'attendedsysupgrade' "${HOME_PATH}/feeds/luci/collections/luci-light/Makefile"` -eq '1' ]]; then
+   sed -i '/attendedsysupgrade/d' "${HOME_PATH}/feeds/luci/collections/luci-light/Makefile"
+fi
+
+if [[ ! -d "${HOME_PATH}/feeds/packages/devel/packr" ]]; then
+  svn export https://github.com/coolsnowwolf/packages/trunk/devel/packr ${HOME_PATH}/feeds/packages/devel/packr > /dev/null 2>&1
+fi
+
+if [[ ! -d "${HOME_PATH}/feeds/packages/utils/parted" ]]; then
+  svn export https://github.com/coolsnowwolf/packages/trunk/utils/parted ${HOME_PATH}/feeds/packages/utils/parted > /dev/null 2>&1
+fi
+
+if [[ ! -d "${HOME_PATH}/package/utils/bcm27xx-userland" ]]; then
+  svn export https://github.com/openwrt/openwrt/trunk/package/utils/bcm27xx-userland ${HOME_PATH}/package/utils/bcm27xx-userland > /dev/null 2>&1
+fi
+
+if [[ ! -d "${HOME_PATH}/feeds/packages/utils/docker-compose" ]]; then
+  svn export https://github.com/coolsnowwolf/packages/trunk/utils/docker-compose ${HOME_PATH}/feeds/packages/utils/docker-compose > /dev/null 2>&1
+fi
+
+if [[ ! -d "${HOME_PATH}/feeds/packages/utils/docker" ]]; then
+  svn export https://github.com/coolsnowwolf/packages/trunk/utils/docker ${HOME_PATH}/feeds/packages/utils/docker > /dev/null 2>&1
+fi
+
+if [[ ! -d "${HOME_PATH}/feeds/packages/utils/dockerd" ]]; then
+  svn export https://github.com/coolsnowwolf/packages/trunk/utils/dockerd ${HOME_PATH}/feeds/packages/utils/dockerd > /dev/null 2>&1
+fi
+
+if [[ -n "$(grep "libustream-wolfssl" ${HOME_PATH}/include/target.mk)" ]]; then
+  sed -i 's?libustream-wolfssl?libustream-openssl?g' "${HOME_PATH}/include/target.mk"
+elif [[ -z "$(grep "libustream-openssl" ${HOME_PATH}/include/target.mk)" ]]; then
+  sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=libustream-openssl ?g' "${HOME_PATH}/include/target.mk"
+fi
+
+if [[ -n "$(grep "dnsmasq" ${HOME_PATH}/include/target.mk)" ]] && [[ -z "$(grep "dnsmasq-full" ${HOME_PATH}/include/target.mk)" ]]; then
+  sed -i 's?dnsmasq?dnsmasq-full luci luci-newapi kmod-nf-nathelper kmod-nf-nathelper-extra luci-compat luci-lib-base luci-lib-fs luci-lib-ipkg?g' "${HOME_PATH}/include/target.mk"
+fi
+
+if [[ -z "$(grep "ca-bundle" ${HOME_PATH}/include/target.mk)" ]]; then
+  sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=ca-bundle ?g' "${HOME_PATH}/include/target.mk"
+fi
+
+settings_chinese="${HOME_PATH}/package/emortal/default-settings/files/99-default-settings-chinese"
+if [[ -z "$(grep "default-settings-chn" ${HOME_PATH}/include/target.mk)" ]] && [[ -f "${settings_chinese}" ]]; then
+    sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=default-settings-chn ?g' "${HOME_PATH}/include/target.mk"
+elif [[ -z "$(grep "default-settings" ${HOME_PATH}/include/target.mk)" ]]; then
+    sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=default-settings ?g' "${HOME_PATH}/include/target.mk"
+fi
+
+if [[ -z "$(grep "luci-lib-ipkg" ${HOME_PATH}/include/target.mk)" ]]; then
+  sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=luci luci-newapi kmod-nf-nathelper kmod-nf-nathelper-extra luci-compat luci-lib-base luci-lib-fs luci-lib-ipkg ?g' "${HOME_PATH}/include/target.mk"
+fi
+}
+
+function Diy_wenjian2() {
 rm -rf "${DEFAULT_PATH}" && cp ${HOME_PATH}/build/common/custom/default-setting "${DEFAULT_PATH}"
 sudo chmod +x "${DEFAULT_PATH}"
+sed -i "s?112233?${SOURCE} - ${LUCI_EDITION}?g" "${DEFAULT_PATH}" > /dev/null 2>&1
 sed -i 's/root:.*/root::0:0:99999:7:::/g' ${FILES_PATH}/etc/shadow
 if [[ `grep -Eoc "admin:.*" ${FILES_PATH}/etc/shadow` -eq '1' ]]; then
   sed -i 's/admin:.*/admin::0:0:99999:7:::/g' ${FILES_PATH}/etc/shadow
@@ -427,24 +508,26 @@ sudo chmod +x "${FILES_PATH}/etc/networkdetection"
 
 [[ ! -d "${FILES_PATH}/usr/bin" ]] && mkdir -p ${FILES_PATH}/usr/bin
 cp ${HOME_PATH}/build/common/custom/openwrt.sh "${FILES_PATH}/usr/bin/openwrt"
-#cp ${HOME_PATH}/build/common/custom/tools.sh "${FILES_PATH}/usr/bin/tools"
 sudo chmod +x "${FILES_PATH}/usr/bin/openwrt"
-#sudo chmod +x "${FILES_PATH}/usr/bin/tools"
 
 rm -rf "${DELETE}"
 touch "${DELETE}"
 sudo chmod +x "${DELETE}"
 
+sed -i "s?FEATURES+=.*?FEATURES+=targz?g" "${HOME_PATH}/target/linux/armvirt/Makefile"
+sed -i '/DISTRIB_SOURCECODE/d' "${REPAIR_PATH}"
+echo -e "\nDISTRIB_SOURCECODE='${SOURCE}_${LUCI_EDITION}'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
+
 
 # 给固件保留配置更新固件的保留项目
 #sed -i '/AdGuardHome/d' "${KEEPD_PATH}"
-#sed -i '/background/d' "${KEEPD_PATH}"
+sed -i '/background/d' "${KEEPD_PATH}"
 cat >>"${KEEPD_PATH}" <<-EOF
 #/etc/config/AdGuardHome.yaml
-#/etc/clashqidong
 /www/luci-static/argon/background/
 EOF
 }
+
 
 
 function Diy_clean() {
@@ -498,45 +581,25 @@ fi
 # 给固件LUCI做个标记
 case "${REPO_BRANCH}" in
 master)
-  sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
-  echo -e "\nDISTRIB_RECOGNIZE='18'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-
+  rm -rf ${HOME_PATH}/feeds/other/lean/autosamba
+  svn export https://github.com/coolsnowwolf/lede/trunk/package/lean/autosamba ${HOME_PATH}/feeds/other/lean/autosamba > /dev/null 2>&1
+  rm -rf ${HOME_PATH}/feeds/other/lean/automount
+  svn export https://github.com/coolsnowwolf/lede/trunk/package/lean/automount ${HOME_PATH}/feeds/other/lean/automount > /dev/null 2>&1
+;;
+19.07|19.07-test)
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/LIENOL/19.07/package/kernel/linux/modules/netsupport.sh)"
+  rm -rf ${HOME_PATH}/feeds/packages/libs/libcap && svn export https://github.com/waynesg/openwrt/trunk/build/common/LIENOL/19.07/feeds/packages/libs/libcap ${HOME_PATH}/feeds/packages/libs/libcap > /dev/null 2>&1
+  rm -rf ${HOME_PATH}/package/libs/libpcap && svn export https://github.com/waynesg/openwrt/trunk/LIENOL/19.07/package/libs/libpcap ${HOME_PATH}/package/libs/libpcap > /dev/null 2>&1
 ;;
 21.02)
-  sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
-  echo -e "\nDISTRIB_RECOGNIZE='20'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-  # Lienol大的21.02PW会显示缺少依赖，要修改一下
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/shidahuilang/common/main/LIENOL/19.07/package/kernel/linux/modules/netsupport.sh)"
-
-;;
-19.07)
-  sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
-  echo -e "\nDISTRIB_RECOGNIZE='18'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-    
-  # Lienol大的19.07补丁
-  sed -i 's?PATCHVER:=.*?PATCHVER:=4.14?g' target/linux/x86/Makefile
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/shidahuilang/common/main/LIENOL/19.07/package/kernel/linux/modules/netsupport.sh)"
-  rm -rf ${HOME_PATH}/feeds/packages/lang/golang && svn export https://github.com/coolsnowwolf/packages/trunk/lang/golang ${HOME_PATH}/feeds/packages/lang/golang
-  rm -rf ${HOME_PATH}/feeds/packages/libs/libcap && svn export https://github.com/shidahuilang/common/trunk/LIENOL/19.07/feeds/packages/libs/libcap ${HOME_PATH}/feeds/packages/libs/libcap
-  rm -rf ${HOME_PATH}/package/libs/libpcap && svn export https://github.com/shidahuilang/common/trunk/LIENOL/19.07/package/libs/libpcap ${HOME_PATH}/package/libs/libpcap
-  
-;;
-19.07-cannotuse)
-  sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
-  echo -e "\nDISTRIB_RECOGNIZE='18'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-    
-  # Lienol大的19.07-cannotuse补丁
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/shidahuilang/common/main/LIENOL/19.07/package/kernel/linux/modules/netsupport.sh)"
-  rm -rf ${HOME_PATH}/feeds/packages/lang/golang && svn export https://github.com/coolsnowwolf/packages/trunk/lang/golang ${HOME_PATH}/feeds/packages/lang/golang
-  rm -rf ${HOME_PATH}/feeds/packages/libs/libcap && svn export https://github.com/shidahuilang/common/trunk/LIENOL/19.07/feeds/packages/libs/libcap ${HOME_PATH}/feeds/packages/libs/libcap
-  rm -rf ${HOME_PATH}/package/libs/libpcap && svn export https://github.com/shidahuilang/common/trunk/LIENOL/19.07/package/libs/libpcap ${HOME_PATH}/package/libs/libpcap
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/LIENOL/19.07/package/kernel/linux/modules/netsupport.sh)"
 ;;
 esac
 
-# 给源码增加passwall为默认自选
-if [[ `grep -c "luci-app-passwall luci-app-openclash" ${HOME_PATH}/include/target.mk` -eq '0' ]]; then
-  sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=luci-app-passwall luci-app-openclash ?g' include/target.mk
-fi
+rm -rf "${HOME_PATH}/feeds/other/lean/mt"
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/mt ${HOME_PATH}/feeds/other/lean/mt > /dev/null 2>&1
+rm -rf "${HOME_PATH}/feeds/other/lean/pdnsd-alt"
+svn co https://github.com/xiaorouji/openwrt-passwall/trunk/pdnsd-alt ${HOME_PATH}/feeds/other/lean/pdnsd-alt > /dev/null 2>&1
 }
 
 
@@ -556,44 +619,9 @@ case "${REPO_BRANCH}" in
 openwrt-21.02)
   sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
   echo -e "\nDISTRIB_RECOGNIZE='20'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-  #curl -fsSL https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/emortal/default-settings/Makefile > ${HOME_PATH}/package/emortal/default-settings/Makefile
-  #if [[ `grep -c 'openwrt_banner' "${HOME_PATH}/package/emortal/default-settings/files/99-default-settings"` -eq '0' ]]; then
-  #  echo "mv /etc/openwrt_banner /etc/banner" >> ${HOME_PATH}/package/emortal/default-settings/files/99-default-settings
-  #fi
+
 
 ;;
-master)
-  sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
-  echo -e "\nDISTRIB_RECOGNIZE='20'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-  find . -name 'default-settings' | xargs -i rm -rf {}
-  svn export https://github.com/shidahuilang/common/trunk/IMMORTALWRT/default-settings  ${HOME_PATH}/package/emortal/default-settings > /dev/null 2>&1
-  if [[ `grep -c 'default-settings-chn' "${HOME_PATH}/include/target.mk"` -eq '1' ]]; then
-    sed -i 's?default-settings-chn?default-settings?g' "${HOME_PATH}/include/target.mk"
-  elif [[ `grep -c 'default-settings' "${HOME_PATH}/include/target.mk"` -eq '0' ]]; then
-    sed -i 's?DEFAULT_PACKAGES.router:=?DEFAULT_PACKAGES.router:=default-settings ?g' "${HOME_PATH}/include/target.mk"
-  fi
-  
-if [[ `grep -c 'attendedsysupgrade' "${HOME_PATH}/feeds/luci/collections/luci/Makefile"` -eq '1' ]]; then
-  sed -i '/attendedsysupgrade/d' "${HOME_PATH}/feeds/luci/collections/luci/Makefile"
-fi
-
-;;
-openwrt-18.06)
-  sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
-  echo -e "\nDISTRIB_RECOGNIZE='18'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-
-;;
-openwrt-18.06-k5.4)
-  sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
-  echo -e "\nDISTRIB_RECOGNIZE='18'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
-
-;;
-esac
-  
-# 给源码增加luci-app-ssr-plus为默认自选
-if [[ `grep -c "luci-app-ssr-plus luci-app-openclash" ${HOME_PATH}/include/target.mk` -eq '0' ]]; then
-  sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=luci-app-ssr-plus luci-app-openclash ?g' ${HOME_PATH}/include/target.mk
-fi
 }
 
 function Diy_OFFICIAL() {
@@ -613,22 +641,15 @@ find . -type d -name 'default-settings' | xargs -i rm -rf {}
 sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
 echo -e "\nDISTRIB_RECOGNIZE='21'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
 
-svn export https://github.com/shidahuilang/common/trunk/OFFICIAL/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
-sed -i 's?libustream-wolfssl?libustream-openssl?g' "${HOME_PATH}/include/target.mk"
-if [[ `grep -c 'default-settings' "${HOME_PATH}/include/target.mk"` -eq '0' ]] && [[ `grep -c 'dnsmasq-full' "include/target.mk"` -eq '0' ]]; then
-  sed -i 's?dnsmasq?default-settings dnsmasq-full luci luci-compat luci-lib-ipkg luci-app-openclash ?g' "include/target.mk"
-elif [[ `grep -c 'default-settings' "${HOME_PATH}/include/target.mk"` -eq '0' ]]; then
-  dnsmq="$(grep -Eo 'dnsmasq.*' "include/target.mk" |sed 's/^[ ]*//g' |awk '{print $(1)}')"
-  sed -i "s?${dnsmq}?default-settings dnsmasq-full luci luci-compat luci-lib-ipkg luci-app-openclash?g" "include/target.mk"
-fi
-
-if [[ `grep -c 'attendedsysupgrade' "${HOME_PATH}/feeds/luci/collections/luci/Makefile"` -eq '1' ]]; then
-  sed -i '/attendedsysupgrade/d' "${HOME_PATH}/feeds/luci/collections/luci/Makefile"
-fi
-
 case "${REPO_BRANCH}" in
 openwrt-21.02)
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/281677160/common/main/LIENOL/19.07/package/kernel/linux/modules/netsupport.sh)"
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/LIENOL/19.07/package/kernel/linux/modules/netsupport.sh)"
+;;
+openwrt-19.07)
+  [[ -d "${HOME_PATH}/package/feeds/danshui/autosamba" ]] && sed -i "s?luci-app-samba4?luci-app-samba?g" ${HOME_PATH}/package/feeds/danshui/autosamba/Makefile
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/LIENOL/19.07/package/kernel/linux/modules/netsupport.sh)"
+  rm -rf ${HOME_PATH}/feeds/packages/libs/libcap && svn export https://github.com/waynesg/openwrt/trunk/build/common/LIENOL/19.07/feeds/packages/libs/libcap ${HOME_PATH}/feeds/packages/libs/libcap > /dev/null 2>&1
+  rm -rf ${HOME_PATH}/package/libs/libpcap && svn export https://github.com/waynesg/openwrt/trunk/LIENOL/19.07/package/libs/libpcap ${HOME_PATH}/package/libs/libpcap > /dev/null 2>&1
 ;;
 openwrt-22.03)
   rm -rf ${HOME_PATH}/feeds/packages/net/apinger
@@ -642,11 +663,12 @@ fi
 }
 
 function Diy_distrib() {
+[[ -f "${GITHUB_ENV}" ]] && source ${GITHUB_ENV}
 cd ${HOME_PATH}
-ZZZ_PATH1="$(find ./package -type f -name "*default-settings" |grep files |cut -d '/' -f2-)"
-if [[ -n "${ZZZ_PATH1}" ]]; then
-  ZZZ_PATH="${HOME_PATH}/${ZZZ_PATH1}"
+ZZZ_PATH="$(find "${HOME_PATH}/package" -type f -name "*-default-settings" |grep files)"
+if [[ -f "${ZZZ_PATH}" ]]; then
   echo "ZZZ_PATH=${ZZZ_PATH}" >> ${GITHUB_ENV}
+  sed -i '/exit 0/d' "${ZZZ_PATH}"
 fi
 
 ttydjso="$(find ./ -type f -name "luci-app-ttyd.json" |grep -v 'dir' |grep menu.d |cut -d '/' -f2-)"
@@ -667,9 +689,8 @@ fi
 sed -i "s?main.lang=.*?main.lang='zh_cn'?g" "${ZZZ_PATH}"
 sed -i '/DISTRIB_DESCRIPTION/d' "${ZZZ_PATH}"
 sed -i '/lib\/lua\/luci\/version.lua/d' "${ZZZ_PATH}"
-sed -i '/exit 0/d' "${ZZZ_PATH}"
 
-if [[ "$(. ${FILES_PATH}/etc/openwrt_release && echo "$DISTRIB_RECOGNIZE")" == "18" ]]; then
+if [[ "${applica}" == "2" ]]; then
 cat >> "${ZZZ_PATH}" <<-EOF
 sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
 echo "DISTRIB_DESCRIPTION='OpenWrt '" >> /etc/openwrt_release
@@ -1052,56 +1073,33 @@ fi
 
 if [[ "${Disable_DHCP}" == "1" ]]; then
    sed -i "$lan\set dhcp.lan.ignore='1'" "${GENE_PATH}"
+   echo "关闭DHCP设置完成"
 fi
 
 if [[ "${Disable_Bridge}" == "1" ]]; then
    sed -i "$lan\delete network.lan.type" "${GENE_PATH}"
+   echo "去掉桥接设置完成"
 fi
 
 if [[ "${Ttyd_account_free_login}" == "1" ]]; then
    sed -i "$lan\set ttyd.@ttyd[0].command='/bin/login -f root'" "${GENE_PATH}"
+   echo "TTYD免账户登录完成"
 fi
 
 if [[ "${Password_free_login}" == "1" ]]; then
    sed -i '/CYXluq4wUazHjmCDBCqXF/d' "${ZZZ_PATH}"
+   echo "固件免密登录设置完成"
 fi
 
 if [[ "${Disable_53_redirection}" == "1" ]]; then
    sed -i '/to-ports 53/d' "${ZZZ_PATH}"
+   echo "删除DNS重定向53端口完成"
 fi
 
 if [[ "${Cancel_running}" == "1" ]]; then
    echo "sed -i '/coremark/d' /etc/crontabs/root" >> "${DEFAULT_PATH}"
+   echo "删除每天跑分任务完成"
 fi
-
-# 晶晨CPU机型自定义机型,内核,分区
-case "${SOURCE_CODE}" in
-AMLOGIC)
-  if [[ -n "${amlogic_model}" ]]; then
-    echo "amlogic_model=${amlogic_model}" >> ${GITHUB_ENV}
-  else
-    echo "amlogic_model=s905d" >> ${GITHUB_ENV}
-  fi
-  if [[ -n "${amlogic_kernel}" ]]; then
-    echo "amlogic_kernel=${amlogic_kernel}" >> ${GITHUB_ENV}
-  else
-    echo "amlogic_kernel=5.4.01_5.15.01" >> ${GITHUB_ENV}
-  fi
-  if [[ "${auto_kernel}" == "true" ]] || [[ "${auto_kernel}" == "false" ]]; then
-    echo "auto_kernel=${auto_kernel}" >> ${GITHUB_ENV}
-  else
-    echo "auto_kernel=true" >> ${GITHUB_ENV}
-  fi
-  if [[ -n "${rootfs_size}" ]]; then
-    echo "rootfs_size=${rootfs_size}" >> ${GITHUB_ENV}
-  else
-    echo "rootfs_size=960" >> ${GITHUB_ENV}
-  fi
-;;
-esac
-[[ -f "${GITHUB_ENV}" ]] && source ${GITHUB_ENV}
-}
-
 
 function Diy_part_sh() {
 cd ${HOME_PATH}
@@ -1122,30 +1120,42 @@ fi
 
 function Diy_Language() {
 cd ${HOME_PATH}
-if [[ ! "${ERCI}" == "1" ]]; then
-  if [[ "$(. ${FILES_PATH}/etc/openwrt_release && echo "$DISTRIB_RECOGNIZE")" != "18" ]]; then
-    echo "正在执行：把插件语言转换成zh_Hans"
-    cp -Rf ${HOME_PATH}/build/common/language/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
-    sudo chmod +x ${HOME_PATH}/zh_Hans.sh
-    /bin/bash ${HOME_PATH}/zh_Hans.sh
-    rm -rf ${HOME_PATH}/zh_Hans.sh
-  else
-    cp -Rf ${HOME_PATH}/build/common/language/zh_cn.sh ${HOME_PATH}/zh_cn.sh
-    chmod +x zh-cn.sh
-    /bin/bash zh-cn.sh
-    rm -rf zh-cn.sh
-  fi
+apptions="$(find "${HOME_PATH}/feeds" -type d -name "applications")"
+if [[ -d "${apptions}" ]] && [[ `find "${apptions}" -type d -name "zh_Hans" |grep -c "zh_Hans"` -ge '20' ]]; then
+  echo "正在执行：把插件语言转换成zh_Hans"
+  cp -Rf ${HOME_PATH}/build/common/language/zh_Hans.sh ${HOME_PATH}/zh_Hans.sh
+  chmod +x zh_Hans.sh
+  /bin/bash zh_Hans.sh
+  rm -rf zh_Hans.sh
+else
+  cp -Rf ${HOME_PATH}/build/common/language/zh_cn.sh ${HOME_PATH}/zh_cn.sh
+  chmod +x zh-cn.sh
+  /bin/bash zh-cn.sh
+  rm -rf zh-cn.sh
 fi
 }
 
 
 function Diy_feeds() {
-cd ${HOME_PATH}
 echo "正在执行：更新feeds,请耐心等待..."
 cd ${HOME_PATH}
 ./scripts/feeds update -a
+if [[ -f "${HOME_PATH}/diy_pa_sh" ]] && [[ ! "${ERCI}" == "1" ]]; then
+  source ${HOME_PATH}/diy_pa_sh
+  rm -rf ${HOME_PATH}/diy_pa_sh
+fi
+if [[ "${SOURCE_CODE}" =~ (XWRT|OFFICIAL) ]] && [[ -d "feeds/helloworld" ]]; then
+  SSR_LUA="${HOME_PATH}/feeds/helloworld/luci-app-ssr-plus/root/usr/share/shadowsocksr/subscribe.lua"
+  [[ -f "${SSR_LUA}" ]] && sed -i 's?result.insecure = "0"?result.insecure = "1"?g' "${SSR_LUA}"
+fi
 ./scripts/feeds install -a > /dev/null 2>&1
 ./scripts/feeds install -a
+
+if [[ ! -f "${HOME_PATH}/staging_dir/host/bin/upx" ]] && [[ ! "${ERCI}" == "1" ]]; then
+  cp /usr/bin/upx ${HOME_PATH}/staging_dir/host/bin/upx
+  cp /usr/bin/upx-ucl ${HOME_PATH}/staging_dir/host/bin/upx-ucl
+fi
+  
 [[ -f ${BUILD_PATH}/$CONFIG_FILE ]] && mv ${BUILD_PATH}/$CONFIG_FILE .config
 
 if [[ "${SOURCE_CODE}" == "IMMORTALWRT" ]]; then
@@ -1925,7 +1935,8 @@ Diy_IPv6helper
 }
 
 function Diy_menu3() {
-Diy_wenjian
+Diy_wenjian1
+Diy_wenjian2
 Diy_clean
 Diy_${SOURCE_CODE}
 Diy_distrib
