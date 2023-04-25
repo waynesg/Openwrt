@@ -190,15 +190,15 @@ OFFICIAL)
     export LUCI_EDITION="master"
     export DIY_WORK="${FOLDER_NAME}MASTER"
   elif [[ "${REPO_BRANCH}" == "openwrt-19.07" ]]; then
-    export PACKAGE_BRANCH="official-19.07"
+    export PACKAGE_BRANCH="official-master"
     export LUCI_EDITION="19.07"
     export DIY_WORK="${FOLDER_NAME}1907"
   elif [[ "${REPO_BRANCH}" == "openwrt-21.02" ]]; then
-    export PACKAGE_BRANCH="official-21.02"
+    export PACKAGE_BRANCH="official-master"
     export LUCI_EDITION="21.02"
     export DIY_WORK="${FOLDER_NAME}2102"
   elif [[ "${REPO_BRANCH}" == "openwrt-22.03" ]]; then
-    export PACKAGE_BRANCH="official-22.03"
+    export PACKAGE_BRANCH="official-master"
     export LUCI_EDITION="22.03"
     export DIY_WORK="${FOLDER_NAME}2203"
   fi
@@ -1165,10 +1165,6 @@ if [[ -f "${HOME_PATH}/diy_pa_sh" ]] && [[ ! "${ERCI}" == "1" ]]; then
   source ${HOME_PATH}/diy_pa_sh
   rm -rf ${HOME_PATH}/diy_pa_sh
 fi
-if [[ "${SOURCE_CODE}" =~ (XWRT|OFFICIAL) ]] && [[ -d "feeds/helloworld" ]]; then
-  SSR_LUA="${HOME_PATH}/feeds/helloworld/luci-app-ssr-plus/root/usr/share/shadowsocksr/subscribe.lua"
-  [[ -f "${SSR_LUA}" ]] && sed -i 's?result.insecure = "0"?result.insecure = "1"?g' "${SSR_LUA}"
-fi
 ./scripts/feeds install -a > /dev/null 2>&1
 ./scripts/feeds install -a
 
@@ -1194,19 +1190,33 @@ fi
 
 
 if [[ "${Mandatory_theme}" == "0" ]]; then
-  echo "不进行默认主题修改"
+  echo "不进行必选主题修改"
 elif [[ -n "${Mandatory_theme}" ]]; then
-  collections="${HOME_PATH}/feeds/luci/collections/luci/Makefile"
-  ybtheme="$(grep -Eo "luci-theme-.*" "${collections}" |sed -r 's/.*theme-(.*)=y/\1/' |awk '{print $(1)}')"
+  if [[ "${GL_BRANCH}" == "lede_ax1800" ]]; then
+    collections="${HOME_PATH}/extra/luci/collections/luci/Makefile"
+  else
+    collections="${HOME_PATH}/feeds/luci/collections/luci/Makefile"
+  fi
+  luci_light="${HOME_PATH}/feeds/luci/collections/luci-light/Makefile"
+  if [[ `grep -Eoc "luci-theme" "${collections}"` -eq "0" ]]; then
+    ybtheme="$(grep -Eo "luci-theme-.*" "${luci_light}" 2>&1 |sed -r 's/.*theme-(.*)=y/\1/' |awk '{print $(1)}')"
+  else
+    ybtheme="$(grep -Eo "luci-theme-.*" "${collections}" 2>&1 |sed -r 's/.*theme-(.*)=y/\1/' |awk '{print $(1)}')"
+  fi
   yhtheme="luci-theme-${Mandatory_theme}"
   if [[ `find . -type d -name "${yhtheme}" |grep -v 'dir' |grep -c "${yhtheme}"` -ge "1" ]]; then
-    sed -i "s/${ybtheme}/${yhtheme}/g" "${collections}"
-    echo "默认主题修改完成，主题为：${yhtheme}"
+    if [[ `grep -Eoc "luci-theme" "${collections}"` -eq "0" ]]; then
+      sed -i "s/${ybtheme}/${yhtheme}/g" "${luci_light}"
+    else
+      sed -i "s/${ybtheme}/${yhtheme}/g" "${collections}"
+    fi
+    echo "必选主题修改完成，必选主题为：${yhtheme}"
   else
     echo "TIME r \"没有${yhtheme}此主题存在,不进行替换${ybtheme}主题操作\"" >> ${HOME_PATH}/CHONGTU
   fi
 fi
 }
+
 
 
 function Diy_IPv6helper() {
@@ -1222,6 +1232,17 @@ CONFIG_IPV6=y
 CONFIG_PACKAGE_6rd=y
 CONFIG_PACKAGE_6to4=y
 ' >> ${HOME_PATH}/.config
+fi
+
+if [[ "${Enable_IPV4_function}" == "1" ]]; then
+sed -i '/CONFIG_PACKAGE_ipv6helper=y/d' "${HOME_PATH}/.config"
+sed -i '/CONFIG_PACKAGE_ip6tables=y/d' "${HOME_PATH}/.config"
+sed -i '/CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y/d' "${HOME_PATH}/.config"
+sed -i '/CONFIG_PACKAGE_odhcp6c=y/d' "${HOME_PATH}/.config"
+sed -i '/CONFIG_PACKAGE_odhcpd-ipv6only=y/d' "${HOME_PATH}/.config"
+sed -i '/CONFIG_IPV6=y/d' "${HOME_PATH}/.config"
+sed -i '/CONFIG_PACKAGE_6rd=y/d' "${HOME_PATH}/.config"
+sed -i '/CONFIG_PACKAGE_6to4=y/d' "${HOME_PATH}/.config"
 fi
 }
 
