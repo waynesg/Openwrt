@@ -620,8 +620,8 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
   for X in "${HOME_PATH}/feeds" "${HOME_PATH}/package"; do
     find ${X} -type d -name 'adguardhome' -o -name 'luci-app-adguardhome' -o -name 'luci-app-wol' | xargs -i rm -rf {}
 #    find ${X} -type d -name 'v2ray-geodata' -o -name 'mosdns' -o -name 'luci-app-mosdns' | xargs -i rm -rf {}
-    find ${X} -type d -name 'luci-app-smartdns' -o -name 'smartdns' -o -name 'luci-app-gost' -o -name 'gost' | xargs -i rm -rf {}
-    find ${X} -type d -name 'luci-app-msd_lite' -o -name 'msd_lite' -o -name 'luci-app-eqos' | xargs -i rm -rf {}
+#    find ${X} -type d -name 'luci-app-smartdns' -o -name 'smartdns' -o -name 'luci-app-gost' -o -name 'gost' | xargs -i rm -rf {}
+#    find ${X} -type d -name 'luci-app-msd_lite' -o -name 'msd_lite' -o -name 'luci-app-eqos' | xargs -i rm -rf {}
 #    find ${X} -type d -name 'luci-theme-design' -o -name 'luci-app-design-config' -o -name 'luci-app-dockerman' | xargs -i rm -rf {}
 #    find ${X} -type d -name 'luci-app-wrtbwmon' -o -name 'wrtbwmon' -o -name 'luci-app-wizard' | xargs -i rm -rf {}
   done
@@ -719,6 +719,15 @@ sed -i '/waynesg/d' "${HOME_PATH}/feeds.conf.default"
 #find . -type d -name 'v2ray-core' -o -name 'v2ray-geodata' -o -name 'v2ray-plugin' -o -name 'xray-core' -o -name 'xray-plugin' | xargs -i rm -rf {}
 #find . -type d -name 'trojan' -o -name 'trojan-go' -o -name 'trojan-plus' -o -name 'redsocks2' -o -name 'sing-box' -o -name 'microsocks' | xargs -i rm -rf {}
 
+if [[ "${SOURCE_CODE}" =~ (XWRT|OFFICIAL) ]]; then
+  rm -rf ${HOME_PATH}/feeds/packages/net/shadowsocks-libev
+  svn export https://github.com/coolsnowwolf/packages/trunk/net/shadowsocks-libev ${HOME_PATH}/feeds/packages/net/shadowsocks-libev > /dev/null 2>&1
+  rm -rf ${HOME_PATH}/feeds/packages/net/kcptun
+  svn export https://github.com/immortalwrt/packages/trunk/net/kcptun ${HOME_PATH}/feeds/packages/net/kcptun > /dev/null 2>&1
+  rm -rf ${HOME_PATH}/feeds/packages/net/v2raya
+  svn export https://github.com/fw876/helloworld/trunk/v2raya ${HOME_PATH}/feeds/packages/net/v2raya > /dev/null 2>&1
+fi
+
 if [ "${REPO_BRANCH}" == "master" ]; then
 cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
 src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;main
@@ -732,6 +741,13 @@ cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
 src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;js
 EOF
 fi
+
+cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
+src-git helloworld https://github.com/fw876/helloworld.git
+src-git passwall1 https://github.com/xiaorouji/openwrt-passwall.git;luci-smartdns-new-version
+src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main
+src-git passwall3 https://github.com/xiaorouji/openwrt-passwall.git;packages
+EOF
 
 sed -i '/^#/d' "${HOME_PATH}/feeds.conf.default"
 sed -i '/^$/d' "${HOME_PATH}/feeds.conf.default"
