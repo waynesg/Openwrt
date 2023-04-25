@@ -625,7 +625,6 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
     #find ${X} -type d -name 'luci-app-smartdns' -o -name 'smartdns' | xargs -i rm -rf {}
   done
 fi
-find . -type d -name 'default-settings' | xargs -i rm -rf {}
 
 case "${REPO_BRANCH}" in
 openwrt-21.02)
