@@ -742,13 +742,6 @@ src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;js
 EOF
 fi
 
-cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
-src-git helloworld https://github.com/fw876/helloworld.git
-src-git passwall1 https://github.com/xiaorouji/openwrt-passwall.git;luci-smartdns-new-version
-src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main
-src-git passwall3 https://github.com/xiaorouji/openwrt-passwall.git;packages
-EOF
-
 sed -i '/^#/d' "${HOME_PATH}/feeds.conf.default"
 sed -i '/^$/d' "${HOME_PATH}/feeds.conf.default"
 ;;
