@@ -317,6 +317,12 @@ OFFICIAL)
   fi
 ;;
 esac
+./scripts/feeds clean
+if [[ -n "${BENDI_VERSION}" ]]; then
+  ./scripts/feeds update -a
+else
+  ./scripts/feeds update -a > /dev/null 2>&1
+fi
 }
 
 
