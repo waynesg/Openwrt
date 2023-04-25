@@ -346,18 +346,18 @@ function build_openwrt() {
 cd ${GITHUB_WORKSPACE}
 if [[ `echo "${CPU_SELECTION}" |grep -Eoc 'E5'` -eq '1' ]] || [[ `echo "${CPU_SELECTION}" |grep -Eoc 'e5'` -eq '1' ]]; then
   export CPU_SELECTIO="E5"
-  export kaisbianyixx="弃用E5-编译"
+  export kaisbianyixx="Kick-E5-Compile"
 elif [[ `echo "${CPU_SELECTION}" |grep -Eoc '8370'` -eq '1' ]]; then
   export CPU_SELECTIO="8370"
-  export kaisbianyixx="选择8370-编译"
+  export kaisbianyixx="8370-Compile"
 elif [[ `echo "${CPU_SELECTION}" |grep -Eoc '8272'` -eq '1' ]]; then
   export CPU_SELECTIO="8272"
-  export kaisbianyixx="选择8272-编译"
+  export kaisbianyixx="8272-Compile"
 elif [[ `echo "${CPU_SELECTION}" |grep -Eoc '8171'` -eq '1' ]]; then
   export CPU_SELECTIO="8171"
-  export kaisbianyixx="选择8171-编译"
+  export kaisbianyixx="8171-Compile"
 else
-  export kaisbianyixx="编译"
+  export kaisbianyixx=Compile""
 fi
 git clone -b main https://github.com/${GIT_REPOSITORY}.git ${FOLDER_NAME}
 if [[ ! -d "${FOLDER_NAME}/build/${FOLDER_NAME}/relevance" ]]; then
