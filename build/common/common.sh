@@ -1099,6 +1099,7 @@ if [[ "${Cancel_running}" == "1" ]]; then
    echo "sed -i '/coremark/d' /etc/crontabs/root" >> "${DEFAULT_PATH}"
    echo "删除每天跑分任务完成"
 fi
+}
 
 function Diy_part_sh() {
 cd ${HOME_PATH}
