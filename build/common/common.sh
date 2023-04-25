@@ -414,7 +414,7 @@ fi
 
 cd ${FOLDER_NAME}
 git add .
-git commit -m "${kaisbianyixx}-${FOLDER_NAME}-${LUCI_EDITION}-${TARGET_PROFILE}固件"
+git commit -m "${kaisbianyixx}-${FOLDER_NAME}-${LUCI_EDITION}-${TARGET_PROFILE}"
 git push --force "https://${REPO_TOKEN}@github.com/${GIT_REPOSITORY}" HEAD:main
 }
 
