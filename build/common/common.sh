@@ -560,14 +560,7 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
     find ${X} -type d -name 'luci-app-smartdns' -o -name 'smartdns' | xargs -i rm -rf {}
   done
 fi
-# 给固件LUCI做个标记
-sed -i '/DISTRIB_RECOGNIZE/d' "${REPAIR_PATH}"
-echo -e "\nDISTRIB_RECOGNIZE='18'" >> "${REPAIR_PATH}" && sed -i '/^\s*$/d' "${REPAIR_PATH}"
 
-# 给源码增加passwall为默认自选
-#if [[ `grep -c "luci-app-passwall luci-app-openclash" ${HOME_PATH}/include/target.mk` -eq '0' ]]; then
-#  sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=luci-app-passwall luci-app-openclash ?g' include/target.mk
-#fi
 }
 
 
@@ -583,8 +576,7 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
     find ${X} -type d -name 'luci-app-smartdns' -o -name 'smartdns' | xargs -i rm -rf {}
   done
 fi
-  
-# 给固件LUCI做个标记
+ 
 case "${REPO_BRANCH}" in
 master)
   rm -rf ${HOME_PATH}/feeds/other/lean/autosamba
@@ -1730,15 +1722,9 @@ fi
 
 function Diy_upgrade2() {
 cd ${HOME_PATH}
-sed -i '/#\!\/bin\//d' "${DEFAULT_PATH}"
-sed -i '1i\#!/bin/sh' "${DEFAULT_PATH}"
 sed -i 's/^[ ]*//g' "${DEFAULT_PATH}"
-sed -i '/exit 0/d' "${DEFAULT_PATH}"
 sed -i '$a\exit 0' "${DEFAULT_PATH}"
-sed -i '/#\!\/bin\//d' "${ZZZ_PATH}"
-sed -i '1i\#!/bin/sh' "${ZZZ_PATH}"
 sed -i 's/^[ ]*//g' "${ZZZ_PATH}"
-sed -i '/exit 0/d' "${ZZZ_PATH}"
 sed -i '$a\exit 0' "${ZZZ_PATH}" 
 
 if [[ "${UPDATE_FIRMWARE_ONLINE}" == "true" ]]; then
