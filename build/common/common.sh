@@ -906,9 +906,10 @@ fi
 
 
 if [[ "${Enable_IPV6_function}" == "1" ]]; then
-  echo "加入IPV6功能"
-  Create_Ipv6_Lan="0"
-  Enable_IPV4_function="0"
+  echo "固件加入IPV6功能"
+  echo "自动取消IPV4功能 和 爱快+OP双系统时,爱快接管IPV6功能"
+  export Create_Ipv6_Lan="0"
+  export Enable_IPV4_function="0"
   echo "Enable_IPV4_function=0" >> ${GITHUB_ENV}
   echo "Enable_IPV6_function=1" >> ${GITHUB_ENV}
   echo "
@@ -957,8 +958,11 @@ if [[ "${Create_Ipv6_Lan}" == "1" ]]; then
   " >> "${DEFAULT_PATH}"
 fi
 
-if [[ "${Disable_IPv6_option}" == "1" ]]; then
-  echo "关闭固件里面所有IPv6选项和IPv6的DNS解析记录"
+if [[ "${Enable_IPV4_function}" == "1" ]]; then
+  echo "Enable_IPV4_function=1" >> ${GITHUB_ENV}
+  echo "Enable_IPV6_function=0" >> ${GITHUB_ENV}
+  echo "Create_Ipv6_Lan=0" >> ${GITHUB_ENV}
+  echo "固件加入IPV4功能"
   echo "
     uci delete network.globals.ula_prefix
     uci delete network.lan.ip6assign
@@ -979,23 +983,39 @@ if [[ "${Disable_IPv6_option}" == "1" ]]; then
 fi
 
 if [[ "${Mandatory_theme}" == "0" ]] || [[ -z "${Mandatory_theme}" ]]; then
-  echo "无需替换bootstrap主题"
+  echo "Mandatory_theme=0" >> ${GITHUB_ENV}
+  echo "不进行,替换bootstrap主题设置"
 elif [[ -n "${Mandatory_theme}" ]]; then
   echo "Mandatory_theme=${Mandatory_theme}" >> ${GITHUB_ENV}
 fi
 
 if [[ "${Default_theme}" == "0" ]] || [[ -z "${Default_theme}" ]]; then
-  echo "无需设置默认主题"
+  echo "Default_theme=0" >> ${GITHUB_ENV}
+  echo "不进行,默认主题设置"
 elif [[ -n "${Default_theme}" ]]; then
   echo "Default_theme=${Default_theme}" >> ${GITHUB_ENV}
 fi
 
 if [[ "${Customized_Information}" == "0" ]] || [[ -z "${Customized_Information}" ]]; then
-  echo "无需设置个性签名"
+  echo "不进行,个性签名设置"
 elif [[ -n "${Customized_Information}" ]]; then
   sed -i "s?DESCRIPTION=.*?DESCRIPTION='OpenWrt '\" >> /etc/openwrt_release?g" "${ZZZ_PATH}"
   sed -i "s?OpenWrt ?${Customized_Information} @ OpenWrt ?g" "${ZZZ_PATH}"
   echo "个性签名[${Customized_Information}]增加完成"
+fi
+
+if [[ "${Kernel_partition_size}" == "0" ]] || [[ -z "${Kernel_partition_size}" ]]; then
+  echo "Kernel_partition_size=0" >> ${GITHUB_ENV}
+  echo "不进行,内核分区大小设置"
+elif [[ -n "${Kernel_partition_size}" ]]; then
+  echo "Kernel_partition_size=${Kernel_partition_size}" >> ${GITHUB_ENV}
+fi
+
+if [[ "${Root_partition_size}" == "0" ]] || [[ -z "${Root_partition_size}" ]]; then
+  echo "Root_partition_size=0" >> ${GITHUB_ENV}
+  echo "不进行,系统分区大小设置"
+elif [[ -n "${Root_partition_size}" ]]; then
+  echo "Root_partition_size=${Root_partition_size}" >> ${GITHUB_ENV}
 fi
 
 if [[ "${Delete_unnecessary_items}" == "1" ]]; then
@@ -1003,9 +1023,16 @@ if [[ "${Delete_unnecessary_items}" == "1" ]]; then
 fi
 
 if [[ "${Replace_Kernel}" == "0" ]] || [[ -z "${Replace_Kernel}" ]]; then
-  echo ""
+  echo "Replace_Kernel=0" >> ${GITHUB_ENV}
+  echo "使用默认内核"
 elif [[ -n "${Replace_Kernel}" ]]; then
-  echo "Replace_Kernel=${Replace_Kernel}" >> ${GITHUB_ENV}
+  Replace_nel="$(echo ${Replace_Kernel} |grep -Eo "[0-9]+\.[0-9]+")"
+  if [[ -n "${Replace_nel}" ]]; then
+    echo "Replace_Kernel=${Replace_Kernel}" >> ${GITHUB_ENV}
+  else
+    echo "Replace_Kernel=0" >> ${GITHUB_ENV}
+    echo "填写的内核格式错误,使用源码默认内核编译"
+  fi
 fi
 
 if [[ "${Ipv4_ipaddr}" == "0" ]] || [[ -z "${Ipv4_ipaddr}" ]]; then
@@ -1042,7 +1069,7 @@ elif [[ -n "${Op_name}" ]] && [[ -n "${opname}" ]]; then
 fi
 
 if [[ "${Gateway_Settings}" == "0" ]] || [[ -z "${Gateway_Settings}" ]]; then
-  echo "无需设置网关"
+  echo "不进行,网关设置"
 elif [[ -n "${Gateway_Settings}" ]]; then
   Router_gat="$(echo ${Gateway_Settings} |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")"
   if [[ -n "${Router_gat}" ]]; then
@@ -1054,7 +1081,7 @@ elif [[ -n "${Gateway_Settings}" ]]; then
 fi
 
 if [[ "${DNS_Settings}" == "0" ]] || [[ -z "${DNS_Settings}" ]]; then
-  echo "无需设置DNS"
+  echo "不进行,DNS设置"
 elif [[ -n "${DNS_Settings}" ]]; then
   ipa_dns="$(echo ${DNS_Settings} |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")"
   if [[ -n "${ipa_dns}" ]]; then
@@ -1066,11 +1093,12 @@ elif [[ -n "${DNS_Settings}" ]]; then
 fi
 
 if [[ "${Broadcast_Ipv4}" == "0" ]] || [[ -z "${Broadcast_Ipv4}" ]]; then
-  echo
+  echo "不进行,广播IP设置"
 elif [[ -n "${Broadcast_Ipv4}" ]]; then
   IPv4_Bro="$(echo ${Broadcast_Ipv4} |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")"
   if [[ -n "${IPv4_Bro}" ]]; then
     sed -i "$lan\set network.lan.broadcast='${Broadcast_Ipv4}'" "${GENE_PATH}"
+    echo "广播IP[${Broadcast_Ipv4}]设置完成"
   else
     echo "TIME r \"因IPv4 广播IP获取有错误，IPv4广播IP设置失败，请检查IPv4广播IP是否填写正确\"" >> ${HOME_PATH}/CHONGTU
   fi
