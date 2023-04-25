@@ -665,13 +665,19 @@ if [[ -f "${ttydjson}" ]]; then
   curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/IMMORTALWRT/ttyd/luci-app-ttyd.json -o "${ttydjson}"
 fi
 
-[[ ! -d "${HOME_PATH}/doc" ]] && mkdir -p ${HOME_PATH}/doc
-if [[ -f "${HOME_PATH}/doc/default-settings" ]]; then
-  cp -Rf ${HOME_PATH}/doc/default-settings "${ZZZ_PATH}"
+[[ -d "${HOME_PATH}/doc" ]] && rm -rf ${HOME_PATH}/doc
+[[ ! -d "${HOME_PATH}/LICENSES/doc" ]] && mkdir -p "${HOME_PATH}/LICENSES/doc"
+if [[ -f "${HOME_PATH}/LICENSES/doc/default-settings" ]]; then
+  cp -Rf ${HOME_PATH}/LICENSES/doc/default-settings "${ZZZ_PATH}"
 else
-  cp -Rf "${ZZZ_PATH}" ${HOME_PATH}/doc/default-settings
+  cp -Rf "${ZZZ_PATH}" ${HOME_PATH}/LICENSES/doc/default-settings
 fi
 
+if [[ -f "${HOME_PATH}/LICENSES/doc/config_generates" ]]; then
+  cp -Rf ${HOME_PATH}/LICENSES/doc/config_generates "${GENE_PATH}"
+else
+  cp -Rf "${GENE_PATH}" ${HOME_PATH}/LICENSES/doc/config_generates
+fi
 sed -i "s?main.lang=.*?main.lang='zh_cn'?g" "${ZZZ_PATH}"
 sed -i '/DISTRIB_DESCRIPTION/d' "${ZZZ_PATH}"
 sed -i '/lib\/lua\/luci\/version.lua/d' "${ZZZ_PATH}"
