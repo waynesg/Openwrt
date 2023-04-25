@@ -140,9 +140,9 @@ cp -rf ${GITHUB_WORKSPACE}/Lienol/tools/upx tools/upx
 
 #########################################################################################################
 #########################################################################################################
-rm -rf feeds/luci/applications/{luci-app-apinger,luci-app-smartdns}
+rm -rf feeds/luci/applications/luci-app-smartdns
 #rm -rf feeds/luci/libs/luci-lib-ipkg
-rm -rf feeds/packages/net/{socat,v2ray*,kcptun,trojan-go}
+rm -rf feeds/packages/net/{socat,v2ray*,kcptun,trojan-go,smartdns}
 
 # Access Control
 cp -rf ${GITHUB_WORKSPACE}/immortalwrt_luci/applications/luci-app-accesscontrol package/waynesg/luci-app-accesscontrol
