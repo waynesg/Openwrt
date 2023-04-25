@@ -168,7 +168,7 @@ jobs:
       continue-on-error: true
       run: |
         cd openwrt
-        source $BUILD_PATH/$DIY_PART_SH
+        source ${BUILD_PATH}/common.sh && Diy_zdypartsh
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_Publicarea
         
     - name: 加载文件
