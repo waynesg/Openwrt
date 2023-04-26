@@ -30,11 +30,12 @@ on:
           - '选择8272CL'
           - '选择8171M'
       INFORMATION_NOTICE:
-        description: '信息通知'
+        description: '消息通知'
         required: true
         default: 'pushplus'
         type: choice
         options:
+          - '关闭'
           - 'Telegram'
           - 'pushplus'
       SSH_ACTION:
