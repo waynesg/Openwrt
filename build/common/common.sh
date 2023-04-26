@@ -768,11 +768,11 @@ if [ -n "$(ls -A "${BUILD_PATH}/diy" 2>/dev/null)" ]; then
   cp -Rf ${BUILD_PATH}/diy/* ${HOME_PATH}
 fi
 
-#if [ -n "$(ls -A "${BUILD_PATH}/files" 2>/dev/null)" ]; then
-#  cp -Rf ${BUILD_PATH}/files ${HOME_PATH}
-#fi
-#sudo chmod -R 775 ${HOME_PATH}/files
-#rm -rf ${HOME_PATH}/files/{LICENSE,README,README.*}
+if [ -n "$(ls -A "${BUILD_PATH}/files" 2>/dev/null)" ]; then
+  cp -Rf ${BUILD_PATH}/files ${HOME_PATH}
+fi
+sudo chmod -R 775 ${HOME_PATH}/files
+rm -rf ${HOME_PATH}/files/{LICENSE,README,README.*}
 }
 
 function Diy_zdypartsh() {
