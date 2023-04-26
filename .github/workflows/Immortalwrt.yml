@@ -36,7 +36,7 @@ on:
       INFORMATION_NOTICE:
         description: '消息通知'
         required: true
-        default: '关闭'
+        default: 'pushplus'
         type: choice
         options:
           - '关闭'
