@@ -71,41 +71,50 @@ export Delete_unnecessary_items="0"          # 个别机型内一堆其他机型
 export Disable_53_redirection="0"            # 删除DNS强制重定向53端口防火墙规则(个别源码本身不带次功能)(1为启用命令,填0为不作修改)
 export Cancel_running="0"                    # 取消路由器每天跑分任务(个别源码本身不带次功能)(1为启用命令,填0为不作修改)
 
-:<<EOF
+
 # 修改插件名字
-sed -i 's/"系统"/"系统设置"/g' `egrep "系统" -rl ./`
 sed -i 's/"挂载点"/"挂载路径"/g' `egrep "挂载点" -rl ./`
 sed -i 's/"启动项"/"启动管理"/g' `egrep "启动项" -rl ./`
 sed -i 's/"软件包"/"软件管理"/g' `egrep "软件包" -rl ./`
-sed -i 's/"网络存储"/"存储"/g' `egrep "网络存储" -rl ./`
-sed -i 's/"备份与升级"/"备份升级"/g' `grep "备份与升级" -rl ./`
-sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' `egrep "Turbo ACC 网络加速" -rl ./`
-sed -i 's/"实时流量监测"/"流量"/g' `egrep "实时流量监测" -rl ./`
-sed -i 's/"TTYD 终端"/"命令终端"/g' `egrep "TTYD 终端" -rl ./`
-sed -i 's/"USB 打印服务器"/"打印服务"/g' `egrep "USB 打印服务器" -rl ./`
-sed -i 's/"Web 管理"/"Web管理"/g' `egrep "Web 管理" -rl ./`
 sed -i 's/"管理权"/"权限管理"/g' `egrep "管理权" -rl ./`
-#sed -i 's/"带宽监控"/"监控"/g' `egrep "带宽监控" -rl ./`
-sed -i 's/"Alist 文件列表"/"Alist网盘"/g' `grep "Alist 文件列表" -rl ./`
-sed -i 's/"Argon 主题设置"/"主题设置"/g' `grep "Argon 主题设置" -rl ./`
-sed -i 's/"Rclone"/"网盘挂载"/g' `grep "Rclone" -rl ./`
-sed -i 's/"Socat"/"端口转发"/g' `grep "Socat" -rl ./`
-sed -i 's/"UPnP"/"UPnP设置"/g' `grep "UPnP" -rl ./`
-#sed -i 's/"上网时间控制"/"上网控制"/g' `grep "上网时间控制" -rl ./`
-sed -i 's/"动态 DNS"/"动态DNS"/g' `grep "动态 DNS" -rl ./`
-sed -i 's/"解除网易云音乐播放限制"/"网易音乐"/g' `grep "解除网易云音乐播放限制" -rl ./`
-sed -i 's/"接口"/"网络接口"/g' `egrep "接口" -rl ./`
-sed -i 's/"主机名映射"/"主机名称"/g' `grep "主机名映射" -rl ./`
-sed -i 's/"IP\/MAC 绑定"/"地址绑定"/g' `grep "IP\/MAC 绑定" -rl ./`
+sed -i 's/"终端"/"命令终端"/g' `egrep "TTYD 终端" -rl ./`
+sed -i 's/"Argon 主题设置"/"主题设置"/g' `egrep "Argon 主题设置" -rl ./`
+sed -i 's/"备份与升级"/"备份升级"/g' `egrep "备份与升级" -rl ./`
+sed -i 's/"重启"/"系统重启"/g' `egrep "重启" -rl ./`
+#存储
+sed -i 's/"网络存储"/"存储"/g' `egrep "网络存储" -rl ./`
+sed -i 's/"Alist 文件列表"/"Alist网盘"/g' `egrep "Alist 文件列表" -rl ./`
+sed -i 's/"FTP 服务器"/"Alist网盘"/g' `egrep "FTP 服务" -rl ./`
+sed -i 's/"USB 打印服务器"/"打印服务"/g' `egrep "USB 打印服务器" -rl ./`
+
+#VPN
+sed -i 's/"OpenVPN"/"OpenVPN 客户端"/g' `egrep "OpenVPN" -rl ./`
+sed -i 's/"ZeroTier"/"ZeroTier虚拟网络"/g' `egrep "ZeroTier" -rl ./`
+
+#Service
 sed -i 's/"PassWall 2"/"PassWall+"/g' `egrep "PassWall 2" -rl ./`
 sed -i 's/"ShadowSocksR Plus+"/"SSRPlus+"/g' `egrep "ShadowSocksR Plus+" -rl ./`
 sed -i 's/"Hello World"/"VssrVPN"/g' `egrep "Hello World" -rl ./`
-sed -i 's/"ACME 证书"/"证书服务"/g' `egrep "ACME 证书" -rl ./`
+#sed -i 's/"ACME 证书"/"证书服务"/g' `egrep "ACME 证书" -rl ./`
 sed -i 's/"AirConnect"/"隔空投送"/g' `egrep "AirConnect" -rl ./`
-EOF
+sed -i 's/"UPnP"/"UPnP设置"/g' `egrep "UPnP" -rl ./`
+sed -i 's/"动态 DNS"/"动态DNS"/g' `egrep "动态 DNS" -rl ./`
+sed -i 's/"解除网易云音乐播放限制"/"网易音乐"/g' `egrep "解除网易云音乐播放限制" -rl ./`
+sed -i 's/"Cloudflare速度测试"/"Cloudflare"/g' `egrep "Cloudflare速度测试" -rl ./`
+sed -i 's/"上网时间控制"/"上网控制"/g' `egrep "上网时间控制" -rl ./`
+#sed -i 's/"带宽监控"/"监控"/g' `egrep "带宽监控" -rl ./`
 
-#修改固件名字
-# sed -i "s/OpenWrt /AutoBuild Firmware Compiled By @waynesg build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" package/emortal/default-settings/files/99-default-settings
+#NetWork
+sed -i 's/"接口"/"网络接口"/g' `egrep "接口" -rl ./`
+sed -i 's/"主机名映射"/"主机名称"/g' `egrep "主机名映射" -rl ./`
+sed -i 's/"IP\/MAC 绑定"/"地址绑定"/g' `egrep "IP\/MAC 绑定" -rl ./`
+sed -i 's/"Socat"/"端口转发"/g' `egrep "Socat" -rl ./`
+sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' `egrep "Turbo ACC 网络加速" -rl ./`
+sed -i 's/"实时流量监测"/"流量"/g' `egrep "实时流量监测" -rl ./`
+
+#sed -i 's/"Web 管理"/"Web管理"/g' `egrep "Web 管理" -rl ./`
+#sed -i 's/"Rclone"/"网盘挂载"/g' `grep "Rclone" -rl ./`
+
 
 # 整理固件包时候,删除您不想要的固件或者文件,让它不需要上传到Actions空间(根据编译机型变化,自行调整删除名称)
 cat >"$CLEAR_PATH" <<-EOF
@@ -119,7 +128,7 @@ sha256sums
 version.buildinfo
 *Image*
 *efi.img*
-*uefi*
+-uefi-
 EOF
 
 # 在线更新时，删除不想保留固件的某个文件，在EOF跟EOF之间加入删除代码，记住这里对应的是固件的文件路径，比如： rm -rf /etc/config/luci
