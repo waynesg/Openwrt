@@ -107,11 +107,11 @@ sed -i 's/"上网时间控制"/"上网控制"/g' `egrep "上网时间控制" -rl
 #NetWork
 sed -i 's/"接口"/"网络接口"/g' `egrep "接口" -rl ./`
 sed -i 's/"主机名映射"/"主机名称"/g' `egrep "主机名映射" -rl ./`
-sed -i 's/"IP\/MAC 绑定"/"地址绑定"/g' `egrep "IP\/MAC 绑定" -rl ./`
+sed -i 's/"IP\/MAC绑定"/"地址绑定"/g' `egrep "IP\/MAC绑定" -rl ./`
 sed -i 's/"Socat"/"端口转发"/g' `egrep "Socat" -rl ./`
 sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' `egrep "Turbo ACC 网络加速" -rl ./`
-sed -i 's/"实时流量监测"/"流量"/g' `egrep "实时流量监测" -rl ./`
 
+#sed -i 's/"实时流量监测"/"流量"/g' `egrep "实时流量监测" -rl ./`
 #sed -i 's/"Web 管理"/"Web管理"/g' `egrep "Web 管理" -rl ./`
 #sed -i 's/"Rclone"/"网盘挂载"/g' `grep "Rclone" -rl ./`
 
