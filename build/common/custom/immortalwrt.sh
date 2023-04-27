@@ -25,3 +25,4 @@ svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-socat package/wa
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartdns-new-version package/waynesg/openwrt-passwall
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
 git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector package/waynesg/luci-app-internet-detector
+git clone -b master --depth 1 https://github.com/waynesg/luci-app-cpu-status-mini package/waynesg/luci-app-cpu-status-mini
