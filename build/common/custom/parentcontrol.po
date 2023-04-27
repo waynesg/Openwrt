@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2022-12-20 15:36+0000\n"
+"Last-Translator: muink <hukk1996@gmail.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"Language: zh_Hans\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.12.1-dev\n"
+
+msgid "Control"
+msgstr "管控"
+
+msgid "Parent Control"
+msgstr "家长控制"
+
+msgid "Time Control"
+msgstr "时间限制"
+
+msgid "Weburl Control"
+msgstr "网址过滤"
+
+msgid "Protocol Control"
+msgstr "协议过滤"
+
+msgid "feature Control"
+msgstr "配置过滤库"
+
+msgid "Week Day"
+msgstr "设定星期"
+
+msgid "Everyday"
+msgstr "每天"
