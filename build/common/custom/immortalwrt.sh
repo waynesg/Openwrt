@@ -5,6 +5,8 @@ svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-cloudflarespee
 svn co https://github.com/immortalwrt-collections/openwrt-cdnspeedtest/trunk/cdnspeedtest package/waynesg/luci-app-cloudflarespeedtest/cdnspeedtest
 svn co https://github.com/sirpdboy/luci-app-parentcontrol/trunk package/waynesg/luci-app-parentcontrol
 rm -rf package/waynesg/luci-app-parentcontrol/po/zh_Hans
+rm -rf package/waynesg/luci-app-parentcontrol/po/zh-cn/po/parentcontrol.po
+wget https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/custom/parentcontrol.po package/waynesg/luci-app-parentcontrol/po/zh-cn/po/
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-speedlimit package/waynesg/luci-app-control-speedlimit
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-timewol package/waynesg/luci-app-control-timewol
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-control-webrestriction package/waynesg/luci-app-control-webrestriction
@@ -12,6 +14,8 @@ svn co https://github.com/sbwml/luci-app-mosdns/trunk package/waynesg/luci-app-m
 svn co https://github.com/waynesg/luci-app-tn-netports/trunk package/waynesg/luci-app-tn-netports
 svn co https://github.com/sirpdboy/netspeedtest/trunk package/waynesg/luci-app-netspeedtest
 rm -rf package/waynesg/luci-app-netspeedtest/luci-app-netspeedtest/po/zh_Hans
+rm -rf package/waynesg/luci-app-netspeedtest/luci-app-netspeedtest/po/zh-cn/netspeedtest.po
+wget https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/custom/netspeedtest.po package/waynesg/luci-app-netspeedtest/luci-app-netspeedtest/po/zh-cn/
 svn co https://github.com/destan19/OpenAppFilter/trunk package/waynesg/luci-app-oaf
 svn co https://github.com/Hyy2001X/AutoBuild-Packages/trunk/luci-app-onliner package/waynesg/luci-app-onliner
 svn co https://github.com/zzsj0928/luci-app-pushbot/trunk package/waynesg/luci-app-pushbot
