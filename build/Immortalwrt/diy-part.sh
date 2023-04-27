@@ -76,13 +76,13 @@ export Cancel_running="0"                    # 取消路由器每天跑分任务
 sed -i 's/"挂载点"/"挂载路径"/g' `egrep "挂载点" -rl ./`
 sed -i 's/"启动项"/"启动管理"/g' `egrep "启动项" -rl ./`
 sed -i 's/"软件包"/"软件管理"/g' `egrep "软件包" -rl ./`
-sed -i 's/"管理权"/"权限管理"/g' `egrep "管理权" -rl ./`
+sed -i 's/"管理权"/"更改密码"/g' `egrep "管理权" -rl ./`
 sed -i 's/"终端"/"命令终端"/g' `egrep "TTYD 终端" -rl ./`
 sed -i 's/"Argon 主题设置"/"主题设置"/g' `egrep "Argon 主题设置" -rl ./`
 sed -i 's/"备份与升级"/"备份升级"/g' `egrep "备份与升级" -rl ./`
 sed -i 's/"重启"/"系统重启"/g' `egrep "重启" -rl ./`
 #存储
-sed -i 's/"网络存储"/"存储"/g' `egrep "网络存储" -rl ./`
+#sed -i 's/"网络存储"/"存储"/g' `egrep "网络存储" -rl ./`
 sed -i 's/"Alist 文件列表"/"Alist网盘"/g' `egrep "Alist 文件列表" -rl ./`
 sed -i 's/"FTP 服务器"/"Alist网盘"/g' `egrep "FTP 服务" -rl ./`
 sed -i 's/"USB 打印服务器"/"打印服务"/g' `egrep "USB 打印服务器" -rl ./`
