@@ -346,7 +346,7 @@ function build_openwrt() {
 cd ${GITHUB_WORKSPACE}
 if [[ `echo "${CPU_SELECTION}" |grep -Eoc 'E5'` -eq '1' ]] || [[ `echo "${CPU_SELECTION}" |grep -Eoc 'e5'` -eq '1' ]]; then
   export CPU_SELECTIO="E5"
-  export kaisbianyixx="Kick-E5-Compile"
+  export kaisbianyixx="Compile"
 elif [[ `echo "${CPU_SELECTION}" |grep -Eoc '8370'` -eq '1' ]]; then
   export CPU_SELECTIO="8370"
   export kaisbianyixx="8370-Compile"
