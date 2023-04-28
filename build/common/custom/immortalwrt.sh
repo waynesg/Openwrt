@@ -14,8 +14,8 @@ svn co https://github.com/sbwml/luci-app-mosdns/trunk package/waynesg/luci-app-m
 svn co https://github.com/waynesg/luci-app-tn-netports/trunk package/waynesg/luci-app-tn-netports
 svn co https://github.com/sirpdboy/netspeedtest/trunk package/waynesg/
 rm -rf package/waynesg/luci-app-netspeedtest/po/zh_Hans
-rm -rf package/waynesg/luci-app-netspeedtest/po/zh-cn/netspeedtest.po
-wget https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/custom/netspeedtest.po package/waynesg/luci-app-netspeedtest/po/zh-cn/
+mkdir -p package/waynesg/luci-app-netspeedtest/po/zh_Hans
+wget https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/custom/netspeedtest.po package/waynesg/luci-app-netspeedtest/po/zh_Hans
 svn co https://github.com/destan19/OpenAppFilter/trunk package/waynesg/luci-app-oaf
 svn co https://github.com/Hyy2001X/AutoBuild-Packages/trunk/luci-app-onliner package/waynesg/luci-app-onliner
 svn co https://github.com/zzsj0928/luci-app-pushbot/trunk package/waynesg/luci-app-pushbot
@@ -30,4 +30,3 @@ git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartd
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
 #git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector package/waynesg/luci-app-internet-detector
 git clone -b master --depth 1 https://github.com/waynesg/luci-app-cpu-status-mini package/waynesg/luci-app-cpu-status-mini
-#git clone -b master --depth 1 https://github.com/waynesg/luci-app-disks-info package/waynesg/luci-app-disks-info
