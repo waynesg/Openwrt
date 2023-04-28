@@ -8,8 +8,9 @@ touch /etc/crontabs/root
 uci set fstab.@global[0].anon_mount=1
 uci commit fstab
 
+rm -f /www/luci-static/resources/view/status/include/21_ethinfo.js
 rm -f /www/luci-static/resources/view/status/include/50_dsl.js
-rm -f /www/luci-static/resources/view/status/include/70_ddns.js
+#rm -f /www/luci-static/resources/view/status/include/70_ddns.js
 rm -f /www/luci-static/resources/view/status/include/80_minidlna.js
 rm -f /www/luci-static/resources/view/status/include/80_upnp.js
 
