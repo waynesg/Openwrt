@@ -1567,7 +1567,7 @@ fi
 case "${CPU_OPTIMIZATION}" in
 E5|弃用E5系列|弃用E5)
   if [[ `echo "${cpu_model}" |grep -Eoc "E5"` -eq '1' ]]; then
-    export chonglaixx="Kick-E5-Recompile"
+    export chonglaixx="Recompile-Kick-E5"
     export Continue_selecting="1"
   else
     TIME g " 恭喜,不是E5系列的CPU啦"
@@ -1576,7 +1576,7 @@ E5|弃用E5系列|弃用E5)
 ;;
 8370|8272|8171|8370C|8272CL|8171M)
   if [[ `echo "${cpu_model}" |grep -Eoc "${CPU_OPTIMIZATION}"` -eq '0' ]]; then
-    export chonglaixx="非${CPU_OPTIMIZATION}-Recompile"
+    export chonglaixx="Recompile-Non-${CPU_OPTIMIZATION}"
     export Continue_selecting="1"
   else
     TIME g " 恭喜,正是您想要的${CPU_OPTIMIZATION}CPU"
