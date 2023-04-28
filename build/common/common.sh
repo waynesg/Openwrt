@@ -611,6 +611,7 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
     find ${X} -type d -name 'luci-app-gost' -o -name 'gost' -o -name 'luci-app-wizard' | xargs -i rm -rf {}
   done
 fi
+sed -i 's/70_ddns\.js/21_ethinfo.js/g' /package/emortal/default-settings/files/99-default-settings
 }
 
 function Diy_OFFICIAL() {
