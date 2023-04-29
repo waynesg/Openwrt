@@ -535,6 +535,7 @@ echo -e "\nDISTRIB_SOURCECODE='${SOURCE}_${LUCI_EDITION}'" >> "${REPAIR_PATH}" &
 sed -i '/background/d' "${KEEPD_PATH}"
 cat >>"${KEEPD_PATH}" <<-EOF
 /www/luci-static/argon/background/
+/etc/openclash/core/
 EOF
 }
 
