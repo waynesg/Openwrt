@@ -30,4 +30,4 @@ git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartd
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
 #git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector package/waynesg/luci-app-internet-detector
 git clone -b master --depth 1 https://github.com/waynesg/luci-app-cpu-status-mini package/waynesg/luci-app-cpu-status-mini
-svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-pptp-server package/waynesg/luci-app-pptp-server
+git clone --depth 1 https://github.com/xkstudio/luci-app-pptp-server.git package/waynesg/luci-app-pptp-server
