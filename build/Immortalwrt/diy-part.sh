@@ -74,7 +74,7 @@ export Cancel_running="0"                    # 取消路由器每天跑分任务
 
 
 #菜单调整
-sed -i 's/\"services\"/\"nas\"/g' ./feeds/luci/applications/luci-app-accesscontrol/luasrc/controller/mia.lua
+sed -i 's/\"services\"/\"control\"/g' ./feeds/luci/applications/luci-app-accesscontrol/luasrc/controller/mia.lua
 
 # 修改插件名字
 sed -i 's/"挂载点"/"挂载路径"/g' `egrep "挂载点" -rl ./`
