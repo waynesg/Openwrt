@@ -612,7 +612,7 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
   done
 fi
 sed -i 's/70_ddns\.js/21_ethinfo.js/g' ${HOME_PATH}/package/emortal/default-settings/files/99-default-settings
-sed -i 's/Powered by <%= ver.luciname %>/AutoBuild Firmware Compiled By @waynesg build $(TZ=UTC-8 date "+%Y.%m.%d")/g' ${HOME_PATH}/feeds/luci/themes/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
+sed -i 's/<div>/<div style="display: flex; align-items: center;">/g' ${HOME_PATH}/feeds/luci/themes/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
 }
 
 function Diy_OFFICIAL() {
@@ -1396,7 +1396,6 @@ fi
 if [[ `grep -c "CONFIG_PACKAGE_luci-theme-argon=y" ${HOME_PATH}/.config` -eq '1' ]] && [[ `grep -c "CONFIG_TARGET_x86=y" ${HOME_PATH}/.config` -eq '1' ]]; then
   if [[ `grep -c "CONFIG_PACKAGE_luci-app-argon-config=y" ${HOME_PATH}/.config` -eq '0' ]]; then
     sed -i '/argon-config/d' "${HOME_PATH}/.config"
-    sed -i '/argon=y/i\CONFIG_PACKAGE_luci-app-argon-config=y' "${HOME_PATH}/.config"
   fi
 fi
 
