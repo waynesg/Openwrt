@@ -1396,7 +1396,6 @@ if [[ `grep -c "CONFIG_PACKAGE_luci-theme-argon=y" ${HOME_PATH}/.config` -eq '1'
   if [[ `grep -c "CONFIG_PACKAGE_luci-app-argon-config=y" ${HOME_PATH}/.config` -eq '0' ]]; then
     sed -i '/argon-config/d' "${HOME_PATH}/.config"
     sed -i '/argon=y/i\CONFIG_PACKAGE_luci-app-argon-config=y' "${HOME_PATH}/.config"
-    rm -rf ${HOME_PATH}/feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background/README.md
   fi
 fi
 
