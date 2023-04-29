@@ -612,7 +612,7 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
   done
 fi
 sed -i 's/70_ddns\.js/21_ethinfo.js/g' ${HOME_PATH}/package/emortal/default-settings/files/99-default-settings
-sed -i 's/<div>/<div style="display: flex; align-items: center;">/g' ${HOME_PATH}/feeds/luci/themes/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
+sed -i 's/<%= ver.distversion %>/<br><%= ver.distversion %>/g' ${HOME_PATH}/feeds/luci/themes/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
 }
 
 function Diy_OFFICIAL() {
