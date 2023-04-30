@@ -140,5 +140,4 @@ EOF
 
 # 在线更新时，删除不想保留固件的某个文件，在EOF跟EOF之间加入删除代码，记住这里对应的是固件的文件路径，比如： rm -rf /etc/config/luci
 cat >>$DELETE <<-EOF
-${AutoBuild_Uefi}-${EFIMD5}${Firmware_SFX}
 EOF
