@@ -1394,8 +1394,8 @@ if [[ `grep -c "CONFIG_PACKAGE_luci-app-samba4=y" ${HOME_PATH}/.config` -eq '1' 
   fi
 fi
 
-if [[ `grep -c "CONFIG_PACKAGE_luci-theme-argon=y" ${HOME_PATH}/.config` -eq '1' ]]; then
-  download_dir="${HOME_PATH}/files/www/luci-static/argon/background"
+if [[ `grep -c "CONFIG_PACKAGE_luci-app-argon-config=y" ${HOME_PATH}/.config` -eq '1' ]]; then
+  download_dir="${HOME_PATH}/www/luci-static/argon/background"
   download_link="https://raw.githubusercontent.com/waynesg/OpenWrt-Software/main/openwrt-diy/argon/"
   mkdir -p "${download_dir}"
   curl -s "${download_link}" | grep -oE 'href="[^"]*\.mp4"' | sed 's/href="//' | sed 's/"$//' | while read filename; do
