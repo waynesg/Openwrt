@@ -89,7 +89,7 @@ sed -i 's/"管理权"/"更改密码"/g' `egrep "管理权" -rl ./`
 sed -i 's/"终端"/"命令终端"/g' `egrep "终端" -rl ./`
 sed -i 's/"Argon 主题设置"/"主题设置"/g' `egrep "Argon 主题设置" -rl ./`
 sed -i 's/"备份与升级"/"备份升级"/g' `egrep "备份与升级" -rl ./`
-sed -i 's/"重启"/"系统重启"/g' `egrep "重启" -rl ./`
+sed -i 's/"重启"/"系统重启"/g' ./feeds/luci/modules/luci-base/po/zh_Hans/base.po
 
 #存储
 sed -i 's/"网络存储"/"存储"/g' `egrep "网络存储" -rl ./`
