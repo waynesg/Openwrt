@@ -23,8 +23,8 @@ svn co https://github.com/QiuSimons/OpenWrt-Add/trunk/luci-app-airconnect packag
 svn co https://github.com/QiuSimons/OpenWrt-Add/trunk/airconnect package/waynesg/luci-app-airconnect/airconnect
 svn co https://github.com/kiddin9/luci-app-wizard/trunk package/waynesg/luci-app-wizard
 svn co https://github.com/sirpdboy/sirpdboy-package/trunk/luci-app-advanced package/waynesg/luci-app-advanced
-git clone --depth 1 https://github.com/brvphoenix/luci-app-wrtbwmon -b master package/waynesg/
-git clone --depth 1 https://github.com/brvphoenix/wrtbwmon package/waynesg/
+git clone --depth 1 https://github.com/brvphoenix/luci-app-wrtbwmon -b master package/waynesg/luci-app-wrtbwmon
+git clone --depth 1 https://github.com/brvphoenix/wrtbwmon package/waynesg/wrtbwmon
 svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-socat package/waynesg/luci-app-socat
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartdns-new-version package/waynesg/openwrt-passwall
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
