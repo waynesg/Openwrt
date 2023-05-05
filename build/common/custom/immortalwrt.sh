@@ -31,3 +31,5 @@ git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/wayne
 #git clone -b master --depth 1 https://github.com/waynesg/luci-app-internet-detector package/waynesg/luci-app-internet-detector
 git clone -b master --depth 1 https://github.com/waynesg/luci-app-cpu-status-mini package/waynesg/luci-app-cpu-status-mini
 git clone --depth 1 https://github.com/xkstudio/luci-app-pptp-server.git package/waynesg/luci-app-pptp-server
+git clone --depth 1 https://github.com/gngpp/luci-theme-design.git -b js package/waynesg/luci-theme-design
+git clone --depth 1 https://github.com/gngpp/luci-app-design-config package/waynesg/luci-app-design-config
