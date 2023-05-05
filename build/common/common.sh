@@ -1172,9 +1172,9 @@ if [[ -d "${apptions}" ]] && [[ `find "${apptions}" -type d -name "zh_Hans" |gre
   rm -rf zh_Hans.sh
 else
   cp -Rf ${HOME_PATH}/build/common/language/zh_cn.sh ${HOME_PATH}/zh_cn.sh
-  chmod +x zh-cn.sh
-  /bin/bash zh-cn.sh
-  rm -rf zh-cn.sh
+  chmod +x zh_cn.sh
+  /bin/bash zh_cn.sh
+  rm -rf zh_cn.sh
 fi
 }
 
