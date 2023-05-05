@@ -14,16 +14,16 @@ export Mandatory_theme="argon"              # 将bootstrap替换您需要的主�
 export Default_theme="argon"                # 多主题时,选择某主题为默认第一主题 (填写主题名称,填0为不作修改)
 
 # 旁路由选项
-export Gateway_Settings="192.168.1.1"       # 旁路由设置 IPv4 网关(填入您的网关IP为启用)(填0为不作修改)
-#export DNS_Settings="114.114.114.114"       # 旁路由设置 DNS(填入DNS，多个DNS要用空格分开)(填0为不作修改)
-export Broadcast_Ipv4="0"                   # 设置 IPv4 广播(填入您的IP为启用)(填0为不作修改)
-export Disable_DHCP="0"                     # 旁路由关闭DHCP功能(1为启用命令,填0为不作修改)
-export Disable_Bridge="0"                   # 旁路由去掉桥接模式(1为启用命令,填0为不作修改)
-export Create_Ipv6_Lan="1"                  # 爱快+OP双系统时,爱快接管IPV6,在OP创建IPV6的lan口接收IPV6信息(1为启用命令,填0为不作修改)
+#export Gateway_Settings="192.168.1.1"       # 旁路由设置 IPv4 网关(填入您的网关IP为启用)(填0为不作修改)
+#export DNS_Settings="0"                     # 旁路由设置 DNS(填入DNS，多个DNS要用空格分开)(填0为不作修改)
+#export Broadcast_Ipv4="0"                   # 设置 IPv4 广播(填入您的IP为启用)(填0为不作修改)
+#export Disable_DHCP="0"                     # 旁路由关闭DHCP功能(1为启用命令,填0为不作修改)
+#export Disable_Bridge="0"                   # 旁路由去掉桥接模式(1为启用命令,填0为不作修改)
+#export Create_Ipv6_Lan="1"                  # 爱快+OP双系统时,爱快接管IPV6,在OP创建IPV6的lan口接收IPV6信息(1为启用命令,填0为不作修改)
 
 # IPV6
-export Enable_IPV6_function="1"              # 编译IPV6固件(1为启用命令,填0为不作修改)
-export Disable_IPv6_option="0"               # 关闭固件里面所有IPv6选项和IPv6的DNS解析记录(1为启用命令,填0为不作修改)
+#export Enable_IPV6_function="1"              # 编译IPV6固件(1为启用命令,填0为不作修改)
+#export Disable_IPv6_option="0"               # 关闭固件里面所有IPv6选项和IPv6的DNS解析记录(1为启用命令,填0为不作修改)
 
 # OpenClash
 #export OpenClash_branch="master"             # OpenClash代码选择分支（master 或 dev）(填0为不需要此插件)
@@ -36,16 +36,16 @@ export Disable_IPv6_option="0"               # 关闭固件里面所有IPv6选�
 # export Replace_Kernel="6.1"                    # 更换内核版本,在对应源码的[target/linux/架构]查看patches-x.x,看看x.x有啥就有啥内核了(填入内核版本号,填0为不作修改)
 
 # 设置免密码登录(个别源码本身就没密码的)
-export Password_free_login="0"               # 设置首次登录后台密码为空（进入openwrt后自行修改密码）(1为启用命令,填0为不作修改)
+export Password_free_login="1"               # 设置首次登录后台密码为空（进入openwrt后自行修改密码）(1为启用命令,填0为不作修改)
 
 # 增加AdGuardHome插件时把核心一起下载好
 # export AdGuardHome_Core="0"                  # 编译固件增加AdGuardHome时,把核心下载好,需要注意的是一个核心20多MB的,小闪存机子搞不来(1为启用命令,填0为不需要核心)
 
 # 其他
 export Ttyd_account_free_login="1"           # 设置ttyd免密登录(1为启用命令,填0为不作修改)
-export Delete_unnecessary_items="1"          # 个别机型内一堆其他机型固件,删除其他机型的,只保留当前主机型固件(1为启用命令,填0为不作修改)
-export Disable_53_redirection="0"            # 删除DNS强制重定向53端口防火墙规则(个别源码本身不带次功能)(1为启用命令,填0为不作修改)
-export Cancel_running="1"                    # 取消路由器每天跑分任务(个别源码本身不带次功能)(1为启用命令,填0为不作修改)
+#export Delete_unnecessary_items="1"          # 个别机型内一堆其他机型固件,删除其他机型的,只保留当前主机型固件(1为启用命令,填0为不作修改)
+#export Disable_53_redirection="0"            # 删除DNS强制重定向53端口防火墙规则(个别源码本身不带次功能)(1为启用命令,填0为不作修改)
+#export Cancel_running="1"                    # 取消路由器每天跑分任务(个别源码本身不带次功能)(1为启用命令,填0为不作修改)
 
 
 TIME() {
@@ -68,17 +68,7 @@ TIME() {
 echo
 TIME r "删除无用主题"
 rm -rf ./feeds/freifunk/themes
-rm -rf ./feeds/luci/themes/luci-theme-argon
-rm -rf ./feeds/luci/themes/luci-theme-material
 TIME r "删除重复插件"
-rm -rf ./feeds/packages/admin/netdata
-rm -rf ./feeds/luci/applications/luci-app-netdata
-rm -rf ./feeds/luci/applications/luci-app-serverchan
-rm -rf ./feeds/luci/applications/luci-app-pushbot
-rm -rf ./feeds/luci/applications/luci-app-unblockmusic
-rm -rf ./feeds/luci/applications/luci-app-mosdns
-rm -rf ./feeds/luci/applications/luci-app-omcproxy
-rm -rf ./feeds/packages/net/mosdns
 rm -rf ./feeds/packages/net/adguardhome
 rm -rf ./feeds/packages/net/go-aliyundrive-webdav
 rm -rf ./feeds/packages/net/gowebdav
@@ -86,11 +76,6 @@ rm -rf ./feeds/packages/net/msd_lite
 rm -rf ./feeds/packages/net/pdnsd-alt
 rm -rf ./feeds/packages/net/v2ray-geodata
 rm -rf ./feeds/luci/libs/luci-lib-ipkg
-rm -rf ./feeds/luci/applications/luci-app-argon-config
-
-echo 
-TIME y "添加软件包"
-rm -rf package/waynesg && git clone -b main --depth=1 https://github.com/waynesg/OpenWrt-Software package/waynesg
 
 echo
 TIME b "修改 系统文件..."
@@ -136,16 +121,6 @@ EOF
 echo 
 TIME y ”关闭开机串口跑码“
 sed -i 's/console=tty0//g'  target/linux/x86/image/Makefile
-
-# ttyd设置空密码
-#sed -i 's/\/bin\/login/\/bin\/login -f root/' /etc/config/ttyd
-
-echo 
-TIME y "修改连接数"
-sed -i '/customized in this file/a net.netfilter.nf_conntrack_max=165535' package/base-files/files/etc/sysctl.conf
-
-## containerd临时关闭hash验证
-#sed -i 's/PKG_HASH.*/PKG_HASH:=skip/' feeds/packages/utils/containerd/Makefile
 
 echo
 TIME y "添加upx"
