@@ -71,11 +71,9 @@ rm -rf ./feeds/freifunk/themes
 TIME r "删除重复插件"
 rm -rf ./feeds/packages/net/adguardhome
 rm -rf ./feeds/packages/net/go-aliyundrive-webdav
-rm -rf ./feeds/packages/net/gowebdav
-rm -rf ./feeds/packages/net/msd_lite
 rm -rf ./feeds/packages/net/pdnsd-alt
 rm -rf ./feeds/packages/net/v2ray-geodata
-rm -rf ./feeds/luci/libs/luci-lib-ipkg
+
 
 echo
 TIME b "修改 系统文件..."
