@@ -12,11 +12,11 @@ svn co https://github.com/sirpdboy/sirpdboy-package/trunk/luci-app-fileassistant
 svn co https://github.com/ximiTech/luci-app-msd_lite/trunk package/waynesg/luci-app-msd_lite
 svn co https://github.com/pymumu/luci-app-smartdns/branches/lede package/waynesg/luci-app-smartdns
 svn co https://github.com/sirpdboy/netspeedtest/trunk package/waynesg/netspeedtest
-svn co https://github.com/destan19/OpenAppFilter/trunk package/waynesg/luci-app-oaf
+git clone --depth 1 https://github.com/destan19/OpenAppFilter -b master package/waynesg/luci-app-oaf
 svn co https://github.com/Hyy2001X/AutoBuild-Packages/trunk/luci-app-onliner package/waynesg/luci-app-onliner
 git clone --depth 1 -b master https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic package/waynesg/luci-app-unblockneteasemusic
-svn co https://github.com/QiuSimons/OpenWrt-Add/trunk/luci-app-airconnect package/waynesg/luci-app-airconnect
-svn co https://github.com/QiuSimons/OpenWrt-Add/trunk/airconnect package/waynesg/luci-app-airconnect/airconnect
+svn co https://github.com/linkease/openwrt-app-actions/trunk/applications/luci-app-airconnect package/waynesg/luci-app-airconnect
+svn co https://github.com/linkease/openwrt-app-actions/trunk/applications/airconnect package/waynesg/luci-app-airconnect/airconnect
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartdns-new-version package/waynesg/openwrt-passwall
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall.git -b packages package/waynesg/passwall
