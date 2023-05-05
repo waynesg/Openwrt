@@ -166,7 +166,7 @@ sed -i 's/"解除网易云音乐播放限制"/"网易音乐"/g' package/waynesg/
 #sed -i 's/"Frp 内网穿透"/"Frp客户端"/g' `grep "Frp 内网穿透" -rl ./`
 sed -i 's/ShadowSocksR Plus+/SSRPlus+/g' package/waynesg/helloworld/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
 sed -i 's/msgstr "UPnP"/msgstr "UPnP服务"/g' feeds/luci/applications/luci-app-upnp/po/zh-cn/upnp.po
-sed -i 's/Hello World/VssrVPN/g'  package/waynesg/luci-app-vssr/luasrc/controller/vssr.lua
+#sed -i 's/Hello World/VssrVPN/g'  package/waynesg/luci-app-vssr/luasrc/controller/vssr.lua
 sed -i 's/"Cloudflare速度测试"/"Cloudflare"/g' package/waynesg/luci-app-cloudflarespeedtest/po/zh-cn/cloudflarespeedtest.po
 #sed -i 's/"TelegramBot"/"Telegram"/g'  package/waynesg/luci-app-telegrambot/luasrc/controller/telegrambot.lua
 #sed -i 's/"DDNS.to内网穿透"/"DDNSTO"/g' `grep "DDNS.to内网穿透" -rl ./`
