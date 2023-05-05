@@ -732,9 +732,10 @@ if [[ "${SOURCE_CODE}" =~ (XWRT|OFFICIAL) ]]; then
 fi
 
 if [ "${REPO_BRANCH}" == "master" ]; then
-cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
-src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;main
-EOF
+#cat >>"${HOME_PATH}/feeds.conf.default" <<-EOF
+#src-git waynesg https://github.com/waynesg/OpenWrt-Software.git;main
+#EOF
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/custom/lede.sh)"
 elif [[ "${REPO_BRANCH}" = "openwrt-21.02" ]]; then
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/custom/immortalwrt.sh)"
 elif [[ "${REPO_BRANCH}" = "openwrt-22.03" ]]; then
