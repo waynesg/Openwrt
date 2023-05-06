@@ -559,9 +559,10 @@ cd ${HOME_PATH}
 if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
   # 删除重复插件（LEDE）
   for X in "${HOME_PATH}/feeds" "${HOME_PATH}/package"; do
-    find ${X} -type d -name 'luci-theme-argon-mod' -o -name 'mentohust' | xargs -i rm -rf {}
+    find ${X} -type d -name 'luci-theme-argon-mod' -o -name 'luci-theme-argon' -o -name 'luci-app-argon-config' | xargs -i rm -rf {}
     find ${X} -type d -name 'luci-app-msd_lite' -o -name 'msd_lite' | xargs -i rm -rf {}
-    find ${X} -type d -name 'luci-theme-design' -o -name 'luci-app-design-config' -o -name 'luci-app-wizard' | xargs -i rm -rf {}
+    find ${X} -type d -name 'pdnsd-alt' -o -name 'v2ray-geodata' | xargs -i rm -rf {}
+    find ${X} -type d -name 'adguardhome' -o -name 'go-aliyundrive-webdav' | xargs -i rm -rf {}
   done
 fi
 
