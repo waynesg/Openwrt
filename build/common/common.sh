@@ -127,6 +127,15 @@ COOLSNOWWOLF)
     export PACKAGE_BRANCH="master"
     export DIY_WORK="${FOLDER_NAME}MASTER"
     echo "GL_BRANCH=lede" >> ${GITHUB_ENV}
+  elif [[ "${REPO_BRANCH}" == "gl-ax1800" ]]; then
+    export REPO_URL="https://github.com/coolsnowwolf/openwrt-gl-ax1800"
+    export SOURCE="Lede"
+    export LUCI_EDITION="gl-ax1800"
+    export SOURCE_OWNER="Lede's"
+    export PACKAGE_BRANCH="master"
+    export REPO_BRANCH="master"
+    export DIY_WORK="${FOLDER_NAME}ax1800"
+    echo "GL_BRANCH=lede_ax1800" >> ${GITHUB_ENV}
   fi
 ;;
 LIENOL)
@@ -290,6 +299,7 @@ echo "文件系统        类型   容量  已用  可用 使用% 挂载点"
 df -hT $PWD
 else
 bash <(curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/custom/ubuntu.sh)
+fi
 if [[ $? -ne 0 ]];then
   TIME r "依赖安装失败，请检测网络后再次尝试!"
   exit 1
@@ -312,6 +322,16 @@ OFFICIAL)
     echo
   fi
 ;;
+#COOLSNOWWOLF)
+#  if [[ "${GL_BRANCH}" == "lede" ]]; then
+#    rm -rf ${HOME_PATH}/target/linux/ramips/patches-5.15
+#    svn co https://github.com/lede-project/source/trunk/target/linux/ramips/patches-5.15 ${HOME_PATH}/target/linux/ramips/patches-5.15 > /dev/null 2>&1
+#    for i in "mt7620" "mt7621" "mt76x8" "rt288x" "rt305x" "rt3883"; do \
+#        [[ ! -f "${HOME_PATH}/target/linux/ramips/$i/config-5.15" ]] &&  \
+#        curl -fsSL https://raw.githubusercontent.com/lede-project/source/master/target/linux/ramips/$i/config-5.15 > ${HOME_PATH}/target/linux/ramips/$i/config-5.15; \
+#    done
+#  fi
+#;;
 esac
 
 ./scripts/feeds clean
@@ -433,7 +453,7 @@ if [[ ! -d "${settingss}" ]] && [[ "${applica}" == "1" ]]; then
   svn export https://github.com/waynesg/openwrt/trunk/build/common/OFFICIAL/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
   [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-base" ]] && sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
 elif [[ ! -d "${settingss}" ]] && [[ "${applica}" == "2" ]]; then
-  #svn export https://github.com/waynesg/openwrt/trunk/build/common/COOLSNOWWOLF/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+  svn export https://github.com/waynesg/openwrt/trunk/build/common/COOLSNOWWOLF/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
 fi
 
 rm -rf ${HOME_PATH}/feeds/packages/lang/golang
@@ -544,7 +564,14 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
     find ${X} -type d -name 'luci-theme-design' -o -name 'luci-app-design-config' -o -name 'luci-app-wizard' | xargs -i rm -rf {}
   done
 fi
+
+case "${GL_BRANCH}" in
+lede_ax1800)
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/LIENOL/19.07/package/kernel/linux/modules/netsupport.sh)"
+;;
+esac
 }
+
 
 function Diy_LIENOL() {
 cd ${HOME_PATH}
@@ -746,7 +773,7 @@ if [[ -n "${BENDI_VERSION}" ]]; then
   cp -Rf ${GITHUB_WORKSPACE}/operates/${FOLDER_NAME}/* ${BUILD_PATH}/
   sudo chmod -R +x ${BUILD_PATH}
 fi
-  
+
 if [ -n "$(ls -A "${BUILD_PATH}/patches" 2>/dev/null)" ]; then
   find "${BUILD_PATH}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 --forward --no-backup-if-mismatch"
 fi
