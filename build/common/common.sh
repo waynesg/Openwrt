@@ -554,6 +554,7 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
     find ${X} -type d -name 'luci-theme-design' -o -name 'luci-app-design-config' -o -name 'luci-app-wizard' | xargs -i rm -rf {}
   done
 fi
+}
 
 function Diy_LIENOL() {
 cd ${HOME_PATH}
