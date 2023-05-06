@@ -1,4 +1,6 @@
 svn co https://github.com/sirpdboy/sirpdboy-package/trunk/luci-app-advanced package/waynesg/luci-app-advanced
+git clone -b 18.06 --depth 1 https://github.com/jerrykuku/luci-theme-argon package/waynesg/luci-theme-argon
+git clone --depth 1 https://github.com/jerrykuku/luci-app-argon-config package/waynesg/luci-app-argon-config
 git clone -b master --depth 1 https://github.com/sbwml/luci-app-alist.git package/waynesg/luci-app-alist
 svn co https://github.com/sirpdboy/luci-app-autotimeset/trunk package/waynesg/luci-app-autotimeset
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass package/waynesg/luci-app-bypass
