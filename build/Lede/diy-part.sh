@@ -67,7 +67,8 @@ TIME() {
 }
 echo
 TIME r "删除无用主题"
-rm -rf ./feeds/freifunk/themes
+rm -rf ./feeds/luci/luci-theme-argon
+rm -rf ./feeds/luci/luci-theme-argon-mod
 TIME r "删除重复插件"
 rm -rf ./feeds/packages/net/adguardhome
 rm -rf ./feeds/packages/net/go-aliyundrive-webdav
@@ -120,10 +121,6 @@ echo
 TIME y ”关闭开机串口跑码“
 sed -i 's/console=tty0//g'  target/linux/x86/image/Makefile
 
-#echo
-#TIME y "添加upx"
-#sed -i 's/"PKG_BUILD_DEPENDS:=golang\/host homebox\/host"/"PKG_BUILD_DEPENDS:=golang\/host homebox\/host upx\/host"/g' package/waynesg/netspeedtest/homebox/Makefile
-#sed -i 's/"PKG_BUILD_DEPENDS:=golang\/host"/"PKG_BUILD_DEPENDS:=golang\/host upx\/host"/g' package/waynesg/luci-app-mosdns/mosdns/Makefile
 
 echo
 TIME b "菜单 调整..."
@@ -215,6 +212,9 @@ feeds.buildinfo
 openwrt-x86-64-generic-kernel.bin
 openwrt-x86-64-generic.manifest
 openwrt-x86-64-generic-squashfs-rootfs.img.gz
+openwrt-x86-64-generic-rootfs.tar.gz
+openwrt-x86-64-generic-squashfs-combined-efi.img.gz
+ipk.tar.gz
 sha256sums
 version.buildinfo
 EOF
