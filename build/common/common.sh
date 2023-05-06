@@ -308,16 +308,16 @@ OFFICIAL)
     echo
   fi
 ;;
-COOLSNOWWOLF)
-  if [[ "${GL_BRANCH}" == "lede" ]]; then
-    rm -rf ${HOME_PATH}/target/linux/ramips/patches-5.15
-    svn co https://github.com/lede-project/source/trunk/target/linux/ramips/patches-5.15 ${HOME_PATH}/target/linux/ramips/patches-5.15 > /dev/null 2>&1
-    for i in "mt7620" "mt7621" "mt76x8" "rt288x" "rt305x" "rt3883"; do \
-        [[ ! -f "${HOME_PATH}/target/linux/ramips/$i/config-5.15" ]] &&  \
-        curl -fsSL https://raw.githubusercontent.com/lede-project/source/master/target/linux/ramips/$i/config-5.15 > ${HOME_PATH}/target/linux/ramips/$i/config-5.15; \
-    done
-  fi
-;;
+#COOLSNOWWOLF)
+#  if [[ "${GL_BRANCH}" == "lede" ]]; then
+#    rm -rf ${HOME_PATH}/target/linux/ramips/patches-5.15
+#    svn co https://github.com/lede-project/source/trunk/target/linux/ramips/patches-5.15 ${HOME_PATH}/target/linux/ramips/patches-5.15 > /dev/null 2>&1
+#    for i in "mt7620" "mt7621" "mt76x8" "rt288x" "rt305x" "rt3883"; do \
+#        [[ ! -f "${HOME_PATH}/target/linux/ramips/$i/config-5.15" ]] &&  \
+#        curl -fsSL https://raw.githubusercontent.com/lede-project/source/master/target/linux/ramips/$i/config-5.15 > ${HOME_PATH}/target/linux/ramips/$i/config-5.15; \
+#    done
+#  fi
+#;;
 esac
 
 ./scripts/feeds clean
@@ -439,7 +439,7 @@ if [[ ! -d "${settingss}" ]] && [[ "${applica}" == "1" ]]; then
   svn export https://github.com/waynesg/openwrt/trunk/build/common/OFFICIAL/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
   [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-base" ]] && sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
 elif [[ ! -d "${settingss}" ]] && [[ "${applica}" == "2" ]]; then
-  svn export https://github.com/waynesg/openwrt/trunk/build/common/COOLSNOWWOLF/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+  #svn export https://github.com/waynesg/openwrt/trunk/build/common/COOLSNOWWOLF/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
 fi
 
 rm -rf ${HOME_PATH}/feeds/packages/lang/golang
@@ -759,7 +759,7 @@ if [[ -n "${BENDI_VERSION}" ]]; then
   cp -Rf ${GITHUB_WORKSPACE}/operates/${FOLDER_NAME}/* ${BUILD_PATH}/
   sudo chmod -R +x ${BUILD_PATH}
 fi
-
+  
 if [ -n "$(ls -A "${BUILD_PATH}/patches" 2>/dev/null)" ]; then
   find "${BUILD_PATH}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 --forward --no-backup-if-mismatch"
 fi
