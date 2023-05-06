@@ -127,15 +127,6 @@ COOLSNOWWOLF)
     export PACKAGE_BRANCH="master"
     export DIY_WORK="${FOLDER_NAME}MASTER"
     echo "GL_BRANCH=lede" >> ${GITHUB_ENV}
-  elif [[ "${REPO_BRANCH}" == "gl-ax1800" ]]; then
-    export REPO_URL="https://github.com/coolsnowwolf/openwrt-gl-ax1800"
-    export SOURCE="Lede"
-    export LUCI_EDITION="gl-ax1800"
-    export SOURCE_OWNER="Lede's"
-    export PACKAGE_BRANCH="master"
-    export REPO_BRANCH="master"
-    export DIY_WORK="${FOLDER_NAME}ax1800"
-    echo "GL_BRANCH=lede_ax1800" >> ${GITHUB_ENV}
   fi
 ;;
 LIENOL)
@@ -563,14 +554,6 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
     find ${X} -type d -name 'luci-theme-design' -o -name 'luci-app-design-config' -o -name 'luci-app-wizard' | xargs -i rm -rf {}
   done
 fi
-
-case "${GL_BRANCH}" in
-lede_ax1800)
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/LIENOL/19.07/package/kernel/linux/modules/netsupport.sh)"
-;;
-esac
-}
-
 
 function Diy_LIENOL() {
 cd ${HOME_PATH}
