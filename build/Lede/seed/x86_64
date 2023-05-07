@@ -77,6 +77,8 @@ CONFIG_PACKAGE_fdk-aac=y
 CONFIG_PACKAGE_fuse-utils=y
 CONFIG_PACKAGE_golang=y
 CONFIG_PACKAGE_golang-src=y
+# CONFIG_PACKAGE_grub2-bios-setup is not set
+# CONFIG_PACKAGE_grub2-efi is not set
 CONFIG_PACKAGE_haproxy=y
 CONFIG_PACKAGE_homebox=y
 CONFIG_PACKAGE_httping=y
@@ -221,8 +223,6 @@ CONFIG_PACKAGE_luci-app-alist=y
 CONFIG_PACKAGE_luci-app-argon-config=y
 # CONFIG_PACKAGE_luci-app-autoreboot is not set
 CONFIG_PACKAGE_luci-app-autotimeset=y
-# CONFIG_PACKAGE_luci-app-bypass_INCLUDE_Trojan is not set
-CONFIG_PACKAGE_luci-app-bypass_INCLUDE_V2ray_plugin=y
 CONFIG_PACKAGE_luci-app-cloudflarespeedtest=y
 CONFIG_PACKAGE_luci-app-control-speedlimit=y
 CONFIG_PACKAGE_luci-app-control-timewol=y
