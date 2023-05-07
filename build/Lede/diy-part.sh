@@ -135,6 +135,7 @@ echo "重命名系统菜单"
 #system menu
 sed -i 's/"Web 管理"/"Web管理"/g' `grep "Web 管理" -rl ./`
 sed -i 's/"备份\/升级"/"备份升级"/g' `grep "备份\/升级" -rl ./`
+sed -i 's/"进程"/"系统进程"/g' `grep "进程" -rl ./`
 sed -i 's/"管理权"/"权限管理"/g' feeds/luci/modules/luci-base/po/zh-cn/base.po
 sed -i 's/"重启"/"立即重启"/g' feeds/luci/modules/luci-base/po/zh-cn/base.po
 sed -i 's/"挂载点"/"挂载路径"/g' feeds/luci/modules/luci-base/po/zh-cn/base.po
@@ -197,7 +198,7 @@ sed -i 's/"FTP 服务器"/"FTP 服务"/g' feeds/luci/applications/luci-app-vsftp
 sed -i 's/"Alist 文件列表"/"Alist列表"/g' package/waynesg/luci-app-alist/luci-app-alist/po/zh-cn/alist.po
 #vpn
 sed -i 's/"ZeroTier"/"ZeroTier虚拟网络"/g' feeds/luci/applications/luci-app-zerotier/luasrc/controller/zerotier.lua
-sed -i 's/"OpenVPN"/"OpenVPN 客户端"/g' feeds/luci/applications/luci-app-openvpn/po/zh-cn/openvpn.po
+sed -i 's/"OpenVPN"/"OpenVPN 客户端"/g' feeds/luci/applications/luci-app-openvpn/luasrc/controller/openvpn.lua
 TIME b "重命名 完成"
 echo
 TIME b "自定义文件修复权限"
