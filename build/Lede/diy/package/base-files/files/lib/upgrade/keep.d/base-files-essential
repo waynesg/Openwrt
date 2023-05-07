@@ -14,4 +14,6 @@
 /mnt/network
 /etc/docker/daemon.json
 /etc/docker/key.json
-/etc/AdGuardHome.yaml
+/usr/share/v2ray/
+/usr/share/unblockneteasemusic/
+/etc/mosdns/
