@@ -3,10 +3,9 @@ git clone -b 18.06 --depth 1 https://github.com/jerrykuku/luci-theme-argon packa
 git clone --depth 1 https://github.com/jerrykuku/luci-app-argon-config package/waynesg/luci-app-argon-config
 git clone -b master --depth 1 https://github.com/sbwml/luci-app-alist.git package/waynesg/luci-app-alist
 svn co https://github.com/sirpdboy/luci-app-autotimeset/trunk package/waynesg/luci-app-autotimeset
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass package/waynesg/luci-app-bypass
+#svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass package/waynesg/luci-app-bypass
 svn co https://github.com/kiddin9/openwrt-packages/trunk/lua-maxminddb package/waynesg/luci-app-bypass/lua-maxminddb
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-cloudflarespeedtest package/waynesg/luci-app-cloudflarespeedtest
-svn co https://github.com/immortalwrt-collections/openwrt-cdnspeedtest/trunk/cdnspeedtest package/waynesg/luci-app-cloudflarespeedtest/cdnspeedtest
+svn co https://github.com/waynesg/OpenWrt-Software/trunk/luci-app-cloudflarespeedtest package/waynesg/luci-app-cloudflarespeedtest
 svn co https://github.com/sirpdboy/luci-app-parentcontrol/trunk package/waynesg/luci-app-parentcontrol
 svn co https://github.com/waynesg/OpenWrt-Software/trunk/luci-app-control-speedlimit package/waynesg/luci-app-control-speedlimit
 svn co https://github.com/waynesg/OpenWrt-Software/trunk/luci-app-control-timewol package/waynesg/luci-app-control-timewol
