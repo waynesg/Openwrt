@@ -127,7 +127,7 @@ TIME b "菜单 调整..."
 sed -i 's/\"services\"/\"control\"/g' feeds/luci/applications/luci-app-wol/luasrc/controller/wol.lua
 #sed -i 's/\"services\"/\"control\"/g' package/waynesg/luci-app-accesscontrol-plus/luasrc/controller/miaplus.lua
 sed -i 's/\"services\"/\"control\"/g'  package/waynesg/luci-app-oaf/luci-app-oaf/luasrc/controller/appfilter.lua
-sed -i 's/\"services\"/\"control\"/g' feeds/luci/applications/luci-app-openvpn/luasrc/controller/openvpn.lua
+sed -i 's/\"services\"/\"vpn\"/g' feeds/luci/applications/luci-app-openvpn/luasrc/controller/openvpn.lua
 
 echo             
 TIME b "插件 重命名..."
@@ -197,6 +197,7 @@ sed -i 's/"FTP 服务器"/"FTP 服务"/g' feeds/luci/applications/luci-app-vsftp
 sed -i 's/"Alist 文件列表"/"Alist列表"/g' package/waynesg/luci-app-alist/luci-app-alist/po/zh-cn/alist.po
 #vpn
 sed -i 's/"ZeroTier"/"ZeroTier虚拟网络"/g' feeds/luci/applications/luci-app-zerotier/luasrc/controller/zerotier.lua
+sed -i 's/"OpenVPN"/"OpenVPN 客户端"/g' feeds/luci/applications/luci-app-openvpn/po/zh-cn/openvpn.po
 TIME b "重命名 完成"
 echo
 TIME b "自定义文件修复权限"
