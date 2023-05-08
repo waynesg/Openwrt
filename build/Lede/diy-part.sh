@@ -92,10 +92,10 @@ echo
 TIME y "自定义固件版本名字"
 sed -i "s/OpenWrt /AutoBuild Firmware Compiled By @waynesg build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" package/lean/default-settings/files/zzz-default-settings
 
-echo
-TIME y "更换golang版本"
-rm -rf feeds/packages/lang/golang
-svn export https://github.com/sbwml/packages_lang_golang/branches/19.x feeds/packages/lang/golang
+#echo
+#TIME y "更换golang版本"
+#rm -rf feeds/packages/lang/golang
+#svn export https://github.com/sbwml/packages_lang_golang/branches/19.x feeds/packages/lang/golang
 
 echo 
 TIME y "调整网络诊断地址到www.baidu.com"
@@ -120,9 +120,9 @@ sed -i 's/\"services\"/\"control\"/g' feeds/luci/applications/luci-app-wol/luasr
 sed -i 's/\"services\"/\"control\"/g'  package/waynesg/luci-app-oaf/luci-app-oaf/luasrc/controller/appfilter.lua
 sed -i 's/\"services\"/\"vpn\"/g' feeds/luci/applications/luci-app-openvpn/luasrc/controller/openvpn.lua
 sed -i 's/_("PassWall 2"), -1/_("PassWall 2"), 2/g' package/waynesg/openwrt-passwall2/luci-app-passwall2/luasrc/controller/passwall2.lua
-sed -i 's/"60"/"32"/g' package/waynesg/luci-app-smartdns/luasrc/controller/smartdns.lua
-sed -i 's/"30"/"40"/g' feeds/luci/applications/luci-app-pushbot/luasrc/controller/pushbot.lua
-sed -i 's/"99"/"35"/g' package/waynesg/luci-app-cloudflarespeedtest/luasrc/controller/cloudflarespeedtest.lua
+sed -i 's/60/32/g' package/waynesg/luci-app-smartdns/luasrc/controller/smartdns.lua
+sed -i 's/30/40/g' feeds/luci/applications/luci-app-pushbot/luasrc/controller/pushbot.lua
+sed -i 's/99/35/g' package/waynesg/luci-app-cloudflarespeedtest/luasrc/controller/cloudflarespeedtest.lua
 
 
 echo             
