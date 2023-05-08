@@ -152,6 +152,8 @@ sed -i 's/"带宽监控"/"监控"/g' `grep "带宽监控" -rl ./`
 sed -i 's/"在线用户"/"在线设备"/g' package/waynesg/luci-app-onliner/luasrc/controller/onliner.lua
 #sed -i 's/"上网时间控制Plus"/"上网时间"/g' package/waynesg/luci-app-accesscontrol-plus/po/zh-cn/miaplus.po
 #sed -i 's/"autoipsetadder"/"自动设置IP"/g' `grep "autoipsetadder" -rl ./`
+#Docker
+sed -i 's/"存储卷"/"卷标"/g' feeds/luci/applications/luci-app-dockerman/po/zh-cn/dockerman.po
 echo "重命名服务菜单"
 #services menu
 sed -i 's/"AirConnect"/"隔空传送"/g' package/waynesg/luci-app-airconnect/luasrc/controller/airconnect.lua
