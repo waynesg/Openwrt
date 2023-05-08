@@ -442,8 +442,8 @@ settingss="$(find "${HOME_PATH}/package" -type d -name "default-settings")"
 if [[ ! -d "${settingss}" ]] && [[ "${applica}" == "1" ]]; then
   svn export https://github.com/waynesg/openwrt/trunk/build/common/OFFICIAL/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
   [[ ! -d "${HOME_PATH}/feeds/luci/libs/luci-lib-base" ]] && sed -i "s/+luci-lib-base //g" ${HOME_PATH}/package/default-settings/Makefile
-elif [[ ! -d "${settingss}" ]] && [[ "${applica}" == "2" ]]; then
-  #svn export https://github.com/waynesg/openwrt/trunk/build/common/COOLSNOWWOLF/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
+#elif [[ ! -d "${settingss}" ]] && [[ "${applica}" == "2" ]]; then
+#  svn export https://github.com/waynesg/openwrt/trunk/build/common/COOLSNOWWOLF/default-settings ${HOME_PATH}/package/default-settings > /dev/null 2>&1
 fi
 
 rm -rf ${HOME_PATH}/feeds/packages/lang/golang
