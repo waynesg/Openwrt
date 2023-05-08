@@ -128,6 +128,13 @@ sed -i 's/\"services\"/\"control\"/g' feeds/luci/applications/luci-app-wol/luasr
 #sed -i 's/\"services\"/\"control\"/g' package/waynesg/luci-app-accesscontrol-plus/luasrc/controller/miaplus.lua
 sed -i 's/\"services\"/\"control\"/g'  package/waynesg/luci-app-oaf/luci-app-oaf/luasrc/controller/appfilter.lua
 sed -i 's/\"services\"/\"vpn\"/g' feeds/luci/applications/luci-app-openvpn/luasrc/controller/openvpn.lua
+sed -i 's/_("PassWall 2"), -1/_("PassWall 2"), 2/g' package/waynesg/luci-app-passwall2/luasrc/controller/passwall2.lua
+sed -i 's/"60"/"25"/g' package/waynesg/luci-app-smartdns/luasrc/controller/smartdns.lua
+sed -i 's/"30"/"40"/g' package/waynesg/luci-app-pushbot/luasrc/controller/pushbot.lua
+sed -i 's/"99"/"35"/g' package/waynesg/luci-app-cloudflarespeedtest/luasrc/controller/cloudflarespeedtest.lua
+sed -i 's/_("OpenClash"), 50/_("OpenClash"), 99/g' package/waynesg/luci-app-pushbot/luasrc/controller/pushbot.lua
+
+
 
 echo             
 TIME b "插件 重命名..."
@@ -156,6 +163,7 @@ sed -i 's/"在线用户"/"在线设备"/g' package/waynesg/luci-app-onliner/luas
 #sed -i 's/"autoipsetadder"/"自动设置IP"/g' `grep "autoipsetadder" -rl ./`
 echo "重命名服务菜单"
 #services menu
+sed -i 's/"AirConnect"/"隔空传送"/g' package/waynesg/luci-app-airconnect/luasrc/controller/airconnect.lua
 sed -i 's/"PassWall 2"/"PassWall+"/g' package/waynesg/openwrt-passwall2/luci-app-passwall2/luasrc/controller/passwall2.lua
 sed -i 's/"MultiSD_Lite"/"组播路由"/g'  package/waynesg/luci-app-msd_lite/luasrc/controller/msd_lite.lua
 #sed -i 's/"解锁网易云灰色歌曲"/"网易音乐"/g' feeds/luci/applications/luci-app-unblockmusic/po/zh-cn/unblockmusic.po
@@ -215,7 +223,9 @@ feeds.buildinfo
 openwrt-x86-64-generic-kernel.bin
 openwrt-x86-64-generic.manifest
 openwrt-x86-64-generic-squashfs-rootfs.img.gz
+openwrt-x86-64-generic-rootfs.tar.gz
 openwrt-x86-64-generic-squashfs-combined-efi.img.gz
+ipk.tar.gz
 sha256sums
 version.buildinfo
 EOF
