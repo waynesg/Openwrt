@@ -65,15 +65,6 @@ TIME() {
 	 }
       }
 }
-#echo
-#TIME r "删除无用主题"
-#rm -rf ./feeds/luci/themes/luci-theme-argon
-#rm -rf ./feeds/luci/themes/luci-theme-argon-mod
-#TIME r "删除重复插件"
-#rm -rf ./feeds/packages/net/adguardhome
-#rm -rf ./feeds/packages/net/go-aliyundrive-webdav
-#rm -rf ./feeds/packages/net/pdnsd-alt
-#rm -rf ./feeds/packages/net/v2ray-geodata
 
 
 echo
