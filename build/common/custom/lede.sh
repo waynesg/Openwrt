@@ -24,3 +24,4 @@ git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall -b luci-smartd
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2 package/waynesg/openwrt-passwall2
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall.git -b packages package/waynesg/passwall
 git clone --depth 1 https://github.com/fw876/helloworld package/waynesg/helloworld
+git clone --depth 1  -b master https://github.com/tindy2013/subconverter package/waynesg/subconverter
