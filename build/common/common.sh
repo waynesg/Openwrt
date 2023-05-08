@@ -556,11 +556,6 @@ if [[ "${COLLECTED_PACKAGES}" == "true" ]]; then
   done
 fi
 
-case "${GL_BRANCH}" in
-lede_ax1800)
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/LIENOL/19.07/package/kernel/linux/modules/netsupport.sh)"
-;;
-esac
 }
 
 
