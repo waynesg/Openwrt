@@ -85,12 +85,12 @@ jobs:
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu2
  
-    - name: 添加设置
+    - name: 添加插件
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu3
  
-    - name: 添加插件
+    - name: 添加设置
       run: |
         cd openwrt
         source $BUILD_PATH/$DIY_PART_SH
