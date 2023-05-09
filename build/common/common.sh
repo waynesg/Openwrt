@@ -814,7 +814,6 @@ elif [[ "${wuxuxiazai}" == "1" ]] && [[ -f "${HOME_PATH}/package/luci-app-opencl
 else
   find . -type d -name 'luci-app-openclash' | xargs -i rm -rf {}
   git clone -b "${OpenClash_branch}" --depth 1 https://github.com/vernesong/OpenClash ${HOME_PATH}/package/luci-app-openclash
-  sed -i 's/_("OpenClash"), 50/_("OpenClash"), -10/g' ${HOME_PATH}/package/luci-app-openclash/luci-app-openclash/luasrc/controller/openclash.lua
   if [[ $? -ne 0 ]]; then
     echo
     echo "luci-app-openclash下载失败"
