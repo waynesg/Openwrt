@@ -385,11 +385,7 @@ sudo chmod +x "${FILES_PATH}/etc/networkdetection"
 
 [[ ! -d "${FILES_PATH}/usr/bin" ]] && mkdir -p ${FILES_PATH}/usr/bin
 cp ${HOME_PATH}/build/common/custom/openwrt.sh "${FILES_PATH}/usr/bin/openwrt"
-cp ${HOME_PATH}/build/common/custom/tools.sh "${FILES_PATH}/usr/bin/tools"
-cp ${HOME_PATH}/build/common/custom/qinglong.sh "${FILES_PATH}/usr/bin/qinglong"
 sudo chmod +x "${FILES_PATH}/usr/bin/openwrt"
-sudo chmod +x "${FILES_PATH}/usr/bin/tools"
-sudo chmod +x "${FILES_PATH}/usr/bin/qinglong"
 
 rm -rf "${DELETE}"
 touch "${DELETE}"
@@ -455,14 +451,6 @@ ZZZ_PATH1="$(find ./package -type f -name "*default-settings" |grep files |cut -
 if [[ -n "${ZZZ_PATH1}" ]]; then
   ZZZ_PATH="${HOME_PATH}/${ZZZ_PATH1}"
   echo "ZZZ_PATH=${ZZZ_PATH}" >> ${GITHUB_ENV}
-fi
-
-ttydjso="$(find ./ -type f -name "luci-app-ttyd.json" |grep -v 'dir' |grep menu.d |cut -d '/' -f2-)"
-if [[ -n "${ttydjso}" ]]; then
-  ttydjson="${HOME_PATH}/${ttydjso}"
-fi
-if [[ -f "${ttydjson}" ]]; then
-  curl -fsSL https://raw.githubusercontent.com/shidahuilang/common/main/IMMORTALWRT/ttyd/luci-app-ttyd.json -o "${ttydjson}"
 fi
 
 [[ ! -d "${HOME_PATH}/doc" ]] && mkdir -p ${HOME_PATH}/doc
