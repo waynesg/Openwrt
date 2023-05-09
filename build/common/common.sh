@@ -556,6 +556,18 @@ else
   ifnamee="uci set network.ipv6.ifname='@lan'"
   set_add="uci set firewall.@zone[0].network='lan ipv6'"
 fi
+
+
+# AdGuardHome内核
+if [[ ! "${COLLECTED_PACKAGES}" == "true" ]]; then
+  [[ -f "${HOME_PATH}/files/usr/bin/AdGuardHome" ]] && rm -rf ${HOME_PATH}/files/usr/bin/AdGuardHome
+  echo "AdGuardHome_Core=0" >> ${GITHUB_ENV}
+elif [[ "${COLLECTED_PACKAGES}" == "true" ]] && [[ "${AdGuardHome_Core}" == "1" ]]; then
+  echo "AdGuardHome_Core=1" >> ${GITHUB_ENV}
+else
+  [[ -f "${HOME_PATH}/files/usr/bin/AdGuardHome" ]] && rm -rf ${HOME_PATH}/files/usr/bin/AdGuardHome
+  echo "AdGuardHome_Core=0" >> ${GITHUB_ENV}
+fi
 # openclash内核
 if [[ ! "${COLLECTED_PACKAGES}" == "true" ]]; then
   [[ -f "${HOME_PATH}/files/etc/openclash/core/clash" ]] && rm -rf ${HOME_PATH}/files/etc/openclash/core/clash
@@ -836,31 +848,6 @@ if [[ "${Cancel_running}" == "1" ]]; then
    echo "sed -i '/coremark/d' /etc/crontabs/root" >> "${DEFAULT_PATH}"
 fi
 
-# 晶晨CPU机型自定义机型,内核,分区
-case "${SOURCE_CODE}" in
-AMLOGIC)
-  if [[ -n "${amlogic_model}" ]]; then
-    echo "amlogic_model=${amlogic_model}" >> ${GITHUB_ENV}
-  else
-    echo "amlogic_model=s905d" >> ${GITHUB_ENV}
-  fi
-  if [[ -n "${amlogic_kernel}" ]]; then
-    echo "amlogic_kernel=${amlogic_kernel}" >> ${GITHUB_ENV}
-  else
-    echo "amlogic_kernel=5.4.01_5.15.01" >> ${GITHUB_ENV}
-  fi
-  if [[ "${auto_kernel}" == "true" ]] || [[ "${auto_kernel}" == "false" ]]; then
-    echo "auto_kernel=${auto_kernel}" >> ${GITHUB_ENV}
-  else
-    echo "auto_kernel=true" >> ${GITHUB_ENV}
-  fi
-  if [[ -n "${rootfs_size}" ]]; then
-    echo "rootfs_size=${rootfs_size}" >> ${GITHUB_ENV}
-  else
-    echo "rootfs_size=960" >> ${GITHUB_ENV}
-  fi
-;;
-esac
 [[ -f "${GITHUB_ENV}" ]] && source ${GITHUB_ENV}
 }
 
