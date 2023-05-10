@@ -238,20 +238,7 @@ fi
 
 
 function Diy_update() {
-if [ "${REPO_BRANCH}" == "master" ]; then
-( sudo -E apt-get -qq update
-sudo -E apt-get -qq install build-essential clang flex g++ gawk gcc-multilib gettext \
-git libncurses5-dev libssl-dev python3-distutils rsync unzip zlib1g-dev swig libpython3-dev aria2 jq subversion qemu-utils ccache rename libelf-dev libfuse-dev
-sudo -E apt-get -qq purge azure-cli ghc* zulu* hhvm llvm* firefox powershell openjdk* dotnet* google* mysql* php* android*
-sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /usr/lib/jvm /opt/ghc
-sudo -E apt-get -qq autoremove --purge
-sudo -E apt-get -qq clean ) &
-echo "================================================="
-echo "文件系统        类型   容量  已用  可用 使用% 挂载点"
-df -hT $PWD
-else
 bash <(curl -fsSL https://raw.githubusercontent.com/waynesg/openwrt/main/build/common/custom/ubuntu.sh)
-fi
 if [[ $? -ne 0 ]];then
   TIME r "依赖安装失败，请检测网络后再次尝试!"
   exit 1
